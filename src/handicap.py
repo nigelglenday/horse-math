@@ -491,9 +491,34 @@ def market_probs(rows, use_live=True):
     z = sum(implied)
     return [a / z if z else 0 for a in implied]
 
+POST_ADJUST = {
+    1:  0.60,    # rail death — 1 winner in 50 modern Derbies
+    2:  0.90,    # rail-adjacent tax
+    3:  0.90,
+    4:  0.90,
+    16: 0.90,    # wide-trip penalty starts
+    17: 0.85,
+    18: 0.85,
+    19: 0.85,
+    20: 0.85,
+}
+def post_multiplier(pp):
+    try:
+        n = int(str(pp).rstrip("A"))
+    except ValueError:
+        return 0.50
+    if "A" in str(pp):
+        return 0.50    # AE — won't run unless scratch
+    return POST_ADJUST.get(n, 1.00)
+
 def attach_probs(rows, score_key, mkt_probs, temp=0.075):
+    """Softmax raw scores -> probs, apply post-position discount, renormalize."""
     scores = [r[score_key] for r in rows]
     probs = softmax(scores, temperature=temp)
+    # Multiplicative post adjustment, then renormalize
+    adj = [p * post_multiplier(r["pp"]) for r, p in zip(rows, probs)]
+    z = sum(adj)
+    probs = [a / z for a in adj] if z else probs
     for r, p, mp in zip(rows, probs, mkt_probs):
         r[f"{score_key}_prob"] = p
         r[f"{score_key}_odds"] = (1 - p) / p if p > 0 else float("inf")

@@ -57,29 +57,46 @@ Even at the discount, the Litmus-Test-underneath combos remain positive EV. But 
 
 ## The $100 ticket
 
+### Sensitivity scan (added late afternoon)
+
+Before finalizing, ran 200 trials with each weight perturbed ±20% (random Gaussian, renormalized to sum to 1). The model with post-1 multiplier applied. Results:
+
+| Horse | Bet % across 200 trials | Mean overlay | Range | Verdict |
+|---|---|---|---|---|
+| **#18 Further Ado** | 100% | 1.66x | 1.52–1.77x | **ROCK SOLID** |
+| **#19 Golden Tempo** | 100% | 2.02x | 1.85–2.21x | **ROCK SOLID** |
+| #14 Potente | 32% | 1.22x | 1.11–1.36x | Fragile |
+| #1 Renegade | 0% | 1.14x | 1.01–1.25x | Cardinal says no |
+| #4 Litmus Test | 0% | 1.27x | 1.18–1.39x | Marginal |
+| #16 Pavlovian | 0% | 1.91x | 1.81–2.01x | Lottery (low fair P) |
+
+The honest read: **only Further Ado and Golden Tempo are robust cardinal overlays.** Renegade is a rank-only play. Litmus Test is marginal but kept in exotics for asymmetric place upside.
+
 ### WIN ($40)
 
 | Stake | Horse | Live | If wins |
 |---|---|---|---|
-| $25 | #1 Renegade | 6-1 | $175 |
-| $10 | #4 Litmus Test | 26-1 | $270 |
-| $5 | #18 Further Ado | 6-1 | $35 |
+| **$20** | #18 Further Ado | 6-1 | $140 |
+| $10 | #1 Renegade | 6-1 | $70 |
+| $10 | #19 Golden Tempo | 25-1 | $260 |
 
-Renegade carries the largest stake (best dual-method overlay) but capped because of post 1 risk. Further Ado is the Cox-barn hedge if Renegade gets shuffled. Litmus Test is the longshot Baffert flyer.
+Further Ado is now the top win bet (rock-solid cardinal, Cox barn-pick signal). Renegade gets a smaller stake — rank says yes, cardinal-with-post-1-penalty says no, sensitivity says fragile. Golden Tempo is the rock-solid mid-priced overlay. **Litmus Test dropped from the win pool** (fair prob too low to clear 4% threshold reliably across perturbations) but kept in exotics where his Harville place upside is asymmetric.
 
 ### EXACTAS ($54)
-
-Key #1 Renegade over (×$3 each = $18):
-- 1-4 ($219), 1-3 ($346), 1-18 ($35), 1-19 ($118), 1-14 ($159), 1-8 ($47.78)
-
-Key #4 Litmus Test over (×$2 each = $8):
-- 4-1 ($253), 4-18 ($588), 4-6 ($335), 4-8 ($429)
 
 Key #18 Further Ado over (×$3 each = $9):
 - 18-4 ($483), 18-19 ($192), 18-1 ($34)
 
+Key #1 Renegade over (×$2 each = $12):
+- 1-4 ($219), 1-3 ($346), 1-18 ($35), 1-19 ($118), 1-14 ($159), 1-8 ($47.78)
+
 Key #19 Golden Tempo over (×$2 each = $4):
 - 19-1 ($133), 19-18 ($241)
+
+Key #4 Litmus Test over (×$2 each = $8):
+- 4-1 ($253), 4-18 ($588), 4-6 ($335), 4-8 ($429)
+
+**Top-2 cardinal-overlay box (×$3 each = $6):** 18-19, 19-18
 
 Boosts on top three single-combo overlays (×$5 each = $15):
 - 1-4 (boost), 4-18 (boost), 18-4 (boost)

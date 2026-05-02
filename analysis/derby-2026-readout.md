@@ -22,10 +22,10 @@ The biggest signals:
 - **So Happy 15-1 → 5-1.** Mike Smith name premium. Likely overbet past fair.
 - **Litmus Test 50-1 → 26-1.** Baffert tax. The morning line was wrong; the public arbitraged it.
 - **Chief Wallabee 8-1 → 6-1.** Wm Mott + first-time-blinkers narrative drew money.
-- **Renegade 4-1 → 6-1.** ⚠️ The favorite *drifted*. The public is avoiding the chalk.
+- **Renegade 4-1 → 6-1.** ⚠️ The favorite *drifted*. The public is avoiding the chalk — almost certainly because of post 1 (see Caveats below).
 - **Commandment 6-1 → 5-1.** Cox + perfect form took money.
 
-The Renegade drift is the single most actionable piece of information on the day. The model still rates him near the top; the market lost faith.
+The Renegade drift is the single most actionable piece of information on the day. The model still rates him near the top; the market lost faith. Whether the market is right depends on how much weight post 1 deserves.
 
 ## The model's read on win probability
 
@@ -54,6 +54,26 @@ Confirmed fades (do NOT bet to win, candidates to bet AGAINST in exotics):
 - **#8 So Happy** — public hammered him to 5-1 on Mike Smith name + cheerful name + recent SADerby
 - **#12 Chief Wallabee** — heaviest single overbet on the board
 - **#6 Commandment** — slight overbet, though "perfect form" narrative is real
+
+## Caveats — what the model is probably under-penalizing
+
+### Post 1 risk on Renegade
+
+Renegade drew the rail. **Since the field expanded to 20 in 1975, post 1 has produced exactly one Derby winner (Ferdinand, 1986)** — a 2% strike rate vs the 5% random expectation. Post 1 underperforms by 50-60%.
+
+The model penalizes post 1 (score 40 vs 90 for posts 5-15, weighted at 5%) but **probably not enough**. If the post-1 penalty were doubled, Renegade's cardinal overlay would shrink from 1.58x to roughly 1.20x — still a bet, but a thin one. The wagering ticket compensates by sizing Renegade's win bet at $25 (not $40+) and hedging into Further Ado and Litmus Test in the exotics. Full treatment in [`derby-2026-wagering.md`](derby-2026-wagering.md).
+
+Why post 1 is a graveyard at CD: first turn comes ~3/16 mile out, the rail can be dead by Derby Day from a meet's worth of training, and 18 horses fanning right while you're stuck inside forces a lose-lose decision tree.
+
+### Harville place-probability assumption
+
+The exacta math assumes P(j places | i wins) = p_j / (1 − p_i), proportionally. **It doesn't account for running style × pace fit on placement.** Litmus Test is a confirmed front-runner; in a 19-horse field with 4 confirmed E's, he likely doesn't get the lead, and without it his form line says he flattens. **His true place probability is probably ~30% lower than Harville suggests** — which deflates the Litmus-Test-underneath exacta overlays by the same.
+
+Even discounted, those combos remain positive EV — but the headline payouts ($588, $483, $254) are best-case, not expected.
+
+### Live odds will keep moving
+
+These probabilities are based on a tote snapshot taken ~2.5 hours before post. The overround in this snapshot is ~30% (high). Last-15-minute money is heavy on Derby Day; expect another ~10-15% of total handle to land in the final five minutes, mostly chasing the favorites. Re-pull right before betting.
 
 ## Form
 
