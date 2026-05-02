@@ -1,0 +1,95 @@
+horse,pp_date,track,race_num,dist_f,surface,race_class,grade,purse_k,beyer,finish_pos,fin_margin,jockey,post,early_call,stretch_call,comment,field_size,won
+Renegade,2026-03-28,OP,13,9.0,ft,Stk-ArkDerby,G1,1500,107,1,1.5,Ortiz I Jr,1,6,1,"4w burst 1/4 drift clear",8,1
+Renegade,2026-02-07,Tam,11,8.5,ft,Stk-SFDavis,L,250,100,1,1.75,Ortiz I Jr,6,6,1,"4p bid 3/8 duel clr",9,1
+Renegade,2025-12-06,Aqu,9,9.0,ft,Stk-Remsen,G2,250,93,2,8,Ortiz I Jr,9,9,3,"3w 1st turn fought on",11,0
+Renegade,2025-10-17,Aqu,5,8.5,ft,Msw,M,85,83,2,DQ,Velazquez,2,2,1,"split 1/8 lean bmpd foe DQ from 1st",7,0
+Renegade,2025-08-16,Sar,7,6.5,ft,Msw,M,100,66,3,6,Ortiz I Jr,1,8,4,"chased 2p improved",9,0
+Commandment,2026-03-28,GP,14,9.0,ft,Stk-FlaDerby,G1,1000,97,1,1.5,Prat F,3,5,4,"3-5wd determinedly",6,1
+Commandment,2026-02-28,GP,14,8.5,ft,Stk-FntnOYth,G2,425,99,1,1.5,Ortiz I Jr,3,5,3,"bumped st 2wd drift late",9,1
+Commandment,2026-01-03,GP,10,8.0,ft,Stk-MuchoMM,L,175,93,1,1.75,Ortiz I Jr,1,4,1,"split 3w 1/4 ridden out",7,1
+Commandment,2025-11-01,CD,6,7.0,ft,Msw,M,120,80,1,1.75,Torres J A,4,7,1,"step slw ins forge btw",9,1
+Chief Wallabee,2026-03-28,GP,14,9.0,ft,Stk-FlaDerby,G1,1000,96,3,2,Alvarado,1,3,5,"2w 4w 3/16 gain btw",6,0
+Chief Wallabee,2026-02-28,GP,14,8.5,ft,Stk-FntnOYth,G2,425,99,2,1.5,Alvarado,5,7,2,"4wd bid duel miss",9,0
+Chief Wallabee,2026-01-10,GP,4,7.0,ft,Msw,M,84,91,1,1.75,Alvarado,6,2,2,"3-4p tip 5w bid handily",8,1
+Further Ado,2026-04-04,Kee,11,9.0,ft,Stk-BlueGrass,G1,1250,107,1,1,Ortiz I Jr,4,4,1,"4-3w flop lds rddn out",7,1
+Further Ado,2026-03-07,Tam,11,8.5,ft,Stk-TamDby,G3,400,94,2,0.5,Ortiz I Jr,6,4,2,"3p duel bmp caught",9,0
+Further Ado,2025-11-29,CD,10,8.5,ft,Stk-KyJC,G2,400,90,1,1.75,Ortiz I Jr,6,4,3,"3w duel 5p upr edg clr",7,1
+Further Ado,2025-10-10,Kee,8,8.5,ft,Msw,M,110,105,1,1.5,Ortiz I Jr,8,2,1,"2w opened up rddn out",12,1
+Further Ado,2025-08-30,Sar,6,7.0,ft,Msw,M,100,70,3,2.5,Machado L,5,5,3,"5-4path turn up 3rd",8,0
+The Puma,2026-03-28,GP,14,9.0,ft,Stk-FlaDerby,G1,1000,97,2,1.5,Castellano,6,6,3,"bit slo 4w move nailed",6,0
+The Puma,2026-03-07,Tam,11,8.5,ft,Stk-TamDby,G3,400,95,1,1,Castellano,8,9,5,"4-5p drift duel bmp up",9,1
+The Puma,2026-02-07,Tam,11,8.5,ft,Stk-SFDavis,L,250,90,3,3.25,Gonzalez E,3,5,4,"chase 2p no match",9,0
+The Puma,2026-01-10,GP,4,7.0,ft,Msw,M,84,88,2,1.5,Castellano,5,8,1,"off slow bid 4w 2d best",8,0
+So Happy,2026-04-04,SA,10,9.0,ft,Stk-SADerby,G1,500,100,1,1.75,Smith M E,5,3,3,"3wd bid 3deep drove clr",7,1
+So Happy,2026-03-07,SA,8,8.5,ft,Stk-SnFelipe,G2,200,90,3,2.5,Smith M E,6,2,2,"outsd btwn 2nd yielded",7,0
+So Happy,2026-01-10,SA,5,7.0,ft,Stk-SnVicnte,G2,200,100,1,2,Smith M E,2,4,3,"wbpd st stdy early 2wd",5,1
+So Happy,2025-11-22,Dmr,9,6.5,ft,Msw,M,60,90,1,1.75,Smith M E,8,6,4,"bid 5-3w cleared held",10,1
+Emerging Market,2026-03-21,FG,12,9.5,ft,Stk-LaDerby,G2,1000,96,1,1,Prat F,9,5,4,"loomed 4w prevailed",9,1
+Emerging Market,2026-02-07,Tam,6,8.5,ft,Msw,M,55,79,1,1.75,Prat F,2,6,2,"w4p bmp 1/4 drift up",9,1
+Litmus Test,2026-03-28,OP,13,9.0,ft,Stk-ArkDerby,G1,1500,88,7,18,Arrieta F,8,6,8,"slip brk 4w lttle left",8,0
+Litmus Test,2026-03-01,OP,11,8.5,ft,Stk-Rebel,G2,1000,91,3,3.5,Prat F,1,1,1,"legit pace no mtch top2",9,0
+Litmus Test,2025-12-13,Lrc,8,8.5,ft,Stk-LosAlFut,G2,200,101,1,1.5,Hernandez J J,3,2,2,"stalk bid outside best",6,1
+Litmus Test,2025-10-04,Kee,9,8.5,ft,Stk-BrdrsFut,G1,650,91,3,3,Prat F,5,1,1,"ins winner yielded",6,0
+Litmus Test,2025-08-16,Dmr,3,5.0,ft,Msw,M,100,92,1,1.75,Hernandez J J,2,1,2,"btw 2-3w led hld well",7,1
+Potente,2026-04-04,SA,10,9.0,ft,Stk-SADerby,G1,500,96,2,1.75,Hernandez J J,2,1,1,"insd fought to midstr",7,0
+Potente,2026-03-07,SA,8,8.5,ft,Stk-SnFelipe,G2,200,94,1,1,Hernandez J J,5,4,3,"stalk 2-3wd dug in late",7,1
+Potente,2026-01-31,SA,6,6.0,ft,Msw,M,70,94,1,3,Kimura K,4,1,1,"inside proved best",5,1
+Fulleffort,2026-03-21,TP,12,9.0,ft,Stk-JRSteaks,G3,777,99,1,1.25,Ortiz I Jr,2,9,1,"2-3p bid 4p 3/16 cleard",12,1
+Fulleffort,2026-02-21,TP,9,8.5,ft,Stk-JBttgla,L,175,90,2,1.5,Cheminaud V,10,10,5,"5-6p 2nd rallied missed",11,0
+Fulleffort,2026-01-17,TP,8,8.0,ft,Stk-Leonatus,B,125,93,2,1,Cheminaud V,5,8,4,"bmpd 3p 5p upr rallied",8,0
+Fulleffort,2025-10-23,Kee,7,8.5,fm,Alw,A,120,90,1,1.75,Ortiz I Jr,7,8,1,"2w 4-5p2nd drove clear",10,1
+Silent Tactic,2026-03-28,OP,13,9.0,ft,Stk-ArkDerby,G1,1500,101,2,0.5,Torres C A,2,5,1,"3w bid 1/4 no mtch late",8,0
+Silent Tactic,2026-03-01,OP,11,8.5,ft,Stk-Rebel,G2,1000,99,2,1,Torres C A,6,7,2,"tipped 4w bid outgamed",9,0
+Silent Tactic,2026-02-06,OP,11,8.5,ft,Stk-Southwst,G3,1000,103,1,1.5,Torres C A,9,11,1,"steered out going away",12,1
+Silent Tactic,2026-01-03,OP,10,8.5,ft,Stk-SmrtyJns,L,250,83,2,2.25,Torres J A,3,6,4,"pulled 4w 1/4 up 2nd",8,0
+Incredibolt,2026-03-14,Cnl,9,8.5,ft,Stk-VADerby,B,500,95,1,2,Torres J A,7,4,2,"angled in kicked clear",10,1
+Incredibolt,2025-10-26,CD,10,8.5,ft,Stk-StretSns,G3,200,94,1,1.75,Torres J A,7,7,3,"3w 4p upr rally cleard",7,1
+Incredibolt,2025-09-28,CD,10,8.0,ft,Msw,M,120,89,1,1.5,Torres J A,1,3,2,"ins aim 2w drove past",9,1
+Albus,2026-04-04,Aqu,12,9.0,ft,Stk-WoodMem,G2,750,89,1,1.75,Torres J A,7,8,1,"3p1st ins-2p 2nd 4p1/4",12,1
+Albus,2026-02-27,Tam,2,8.5,ft,Msw,M,55,87,1,2.75,Camacho S,1,2,1,"track 2p 2nd drew off",6,1
+Albus,2025-11-29,CD,7,8.5,ft,Msw,M,120,73,3,1,Torres J A,1,2,1,"duel ins foe outkck 1/8",12,0
+Right to Party,2026-04-04,Aqu,12,9.0,ft,Stk-WoodMem,G2,750,87,2,1.75,Elliott C,3,10,7,"ins-2p 3p1/4 angld out",12,0
+Right to Party,2026-02-28,Aqu,10,8.5,gd,Stk-Gotham,G3,300,78,3,1.5,Elliott C,5,8,4,"wsqueezed st improved",8,0
+Right to Party,2026-01-10,Aqu,6,8.5,ft,Msw,M,80,79,1,1.5,Gutierrez R,5,7,3,"bmp brk ins-2p 4p1/4",7,1
+Golden Tempo,2026-03-21,FG,12,9.5,ft,Stk-LaDerby,G2,1000,95,3,1,Ortiz J L,5,8,3,"wsqzd st 4w-ins willing",9,0
+Golden Tempo,2026-02-14,FG,12,9.0,ft,Stk-RisenStr,G2,500,90,3,2.5,Ortiz J L,2,7,5,"swung 4w closed gap",8,0
+Golden Tempo,2026-01-17,FG,13,8.5,ft,Stk-Lecomte,G3,250,85,1,1,Ortiz J L,5,9,4,"split ins inhaled",10,1
+Pavlovian,2026-03-21,FG,12,9.5,ft,Stk-LaDerby,G2,1000,96,2,1,Maldonado,1,1,1,"pace met bid gamely",9,0
+Pavlovian,2026-02-15,Sun,9,9.0,ft,Stk-SunDrby,L,500,87,1,1.5,Maldonado,2,2,2,"pressed wore down foe",6,1
+Pavlovian,2026-01-17,SA,8,9.0,ft,Stk-CalCupDby,B,175,87,3,3.5,Demuro M,7,9,6,"wbrk in/bpd 3-2w 5-4w",9,0
+Pavlovian,2025-10-04,SA,7,6.0,ft,Aoc,A,50,81,2,1.5,Hernandez J J,2,5,4,"btwn 2w-ins gained 2nd",9,0
+Pavlovian,2025-08-09,Dmr,4,6.0,ft,Stk-BestPal,G3,150,72,2,4.5,Rispoli U,4,3,4,"3deep floated 5w gain 2nd",5,0
+Pavlovian,2025-06-15,SA,6,5.0,ft,Msw,M,60,84,1,1,Rispoli U,6,4,4,"2w angld 5w closed well",9,1
+Pavlovian,2025-05-25,SA,1,4.5,ft,Msw,M,60,81,2,1,Rispoli U,2,6,2,"wrail shifted late turn",7,0
+Intrepido,2026-04-04,SA,10,9.0,ft,Stk-SADerby,G1,500,85,4,6,Berrios H I,7,6,4,"4deep trip flattened",7,0
+Intrepido,2026-02-07,SA,8,8.5,ft,Stk-RBLewis,G3,100,92,2,1,Berrios H I,4,1,2,"vie ins duel game 2nd",7,0
+Intrepido,2025-10-04,SA,3,8.5,ft,Stk-AmPharoh,G1,300,99,1,0.75,Berrios H I,2,3,3,"wsteadied 1st boxed 2nd",6,1
+Intrepido,2025-08-23,Dmr,1,8.0,ft,Msw,M,100,91,1,1.5,Berrios H I,3,1,1,"winside lost crop late",5,1
+Danon Bourbon,2026-03-28,Nak,JPN,9.0,my,Stk-FukuryuS,L,226,N/A,1,1.5,Nishimura,5,3,1,"loom 3p1/4 drwclr",10,1
+Danon Bourbon,2026-02-15,Kyo,JPN,8.0,ft,Alw-Wfa,A,102,N/A,1,1.75,Nishimura,8,3,1,"stalk 3p 1/4bid drwclr",9,1
+Danon Bourbon,2025-10-26,Kyo,JPN,8.0,my,Msw,M,N/A,N/A,1,0.25,Matsuyama,8,1,1,"rated wel drw away 3/8",16,1
+Wonder Dean,2026-03-28,Mey,UAE,9.5,ft,Stk-UAEDerby,G2,1000,N/A,1,1.75,Demuro,5,6,1,"4p aim 1/4 inch ahead",11,1
+Wonder Dean,2025-12-20,Hsn,JPN,8.0,ft,Stk-PoinsettiaS,L,193,N/A,2,1,Geroux F,9,4,3,"stalkd 3p 1/8 repelled",10,0
+Wonder Dean,2025-11-02,Kyo,JPN,8.0,gd,Stk-MochinokiSho,L,137,N/A,2,1,Sameshima,9,4,3,"off pce ins 1/8 bid clsd",16,0
+Wonder Dean,2025-09-14,Nak,JPN,8.0,gd,Msw,M,N/A,N/A,1,0.75,Ishida,8,3,2,"bid 3p1/4 up 1/8 clr",11,1
+Six Speed,2026-03-28,Mey,UAE,9.5,ft,Stk-UAEDerby,G2,1000,N/A,2,1.75,Barzalona,2,1,1,"loose pace fought on",11,0
+Six Speed,2026-01-23,Mey,UAE,8.0,ft,Stk-UAE2000G,G3,191,N/A,1,0.5,Barzalona,8,1,1,"press cued 3/16 driving",16,1
+Six Speed,2026-01-02,Mey,UAE,7.0,ft,Alw-UAE2000Trl,A,82,N/A,1,1.5,Buick W,5,2,2,"stalk 2p 1/4bid drwclr",16,1
+Six Speed,2025-12-05,Mey,UAE,6.0,ft,Alw-LincolnAviator,A,57,N/A,1,1.75,O'Shea,9,3,2,"dueled 2p drwclr 1/16",9,1
+Six Speed,2025-11-07,Mey,UAE,6.0,ft,Msw,M,45,N/A,3,4.5,O'Shea,7,5,1,"pace 2p weaknd heldshow",7,0
+Great White,2026-04-04,Kee,11,9.0,ft,Stk-BlueGrass,G1,1250,74,5,18,Achard A,2,1,2,"2p-ins ins pair 2nd wkn",7,0
+Great White,2026-02-21,TP,9,8.5,ft,Stk-JBttgla,L,175,91,1,0.5,Achard A,8,3,3,"4-3p bid 3w clear held",11,1
+Great White,2026-01-17,TP,8,8.0,ft,Stk-Leonatus,B,125,87,5,12,Achard A,1,7,7,"step slw chk st imprvd",8,0
+Great White,2025-12-12,TP,5,6.0,ft,Msw,M,100,84,1,1.5,Achard A,9,9,2,"lunged st drew clear",12,1
+Ocelli,2026-04-04,Aqu,12,9.0,ft,Stk-WoodMem,G2,750,87,3,1.75,Ramos J D,5,9,7,"bmp st 3-5p trns 6p1/4",12,0
+Ocelli,2026-01-17,FG,8,8.5,ft,Msw,M,60,85,3,1.5,Curtis B,12,7,5,"loom 5w drift wknd",12,0
+Ocelli,2025-12-20,FG,12,8.0,ft,Msw,M,55,84,2,0.5,Curtis B,6,8,6,"adv 6w rallied",12,0
+Ocelli,2025-11-23,CD,10,7.0,ft,Msw,M,120,82,3,1.5,Ramos J D,3,10,5,"step slw 3p ran on ins",12,0
+Robusta,2026-04-04,SA,10,9.0,ft,Stk-SADerby,G1,500,76,7,6,Jaramillo,4,2,4,"wbobbled duel 2w folded",7,0
+Robusta,2026-03-07,SA,8,8.5,ft,Stk-SnFelipe,G2,200,93,2,0.5,Jaramillo,7,3,3,"bid 3deep clear nailed",7,0
+Robusta,2026-01-09,SA,3,8.0,ft,Msw,M,70,91,1,0.5,Jaramillo,3,1,1,"kicked away held late",5,1
+Corona de Oro,2026-04-11,Kee,10,8.5,ft,Stk-Lex,G3,400,91,3,3.5,Hernandez B Jr,N/A,1,1,"ins ins pair upr yield",9,0
+Corona de Oro,2026-03-07,FG,2,8.0,ft,Msw,M,54,89,1,5,Hernandez B Jr,3,1,1,"stp slw sent drew off",5,1
+Corona de Oro,2026-01-24,FG,7,6.0,ft,Msw,M,54,85,2,1,Hernandez B Jr,3,7,2,"track press 4w gamely",8,0
+Corona de Oro,2025-10-16,Kee,3,7.0,ft,Msw,M,110,85,3,1.75,Leparoux,1,10,3,"chsd 2p up shw btw 3/16",11,0
+Corona de Oro,2025-09-12,CD,8,6.0,ft,Msw,M,120,73,4,7,Hernandez B Jr,3,4,5,"4p 6p upr mild no bid",12,0

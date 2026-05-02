@@ -21,9 +21,9 @@ pip-wheel-metadata/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# Data — keep raw/parsed structure but don't commit large artifacts by default
+# Data — keep raw PP files out (copyright); allow our derived CSVs in
 data/raw/*
-data/parsed/*
+data/parsed/*.txt
 !data/raw/.gitkeep
 !data/parsed/.gitkeep
 
