@@ -24,23 +24,76 @@ OUT = ROOT / "data" / "parsed" / "overlays.csv"
 # ----------------------------- FEATURE SCORERS -----------------------------
 # Each scorer returns 0-100. Higher = better. None = unknown -> mean-impute later.
 
+def trip_adj_from_comment(comment):
+    """
+    Derive a trip adjustment from the chart-caller's comment.
+    Beyer figs don't account for wide trips, trouble, or manner of finish.
+    Returns an integer in roughly [-3, +5] to add to the raw Beyer.
+    """
+    if not comment:
+        return 0
+    c = comment.lower()
+    adj = 0
+    # Wide trips: "4w" -> +1, "5w" -> +2, "6w" -> +3 (every path wide ~ 1pt)
+    import re
+    for m in re.finditer(r"(\d)\s*[wp](?:ide)?\b", c):
+        try:
+            n = int(m.group(1))
+            if n >= 4:
+                adj += (n - 3)
+        except ValueError:
+            pass
+    # Hard cap on cumulative wide-trip credit so we don't double-count
+    adj = min(adj, 4)
+    # Trouble: ran better than the fig says
+    for kw in ("wsteadied", "steadied", "checked", "bumped", "bobbled",
+              "slip brk", "slipped", "wbpd", "wbpd st", "shuffled", "squeezed", "wsqzd"):
+        if kw in c:
+            adj += 2
+            break  # one trouble bump max
+    # Manner of finish — had more
+    for kw in ("ridden out", "rddn out", "handily", "in hand"):
+        if kw in c:
+            adj += 2
+            break
+    # DQ wins (true winner)
+    if "dq" in c:
+        adj += 2
+    # Inside / rail trips — no excuse
+    for kw in ("ins,", " ins ", "rail", "saved ground"):
+        if kw in c:
+            adj -= 1
+            break
+    # Outclassed / faded
+    for kw in ("yielded", "weakened", "folded", "no match", "outgamed", "no bid", "weaknd"):
+        if kw in c:
+            adj -= 1
+            break
+    return max(-3, min(5, adj))
+
+def adjusted_beyer(pp):
+    """Raw Beyer + trip adjustment derived from the comment."""
+    if pp["beyer"] in ("N/A", ""):
+        return None
+    return int(pp["beyer"]) + trip_adj_from_comment(pp.get("comment", ""))
+
 def f_last_beyer(pps):
-    """Most recent Beyer figure (highest predictive single number)."""
+    """Most recent trip-adjusted Beyer (highest predictive single number)."""
     pps = sorted([p for p in pps if p["beyer"] not in ("N/A", "")],
                  key=lambda p: p["pp_date"], reverse=True)
     if not pps:
         return None
-    b = int(pps[0]["beyer"])
+    b = adjusted_beyer(pps[0])
     # 110 -> 100, 70 -> 0, linear in [70, 110]
     return max(0, min(100, (b - 70) * 100 / 40))
 
 def f_top3_beyer(pps):
-    """Best of last 3 Beyers — filters one-off bounces."""
+    """Best of last 3 trip-adjusted Beyers — filters one-off bounces."""
     pps_sorted = sorted([p for p in pps if p["beyer"] not in ("N/A", "")],
                         key=lambda p: p["pp_date"], reverse=True)[:3]
     if not pps_sorted:
         return None
-    b = max(int(p["beyer"]) for p in pps_sorted)
+    b = max(adjusted_beyer(p) for p in pps_sorted)
     return max(0, min(100, (b - 70) * 100 / 40))
 
 def f_pace_fit(pps, projected_meltdown=True):
@@ -326,20 +379,45 @@ def softmax(scores, temperature=0.07):
 # Horses with declared first-time blinkers (per equipment notes at bottom of card)
 FT_BLINKERS = {"Litmus Test", "Chief Wallabee"}
 
-def main():
-    field, pps = load()
+# Public-overbet factors. >1 means market prob will be inflated by name recognition,
+# stable bias, owner cachet, etc. We scale market prob then renormalize, capturing
+# "the live tote will be more skewed toward recognizable names than ML implies."
+PUBLIC_OVERBET = {
+    "Renegade":        1.20,    # ML fav + Repole + Pletcher + I.Ortiz + post 1
+    "Litmus Test":     1.25,    # Baffert tax — biggest single effect
+    "Further Ado":     1.15,    # Velazquez tax + Cox + Spendthrift
+    "Chief Wallabee":  1.12,    # Wm Mott + name + FT-blinkers narrative
+    "Commandment":     1.10,    # Cox + perfect form narrative
+    "So Happy":        1.08,    # Mike Smith + cheerful name
+    "Emerging Market": 1.05,    # Klaravich + Brown + Prat
+    "Danon Bourbon":   1.05,    # Japan story horse
+    "Wonder Dean":     1.05,    # Japan story horse (UAE Derby winner)
+    "Corona de Oro":   1.03,    # Calumet silks
+    "Robusta":         1.03,    # Calumet silks
+}
+
+def field_rank(values, higher_is_better=True):
+    """Convert a list of values to percentile ranks in [0, 100]."""
+    n = len(values)
+    indexed = list(enumerate(values))
+    indexed.sort(key=lambda x: x[1], reverse=higher_is_better)
+    out = [0] * n
+    for rank, (i, _) in enumerate(indexed):
+        # rank 0 (best) -> 100, rank n-1 (worst) -> 0
+        out[i] = 100 * (n - 1 - rank) / (n - 1) if n > 1 else 50
+    return out
+
+def compute_features(field, pps):
+    """Build feature dict per horse."""
     rows = []
     for h in field:
-        horse = h["horse"].strip().split(" (")[0]   # strip "(JPN)" suffix for matching
-        # Match PPs by horse name prefix
+        horse = h["horse"].strip().split(" (")[0]
         h_pps = pps.get(h["horse"], [])
         if not h_pps:
-            # Try without parenthetical suffix
             for k, v in pps.items():
                 if k.startswith(horse):
                     h_pps = v
                     break
-
         feats = {
             "last_beyer":    f_last_beyer(h_pps),
             "top3_beyer":    f_top3_beyer(h_pps),
@@ -353,66 +431,124 @@ def main():
             "florida_derby": f_florida_derby_bonus(h_pps),
             "barn_pick":     f_barn_pick(horse, h["trainer"], h["jockey"]),
         }
-        # Mean-impute None (Japan/UAE shippers with no Beyer)
         for k, v in feats.items():
             if v is None:
-                feats[k] = 50  # neutral
-        score = sum(WEIGHTS[k] * feats[k] for k in WEIGHTS)
+                feats[k] = 50
         rows.append({
-            "pp": h["pp"],
-            "horse": h["horse"],
-            "ml": h["ml_odds"],
-            "score": score,
-            **{f"f_{k}": round(v, 1) for k, v in feats.items()},
+            "pp": h["pp"], "horse": h["horse"], "ml": h["ml_odds"],
+            "feats": feats,
         })
+    return rows
 
-    # Softmax scores -> probabilities
-    scores = [r["score"] for r in rows]
-    probs = softmax(scores, temperature=0.075)
-    for r, p in zip(rows, probs):
-        r["fair_prob"] = p
-        r["fair_odds"] = (1 - p) / p if p > 0 else float("inf")
+def score_cardinal(rows):
+    for r in rows:
+        r["score"] = sum(WEIGHTS[k] * r["feats"][k] for k in WEIGHTS)
 
-    # Strip ML takeout
+def score_rank(rows):
+    """Field-relative ranking variant. Each feature is rank-normalized within field."""
+    feat_keys = list(WEIGHTS.keys())
+    for k in feat_keys:
+        vals = [r["feats"][k] for r in rows]
+        ranks = field_rank(vals, higher_is_better=True)
+        for r, rank_val in zip(rows, ranks):
+            r.setdefault("ranks", {})[k] = rank_val
+    for r in rows:
+        r["score_rank"] = sum(WEIGHTS[k] * r["ranks"][k] for k in feat_keys)
+
+def market_probs(rows, apply_public_overbet=True):
+    """Strip ML takeout, then optionally adjust for public overbet."""
     ml_implied = []
     for r in rows:
         d = parse_ml(r["ml"])
         ml_implied.append(implied_prob(d) if d else 0)
     z = sum(ml_implied)
-    for r, ip in zip(rows, ml_implied):
-        r["mkt_prob"] = ip / z if z else 0
-        r["mkt_odds"] = (1 - r["mkt_prob"]) / r["mkt_prob"] if r["mkt_prob"] else float("inf")
-        r["overlay"] = r["fair_prob"] / r["mkt_prob"] if r["mkt_prob"] else float("inf")
-        r["bet"] = "YES" if r["overlay"] >= 1.25 and r["fair_prob"] >= 0.04 else ""
+    base = [ip / z if z else 0 for ip in ml_implied]
+    if apply_public_overbet:
+        adjusted = []
+        for r, p in zip(rows, base):
+            horse = r["horse"].strip().split(" (")[0]
+            factor = PUBLIC_OVERBET.get(horse, 1.0)
+            adjusted.append(p * factor)
+        za = sum(adjusted)
+        return [a / za for a in adjusted] if za else base
+    return base
 
-    rows.sort(key=lambda r: r["fair_prob"], reverse=True)
+def attach_probs(rows, score_key, mkt_probs, temp=0.075):
+    scores = [r[score_key] for r in rows]
+    probs = softmax(scores, temperature=temp)
+    for r, p, mp in zip(rows, probs, mkt_probs):
+        r[f"{score_key}_prob"] = p
+        r[f"{score_key}_odds"] = (1 - p) / p if p > 0 else float("inf")
+        r[f"{score_key}_mkt"] = mp
+        r[f"{score_key}_mkt_odds"] = (1 - mp) / mp if mp > 0 else float("inf")
+        r[f"{score_key}_overlay"] = p / mp if mp > 0 else float("inf")
+        r[f"{score_key}_bet"] = ("YES" if r[f"{score_key}_overlay"] >= 1.25
+                                 and p >= 0.04 else "")
 
-    # Write CSV
-    cols = ["pp", "horse", "ml", "score", "fair_prob", "fair_odds",
-            "mkt_prob", "mkt_odds", "overlay", "bet"] + [f"f_{k}" for k in WEIGHTS]
+def print_table(rows, label, score_key):
+    rows_sorted = sorted(rows, key=lambda r: r[f"{score_key}_prob"], reverse=True)
+    print(f"\n{label}")
+    print(f"{'PP':>3} {'Horse':<22} {'ML':>5} {'OurP':>6} {'OurOdds':>9} "
+          f"{'MktP':>6} {'MktOdds':>9} {'Overlay':>7}  Bet")
+    print("-" * 90)
+    for r in rows_sorted:
+        print(f"{r['pp']:>3} {r['horse'][:22]:<22} {r['ml']:>5} "
+              f"{r[f'{score_key}_prob']*100:>5.1f}% "
+              f"{r[f'{score_key}_odds']:>8.1f}-1 "
+              f"{r[f'{score_key}_mkt']*100:>5.1f}% "
+              f"{r[f'{score_key}_mkt_odds']:>8.1f}-1 "
+              f"{r[f'{score_key}_overlay']:>6.2f}x  "
+              f"{r[f'{score_key}_bet']}")
+
+def main():
+    field, pps = load()
+    rows = compute_features(field, pps)
+    score_cardinal(rows)
+    score_rank(rows)
+    mkt = market_probs(rows, apply_public_overbet=True)
+    attach_probs(rows, "score", mkt)
+    attach_probs(rows, "score_rank", mkt)
+
+    # Display
+    print_table(rows, "CARDINAL scoring (trip-adjusted Beyers, public-overbet on market)",
+                "score")
+    print_table(rows, "RANK-BASED scoring (field-relative, same market adjustment)",
+                "score_rank")
+
+    # Diff
+    print("\nWhere the two methods disagree most (overlay shift):")
+    diffs = sorted(rows, key=lambda r: abs(r["score_overlay"] - r["score_rank_overlay"]),
+                   reverse=True)
+    print(f"{'Horse':<22} {'CardOver':>9} {'RankOver':>9} {'Δ':>6}")
+    for r in diffs[:8]:
+        delta = r["score_rank_overlay"] - r["score_overlay"]
+        print(f"{r['horse'][:22]:<22} {r['score_overlay']:>8.2f}x "
+              f"{r['score_rank_overlay']:>8.2f}x {delta:>+6.2f}")
+
+    # Bets
+    print("\nCardinal overlays:")
+    for r in sorted(rows, key=lambda r: r["score_prob"], reverse=True):
+        if r["score_bet"] == "YES":
+            print(f"  #{r['pp']:>3} {r['horse']:<22} fair "
+                  f"{r['score_prob']*100:.1f}% vs mkt "
+                  f"{r['score_mkt']*100:.1f}%  ({r['score_overlay']:.2f}x)")
+    print("\nRank-based overlays:")
+    for r in sorted(rows, key=lambda r: r["score_rank_prob"], reverse=True):
+        if r["score_rank_bet"] == "YES":
+            print(f"  #{r['pp']:>3} {r['horse']:<22} fair "
+                  f"{r['score_rank_prob']*100:.1f}% vs mkt "
+                  f"{r['score_rank_mkt']*100:.1f}%  ({r['score_rank_overlay']:.2f}x)")
+
+    # Write CSVs
+    cols = ["pp", "horse", "ml",
+            "score", "score_prob", "score_odds", "score_mkt", "score_overlay", "score_bet",
+            "score_rank", "score_rank_prob", "score_rank_odds", "score_rank_mkt",
+            "score_rank_overlay", "score_rank_bet"]
     with open(OUT, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
         for r in rows:
             w.writerow({k: r.get(k, "") for k in cols})
-
-    # Print summary
-    print(f"\nDerby field — {len(rows)} horses, takeout-stripped & scored\n")
-    print(f"{'PP':>3} {'Horse':<22} {'ML':>5} {'Score':>6} {'OurP':>6} {'OurOdds':>9} "
-          f"{'MktP':>6} {'MktOdds':>9} {'Overlay':>7}  Bet")
-    print("-" * 95)
-    for r in rows:
-        print(f"{r['pp']:>3} {r['horse'][:22]:<22} {r['ml']:>5} {r['score']:>6.1f} "
-              f"{r['fair_prob']*100:>5.1f}% {r['fair_odds']:>8.1f}-1 "
-              f"{r['mkt_prob']*100:>5.1f}% {r['mkt_odds']:>8.1f}-1 "
-              f"{r['overlay']:>6.2f}x  {r['bet']}")
-    print()
-    bets = [r for r in rows if r["bet"] == "YES"]
-    print(f"Suggested overlays ({len(bets)}):")
-    for r in bets:
-        edge = (r["fair_prob"] - r["mkt_prob"]) * 100
-        print(f"  #{r['pp']} {r['horse']}  fair {r['fair_prob']*100:.1f}% vs mkt "
-              f"{r['mkt_prob']*100:.1f}%  (+{edge:.1f}pp, {r['overlay']:.2f}x)")
 
 if __name__ == "__main__":
     main()
