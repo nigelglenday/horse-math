@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 FIELD = ROOT / "data" / "parsed" / "field.csv"
 PP = ROOT / "data" / "parsed" / "past_performances.csv"
+LIVE_ODDS = ROOT / "data" / "parsed" / "live_odds.csv"
 OUT = ROOT / "data" / "parsed" / "overlays.csv"
 
 # ----------------------------- FEATURE SCORERS -----------------------------
@@ -353,6 +354,18 @@ def load():
     by_horse = defaultdict(list)
     for p in pps:
         by_horse[p["horse"].strip()].append(p)
+    # Merge live odds + scratches if file exists
+    if LIVE_ODDS.exists():
+        live = {row["horse"].strip(): row for row in csv.DictReader(open(LIVE_ODDS))}
+        survivors = []
+        for h in field:
+            lo = live.get(h["horse"].strip())
+            if lo and lo.get("scratched", "False").lower() == "true":
+                continue   # drop scratched
+            if lo:
+                h["live_odds"] = lo.get("live_odds", "")
+            survivors.append(h)
+        field = survivors
     return field, by_horse
 
 # ----------------------------- MAIN -----------------------------
@@ -436,6 +449,7 @@ def compute_features(field, pps):
                 feats[k] = 50
         rows.append({
             "pp": h["pp"], "horse": h["horse"], "ml": h["ml_odds"],
+            "live_odds": h.get("live_odds", ""),
             "feats": feats,
         })
     return rows
@@ -455,23 +469,27 @@ def score_rank(rows):
     for r in rows:
         r["score_rank"] = sum(WEIGHTS[k] * r["ranks"][k] for k in feat_keys)
 
-def market_probs(rows, apply_public_overbet=True):
-    """Strip ML takeout, then optionally adjust for public overbet."""
-    ml_implied = []
+def market_probs(rows, use_live=True):
+    """
+    Strip takeout from market odds.
+    Prefer live odds when available (the price movement reveals public money).
+    Fall back to ML if live not present, applying static public-overbet factors.
+    """
+    implied = []
     for r in rows:
-        d = parse_ml(r["ml"])
-        ml_implied.append(implied_prob(d) if d else 0)
-    z = sum(ml_implied)
-    base = [ip / z if z else 0 for ip in ml_implied]
-    if apply_public_overbet:
-        adjusted = []
-        for r, p in zip(rows, base):
+        live = r.get("live_odds", "").strip() if use_live else ""
+        if live and live not in ("", "N/A"):
+            d = parse_ml(live)
+            implied.append(implied_prob(d) if d else 0)
+        else:
+            d = parse_ml(r["ml"])
+            ip = implied_prob(d) if d else 0
+            # Only apply static overbet factors when we don't have live data
             horse = r["horse"].strip().split(" (")[0]
-            factor = PUBLIC_OVERBET.get(horse, 1.0)
-            adjusted.append(p * factor)
-        za = sum(adjusted)
-        return [a / za for a in adjusted] if za else base
-    return base
+            ip *= PUBLIC_OVERBET.get(horse, 1.0)
+            implied.append(ip)
+    z = sum(implied)
+    return [a / z if z else 0 for a in implied]
 
 def attach_probs(rows, score_key, mkt_probs, temp=0.075):
     scores = [r[score_key] for r in rows]
@@ -505,9 +523,12 @@ def main():
     rows = compute_features(field, pps)
     score_cardinal(rows)
     score_rank(rows)
-    mkt = market_probs(rows, apply_public_overbet=True)
+    mkt = market_probs(rows, use_live=True)
     attach_probs(rows, "score", mkt)
     attach_probs(rows, "score_rank", mkt)
+    # Stash the displayed market odds string for the print table
+    for r, m in zip(rows, mkt):
+        r["mkt_display"] = r.get("live_odds") or r["ml"]
 
     # Display
     print_table(rows, "CARDINAL scoring (trip-adjusted Beyers, public-overbet on market)",
