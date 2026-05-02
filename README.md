@@ -1,5 +1,7 @@
 # horse-model
 
+> **Derby Day 2026 result: the model picked #19 Golden Tempo. We hit. $85 → $520, net +$435 (6.1×).** Full post-mortem at [`analysis/derby-2026-postmortem.md`](analysis/derby-2026-postmortem.md).
+
 Handicapping models, PP parsers, and pace/speed analysis for thoroughbred racing. Started Derby Day 2026 as a public build with Claude Code, in the hours before post time at Churchill.
 
 The premise: parse the past performance files, build a feature-scored model, strip the takeout out of the morning line, and find horses where our number says the public is wrong. Bet the overlays. Document the whole thing live.

@@ -1,5 +1,8 @@
 # 2026 Kentucky Derby — Pre-Race Readout
 
+> **Result: #19 Golden Tempo won, paid $48.24. The model picked it. We hit the win and the 19-1 exacta for +$435 on $85 (6.1×). Cherie DeVaux became the first female trainer to win the Derby in 152 runnings.** Full post-mortem: [`derby-2026-postmortem.md`](derby-2026-postmortem.md).
+
+
 **Race 12, Churchill Downs · Saturday May 2, 2026 · post 6:57 PM ET · 1¼ miles · $5M Grade I**
 
 This is the readout the model produced ~2 hours before post. Built live with Claude Code as part of the [horse-model](../README.md) public build. Bets and reasoning recorded *before* the race, so the post-mortem can be honest.

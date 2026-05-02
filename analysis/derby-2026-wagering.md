@@ -1,5 +1,8 @@
 # 2026 Derby — Wagering Strategy ($100 Budget)
 
+> **Result: $85 ticket cashed for $520.06. WIN #19 Golden Tempo ($241.20) + Exacta 19-1 ($278.86). Net +$435 (6.1×).** We missed a $5,625 trifecta because we never keyed #19 on top of a tri wheel — full lessons in [`derby-2026-postmortem.md`](derby-2026-postmortem.md).
+
+
 This is the companion to [`derby-2026-readout.md`](derby-2026-readout.md). The first page does the handicap. This page does the betting math: market structure, exacta overlays, and the actual $100 ticket.
 
 ## The exacta math, briefly
