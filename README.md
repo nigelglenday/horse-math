@@ -2,6 +2,8 @@
 
 Handicapping models, PP parsers, and pace/speed analysis for thoroughbred racing.
 
+Started Derby Day 2026 as a public build. The seed prompt lives in [`prompts/derby-day.md`](prompts/derby-day.md).
+
 ## Layout
 
 ```
