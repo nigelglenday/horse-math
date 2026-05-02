@@ -69,6 +69,10 @@ Score each horse on 11 weighted features (trip-adjusted Beyers, projected pace f
 
 The detailed walkthrough is in [`src/handicap.py`](../src/handicap.py).
 
+## Wagering plan
+
+The actual ticket structure ($100 budget, exacta math, post-1 caveat) lives on its own page: [`derby-2026-wagering.md`](derby-2026-wagering.md).
+
 ## Status
 
 Mid-race-day. This file is the snapshot of what we're betting and why. Post-race, this writeup gets the result appended — what landed, what we got right, what we got wrong, what we'd change.
