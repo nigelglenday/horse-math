@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.env
+.env.local
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data — keep raw/parsed structure but don't commit large artifacts by default
+data/raw/*
+data/parsed/*
+!data/raw/.gitkeep
+!data/parsed/.gitkeep
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs / scratch
+*.log
+scratch/
+tmp/
