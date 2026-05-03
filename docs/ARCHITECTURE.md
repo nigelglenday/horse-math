@@ -6,7 +6,7 @@ How the system fits together. Read this if you want to understand how a race goe
 
 ```mermaid
 flowchart TD
-    subgraph Inputs["Per-race inputs (data/races/&lt;slug&gt;/)"]
+    subgraph Inputs["Per-race inputs (data/races/[slug]/)"]
         CFG[config.toml<br/>weights, post bias,<br/>prep scoring, sources]
         FIELD[field.csv<br/>one row per starter]
         PP[past_performances.csv<br/>prior race lines]
@@ -25,12 +25,12 @@ flowchart TD
         FO[fetch_odds.py<br/>source helper]
     end
 
-    subgraph Outputs["Per-race outputs (data/races/&lt;slug&gt;/)"]
+    subgraph Outputs["Per-race outputs (data/races/[slug]/)"]
         OV[overlays.csv<br/>cardinal + rank fair odds]
         EXO[exacta_overlays.csv]
         TRO[trifecta_overlays.csv]
         PO[portfolio.csv<br/>final sized ticket]
-        FIG[figures/&lt;slug&gt;/*.png]
+        FIG[figures/[slug]/*.png]
     end
 
     CFG --> H
@@ -110,7 +110,7 @@ The model produces a high-quality default ticket. The human owns the final decis
 | `exacta.py` | overlays.csv, exacta_probables.txt | exacta_overlays.csv | Harville fair P(i,j) vs market; EV per $1; key-wheel suggestions |
 | `trifecta.py` | overlays.csv, optional trifecta_probables.txt | trifecta_overlays.csv | Plackett-Luce fair P(i,j,k); actual payouts if available, else synthesized |
 | `portfolio.py` | overlays.csv, exacta_probables.txt, optional trifecta_probables.txt | portfolio.csv | Three-layer ticket: Kelly core + satellite + heuristic wheels/scans, scaled to bankroll |
-| `charts.py` | overlays.csv, live_odds.csv, past_performances.csv | analysis/figures/&lt;slug&gt;/*.png | 4 PNGs: overlay scatter, three-way prob bars, odds movement, Beyer trajectory |
+| `charts.py` | overlays.csv, live_odds.csv, past_performances.csv | analysis/figures/[slug]/*.png | 4 PNGs: overlay scatter, three-way prob bars, odds movement, Beyer trajectory |
 | `fetch_odds.py` | config.toml | stdout instructions | Reads [live_odds_source]; for JS-rendered, prints WebFetch instructions; for static, attempts fetch |
 
 ## Race-day workflow
@@ -147,8 +147,8 @@ sequenceDiagram
 
     Note over Human,Repo: Post-race
     Human->>Repo: append result section to readouts
-    Human->>Repo: write learnings/&lt;slug&gt;.md (extracted wisdom)
-    Human->>Repo: freeze case study at analysis/case-studies/&lt;slug&gt;/
+    Human->>Repo: write learnings/[slug].md (extracted wisdom)
+    Human->>Repo: freeze case study at analysis/case-studies/[slug]/
 ```
 
 ## What's race-specific vs race-agnostic
