@@ -17,12 +17,18 @@ from __future__ import annotations
 import argparse
 import csv
 import sys
+from itertools import permutations
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import handicap
 
 ROOT = Path(__file__).resolve().parent.parent
+
+def plackett_luce_3(p_i, p_j, p_k):
+    if p_i >= 1.0 or p_i + p_j >= 1.0:
+        return 0.0
+    return p_i * (p_j / (1 - p_i)) * (p_k / (1 - p_i - p_j))
 
 def load_probables(path):
     probables = {}
@@ -86,6 +92,28 @@ def main():
                         default="cardinal", help="Which model probability to use")
     parser.add_argument("--min-stake", type=float, default=0.50,
                         help="Drop bets below this minimum stake")
+    parser.add_argument("--include-tri", action="store_true",
+                        help="Include trifecta combos in the portfolio")
+    parser.add_argument("--tri-min-prob", type=float, default=0.0001,
+                        help="Skip tri combos below this fair prob (lottery filter)")
+    parser.add_argument("--target-spend", type=float, default=None,
+                        help="Allocate exactly this much (instead of just Kelly). "
+                             "Leftover after Kelly core fills satellite lottery layer.")
+    parser.add_argument("--satellite-stake", type=float, default=0.50,
+                        help="Per-bet stake for the satellite lottery layer")
+    parser.add_argument("--satellite-min-ev", type=float, default=0.20,
+                        help="Min EV/$1 for satellite layer inclusion")
+    # ---- Heuristic Layer 3: rules of thumb that operate alongside Kelly+satellite ----
+    parser.add_argument("--top-pick-wheel", type=float, default=0.0,
+                        help="Reserve this dollar amount for a top-pick trifecta wheel: "
+                             "model's top win pick / 1-of-top-3 placers / ALL. "
+                             "Captures lottery upside Kelly says is too small to stake. "
+                             "0 = disabled.")
+    parser.add_argument("--longshot-scan", type=float, default=0.0,
+                        help="Reserve this dollar amount for live-tote longshot exacta "
+                             "wheels: any horse with our_prob > market_prob × 1.5 AND "
+                             "market_prob < 3%% becomes an exacta-placer key under the "
+                             "model's top win pick. 0 = disabled.")
     args = parser.parse_args()
 
     cfg, paths = handicap.load_config(args.race)
@@ -161,6 +189,50 @@ def main():
                 "stake_pct": fk * args.kelly_fraction,
             })
 
+    # --- Trifecta pool ---
+    if args.include_tri:
+        tri_path = paths["overlays_out"].parent / "trifecta_probables.txt"
+        actual_tri = {}
+        if tri_path.exists():
+            with open(tri_path) as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    parts = line.split()
+                    if len(parts) < 2:
+                        continue
+                    try:
+                        combo = tuple(int(x) for x in parts[0].split("-"))
+                        actual_tri[combo] = float(parts[1])
+                    except ValueError:
+                        pass
+        for i, j, k in permutations(probs.keys(), 3):
+            our_p = plackett_luce_3(probs[i], probs[j], probs[k])
+            if our_p < args.tri_min_prob:
+                continue
+            if (i, j, k) in actual_tri:
+                payout = actual_tri[(i, j, k)]
+            else:
+                # Synthesized payout from win-pool implied probs
+                mkt_p = plackett_luce_3(live_odds[i]["mkt"], live_odds[j]["mkt"],
+                                        live_odds[k]["mkt"])
+                if mkt_p <= 0:
+                    continue
+                payout = net_return / mkt_p
+            fk = kelly_fraction(our_p, payout)
+            if fk <= 0:
+                continue
+            bets.append({
+                "kind": "TRI",
+                "label": f"TRI #{i}-{j}-{k}",
+                "winner_pp": i, "placer_pp": j,
+                "fair_p": our_p,
+                "gross_payout": payout,
+                "full_kelly": fk,
+                "stake_pct": fk * args.kelly_fraction,
+            })
+
     if not bets:
         sys.exit("No positive-EV bets found.")
 
@@ -184,25 +256,157 @@ def main():
         b["ev_per_dollar"] = b["fair_p"] * b["gross_payout"] - 1
         b["potential_payout"] = b["stake"] * b["gross_payout"]
 
-    # Drop sub-min-stake bets and reallocate? For now, just drop and report
+    # Drop sub-min-stake bets
     kept = [b for b in bets if b["stake"] >= args.min_stake]
     dropped = [b for b in bets if b["stake"] < args.min_stake]
+    kelly_cost = sum(b["stake"] for b in kept)
 
-    actual_cost = sum(b["stake"] for b in kept)
+    # Two-layer allocation: if target_spend > Kelly cost, fill the rest with
+    # satellite lottery bets. Each is a minimum-stake bet on a high-EV combo
+    # that Kelly individually didn't size large enough.
+    satellite = []
+    if args.target_spend is not None and args.target_spend > kelly_cost:
+        leftover = args.target_spend - kelly_cost
+        # Candidate satellites: dropped bets with EV/$1 above threshold,
+        # not already in kept, sorted by EV descending
+        kept_keys = {(b["kind"], b.get("winner_pp"), b.get("placer_pp")) for b in kept}
+        candidates = [b for b in dropped
+                      if b["fair_p"] * b["gross_payout"] - 1 >= args.satellite_min_ev
+                      and (b["kind"], b.get("winner_pp"), b.get("placer_pp")) not in kept_keys]
+        candidates.sort(key=lambda b: b["fair_p"] * b["gross_payout"] - 1, reverse=True)
+        for c in candidates:
+            if leftover < args.satellite_stake:
+                break
+            c2 = dict(c)
+            c2["stake"] = args.satellite_stake
+            c2["potential_payout"] = c2["stake"] * c2["gross_payout"]
+            c2["kind"] = c2["kind"] + "*"   # mark as satellite
+            satellite.append(c2)
+            leftover -= args.satellite_stake
+
+    # ---- Heuristic Layer 3: rule-of-thumb additions ----
+    heuristics = []
+
+    if args.top_pick_wheel > 0:
+        # Iterate over EACH cardinal-overlay horse as the wheel-top (not just one)
+        # Each gets a wheel: HORSE / top-3-OTHER-fair-prob / ALL_OTHERS
+        # This captures the case where any of our overlays wins, with any of the
+        # other top probability horses placing, with literally any horse showing.
+        # Why ALL on the show: our model can't predict the third-place longshot
+        # well (e.g., AE-activated horses like Ocelli at 70-1).
+        overlay_horses = []
+        for r in overlays_rows:
+            if r.get("score_bet") == "YES":
+                try:
+                    overlay_horses.append(int(str(r["pp"]).rstrip("A")))
+                except ValueError:
+                    pass
+        if not overlay_horses:
+            # Fallback to top-3 by fair_p
+            overlay_horses = sorted(probs.keys(), key=lambda pp: probs[pp], reverse=True)[:3]
+
+        sorted_by_p = sorted(probs.keys(), key=lambda pp: probs[pp], reverse=True)
+        tri_path = paths["overlays_out"].parent / "trifecta_probables.txt"
+        actual_tri = {}
+        if tri_path.exists():
+            for line in open(tri_path):
+                line = line.strip()
+                if not line or line.startswith("#"): continue
+                parts = line.split()
+                if len(parts) < 2: continue
+                try:
+                    combo = tuple(int(x) for x in parts[0].split("-"))
+                    actual_tri[combo] = float(parts[1])
+                except ValueError: pass
+
+        wheel_combos = []
+        for top in overlay_horses:
+            # Top-3 OTHER horses by fair_p
+            placers = [p for p in sorted_by_p if p != top][:3]
+            others = [k for k in probs.keys() if k != top]
+            for j in placers:
+                for k in others:
+                    if k == j: continue
+                    wheel_combos.append((top, j, k))
+        if wheel_combos:
+            per_combo_stake = args.top_pick_wheel / len(wheel_combos)
+            for (i, j, k) in wheel_combos:
+                if (i, j, k) in actual_tri:
+                    pay = actual_tri[(i, j, k)]
+                else:
+                    mkt_p = plackett_luce_3(live_odds[i]["mkt"], live_odds[j]["mkt"],
+                                            live_odds[k]["mkt"])
+                    pay = (net_return / mkt_p) if mkt_p > 0 else 0
+                fair = plackett_luce_3(probs[i], probs[j], probs[k])
+                heuristics.append({
+                    "kind": "TRI_HEUR",
+                    "label": f"WHEEL #{i}-{j}-{k}",
+                    "winner_pp": i, "placer_pp": j,
+                    "fair_p": fair,
+                    "gross_payout": pay,
+                    "full_kelly": 0,
+                    "stake_pct": 0,
+                    "stake": per_combo_stake,
+                    "ev_per_dollar": fair * pay - 1 if pay > 0 else 0,
+                    "potential_payout": per_combo_stake * pay,
+                })
+
+    if args.longshot_scan > 0:
+        # Find horses where our model loves them and market doesn't
+        longshot_placers = []
+        for pp, p in probs.items():
+            if pp not in live_odds: continue
+            mp = live_odds[pp]["mkt"]
+            if mp > 0 and p > mp * 1.5 and mp < 0.03:
+                longshot_placers.append(pp)
+        sorted_pps = sorted(probs.keys(), key=lambda pp: probs[pp], reverse=True)
+        top = sorted_pps[0] if sorted_pps else None
+        if top and longshot_placers:
+            per_combo_stake = args.longshot_scan / len(longshot_placers)
+            for j in longshot_placers:
+                if j == top: continue
+                # Top → longshot exacta
+                # Use exacta probables if available
+                payout = 0
+                if paths["exacta_probables"].exists():
+                    for ((wi, wj), pay) in load_probables(paths["exacta_probables"]).items():
+                        if (wi, wj) == (top, j):
+                            payout = pay; break
+                if payout == 0:
+                    payout = net_return / (probs[top] * probs[j] / (1 - probs[top]) + 1e-9)
+                fair = probs[top] * probs[j] / (1 - probs[top])
+                heuristics.append({
+                    "kind": "EXA_HEUR",
+                    "label": f"LONGSHOT #{top}-{j}",
+                    "winner_pp": top, "placer_pp": j,
+                    "fair_p": fair,
+                    "gross_payout": payout,
+                    "full_kelly": 0,
+                    "stake_pct": 0,
+                    "stake": per_combo_stake,
+                    "ev_per_dollar": fair * payout - 1 if payout > 0 else 0,
+                    "potential_payout": per_combo_stake * payout,
+                })
+
+    final = kept + satellite + heuristics
+    actual_cost = sum(b["stake"] for b in final)
 
     # Print
     print(f"\n=== {cfg['race']['name']} — Edge-First Portfolio ===")
     print(f"Bankroll: ${args.bankroll:.2f} · Fractional Kelly: {args.kelly_fraction} · "
           f"Prob source: {args.prob_source}")
     print(f"{scaling_note}")
-    print(f"After dropping bets < ${args.min_stake}: {len(kept)} bets, total ${actual_cost:.2f}\n")
+    if args.target_spend:
+        print(f"Target spend: ${args.target_spend:.2f} | Kelly core: ${kelly_cost:.2f} | "
+              f"Satellite layer: {len(satellite)} bets, ${sum(b['stake'] for b in satellite):.2f}")
+    print(f"Final ticket: {len(final)} bets, total ${actual_cost:.2f}\n")
 
-    print(f"{'Stake':>7} {'Bet':<48} {'FairP':>6} {'Pays':>8} {'EV/$':>6} {'Kelly%':>7}")
+    print(f"{'Stake':>7} {'Bet':<48} {'FairP':>7} {'Pays':>8} {'EV/$':>6} {'Type':>6}")
     print("-" * 95)
-    for b in kept:
-        print(f"${b['stake']:>6.2f} {b['label'][:48]:<48} {b['fair_p']*100:>5.2f}% "
+    for b in sorted(final, key=lambda b: b["stake"], reverse=True):
+        print(f"${b['stake']:>6.2f} {b['label'][:48]:<48} {b['fair_p']*100:>6.3f}% "
               f"{b['gross_payout']:>7.2f} {b['ev_per_dollar']:>+5.2f} "
-              f"{b['stake_pct']*100:>6.2f}%")
+              f"{b['kind']:>6}")
 
     if dropped:
         print(f"\nDropped {len(dropped)} bets below min stake ${args.min_stake}:")

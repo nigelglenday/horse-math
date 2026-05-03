@@ -4,7 +4,7 @@
 
 A generalized handicapping engine for thoroughbred racing. Started Derby Day 2026 as a five-hour public build with Claude Code. v2 is a config-driven model that runs on any race — drop in a race config + parsed PPs and run the same pipeline.
 
-The premise: parse the past performance files, build a feature-scored model, strip the takeout out of the morning line, find horses where our number says the public is wrong. Bet the overlays, sized via fractional Kelly. Document the whole thing live.
+The premise: parse the past performance files, build a feature-scored model, strip the takeout out of the morning line, find horses where our number says the public is wrong. Bet the overlays, sized via fractional Kelly.
 
 ## Run on a race
 
@@ -101,7 +101,17 @@ notes = "Xpressbet shows full grid for Triple Crown races. Paste into exacta_pro
 
 **Sensitivity scan.** 200 trials, weights perturbed ±20%, see which overlays survive perturbation. Tags bets ROCK SOLID / Robust / Marginal / Fragile.
 
-**Edge-first portfolio (Kelly).** Every positive-EV bet (win + exacta + tri) gets a fractional-Kelly stake. Sums computed first, scaled to bankroll second. Bankroll is a scalar, not a structural constraint. This was the biggest methodological lesson from Derby Day — see [`analysis/derby-2026-postmortem.md`](analysis/derby-2026-postmortem.md), Lesson 1.
+**Three layers of wagering, by design.** Bets are constructed via three coexisting layers, never collapsing one into another:
+
+1. **Kelly-derived (variance-optimal)** — `src/portfolio.py` core. Mathematically rigorous, conservative.
+2. **Heuristic rules** — `--top-pick-wheel` (reserves stake for top-overlay-horse trifecta wheels), `--longshot-scan` (live-tote-undervalued exacta placers), satellite layer (minimum-stake spread on high-EV combos Kelly individually says are too small).
+3. **Human judgment** — what the operator brings: live-day context, story features, risk tolerance.
+
+Validation on Derby 2026: 3-layer ticket would have captured 96% of the actual hand-tuned upside ($418 of $435), systematically. Pure quarter-Kelly would have captured 3%.
+
+**Compounding learnings.** [`learnings/`](learnings/) holds wisdom that doesn't fit cleanly in code or config — cross-race patterns ([`learnings/index.md`](learnings/index.md)) and per-race extracts ([`learnings/2026-kentucky-derby.md`](learnings/2026-kentucky-derby.md)). The principle: every race teaches something. The model in `src/` only changes when a learning generalizes cleanly into a parameter or feature; most wisdom lives in the learnings files as priors a human carries forward.
+
+A reminder, etched in: the model is an abstraction of the race, never the race itself. Beware Whitehead's Misplaced Concreteness — the surreptitious substitution of a model for the reality it abstracts. Always ask: what is the model not seeing?
 
 ## Status
 
