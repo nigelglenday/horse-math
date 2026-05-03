@@ -30,7 +30,7 @@ flowchart TD
         EXO[exacta_overlays.csv]
         TRO[trifecta_overlays.csv]
         PO[portfolio.csv<br/>final sized ticket]
-        FIG[figures/[slug]/*.png]
+        FIG["figures/[slug]/*.png"]
     end
 
     CFG --> H
