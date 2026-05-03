@@ -195,7 +195,7 @@ Source: [`src/charts.py`](../../../src/charts.py).
 - $0.50 — 1 / 4-18-19 / 4-18-19 = $3
 - $0.50 — 4 / 1-18-19 / 1-18-19 = $3
 
-Full pre-race wagering rationale: [`derby-2026-wagering.md`](../../derby-2026-wagering.md).
+Full pre-race wagering rationale: [`wagering.md`](wagering.md).
 
 ---
 
@@ -233,7 +233,7 @@ Order of finish:
 
 ## 10 · Learnings
 
-The post-mortem ([`derby-2026-postmortem.md`](../../derby-2026-postmortem.md)) has the full version. The big ones:
+The post-mortem ([`postmortem.md`](postmortem.md)) has the full version. The big ones:
 
 1. **Optimize the portfolio first, scale to bankroll second.** This is the most important methodological correction. Constraint-first thinking ($85 → fit bets inside) caused us to skip the `19 / X / X` trifecta wheel that would have hit the $5,625 tri. Edge-first thinking (Kelly-size every positive-EV bet, then scale) would have included it by construction. See post-mortem Lesson 1 for the full framework.
 
@@ -272,7 +272,7 @@ python3 src/exacta.py          # exacta overlays from Harville model
 python3 src/charts.py          # regenerates the four PNGs
 ```
 
-The `data/raw/CD Race 12 PP.pdf` file is intentionally gitignored — it's Equibase copyrighted content. The parsed CSVs (`field.csv`, `past_performances.csv`, `live_odds.csv`, `exacta_probables.txt`) are derivative analytical artifacts and are committed.
+The `data/races/2026-kentucky-derby/raw/CD Race 12 PP.pdf` file is intentionally gitignored — it's Equibase copyrighted content. The parsed CSVs (`field.csv`, `past_performances.csv`, `live_odds.csv`, `exacta_probables.txt`) are derivative analytical artifacts and are committed.
 
 ---
 

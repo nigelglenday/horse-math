@@ -21,11 +21,11 @@ pip-wheel-metadata/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# Data — keep raw PP files out (copyright); allow our derived CSVs in
-data/raw/*
-data/parsed/*.txt
-!data/raw/.gitkeep
-!data/parsed/.gitkeep
+# Per-race raw PP files (PDFs, text dumps) — copyright; commit derived CSVs only
+data/races/*/raw/
+data/races/*/*.txt
+!data/races/*/exacta_probables.txt
+!data/races/*/trifecta_probables.txt
 
 # OS / editor
 .DS_Store

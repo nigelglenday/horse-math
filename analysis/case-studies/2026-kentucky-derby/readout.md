@@ -1,6 +1,6 @@
 # 2026 Kentucky Derby — Pre-Race Readout
 
-> **Result: #19 Golden Tempo won, paid $48.24. The model picked it. We hit the win and the 19-1 exacta for +$435 on $85 (6.1×). Cherie DeVaux became the first female trainer to win the Derby in 152 runnings.** Full post-mortem: [`derby-2026-postmortem.md`](derby-2026-postmortem.md).
+> **Result: #19 Golden Tempo won, paid $48.24. The model picked it. We hit the win and the 19-1 exacta for +$435 on $85 (6.1×). Cherie DeVaux became the first female trainer to win the Derby in 152 runnings.** Full post-mortem: [`postmortem.md`](postmortem.md).
 
 
 **Race 12, Churchill Downs · Saturday May 2, 2026 · post 6:57 PM ET · 1¼ miles · $5M Grade I**
@@ -64,7 +64,7 @@ Confirmed fades (do NOT bet to win, candidates to bet AGAINST in exotics):
 
 Renegade drew the rail. **Since the field expanded to 20 in 1975, post 1 has produced exactly one Derby winner (Ferdinand, 1986)** — a 2% strike rate vs the 5% random expectation. Post 1 underperforms by 50-60%.
 
-The model penalizes post 1 (score 40 vs 90 for posts 5-15, weighted at 5%) but **probably not enough**. If the post-1 penalty were doubled, Renegade's cardinal overlay would shrink from 1.58x to roughly 1.20x — still a bet, but a thin one. The wagering ticket compensates by sizing Renegade's win bet at $25 (not $40+) and hedging into Further Ado and Litmus Test in the exotics. Full treatment in [`derby-2026-wagering.md`](derby-2026-wagering.md).
+The model penalizes post 1 (score 40 vs 90 for posts 5-15, weighted at 5%) but **probably not enough**. If the post-1 penalty were doubled, Renegade's cardinal overlay would shrink from 1.58x to roughly 1.20x — still a bet, but a thin one. The wagering ticket compensates by sizing Renegade's win bet at $25 (not $40+) and hedging into Further Ado and Litmus Test in the exotics. Full treatment in [`wagering.md`](wagering.md).
 
 Why post 1 is a graveyard at CD: first turn comes ~3/16 mile out, the rail can be dead by Derby Day from a meet's worth of training, and 18 horses fanning right while you're stuck inside forces a lose-lose decision tree.
 
@@ -94,7 +94,7 @@ The detailed walkthrough is in [`src/handicap.py`](../src/handicap.py).
 
 ## Wagering plan
 
-The actual ticket structure ($100 budget, exacta math, post-1 caveat) lives on its own page: [`derby-2026-wagering.md`](derby-2026-wagering.md).
+The actual ticket structure ($100 budget, exacta math, post-1 caveat) lives on its own page: [`wagering.md`](wagering.md).
 
 ## Status
 

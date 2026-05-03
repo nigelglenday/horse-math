@@ -54,10 +54,10 @@ data/
 analysis/
   figures/<race-slug>/        Per-race PNGs.
   case-studies/<race-slug>/   Frozen artifacts of races we've analyzed and bet.
-  derby-2026-readout.md       Pre-race handicap writeup.
-  derby-2026-wagering.md      Pre-race wagering math + ticket structure.
-  derby-2026-postmortem.md    Post-race analysis + lessons for v2/v3.
-  derby-2026-cheatsheet.md    Printable race-day one-pager.
+  case-studies/2026-kentucky-derby/readout.md          Pre-race handicap writeup.
+  case-studies/2026-kentucky-derby/wagering.md        Pre-race wagering math + ticket structure.
+  case-studies/2026-kentucky-derby/postmortem.md    Post-race analysis + lessons for v2/v3.
+  case-studies/2026-kentucky-derby/cheatsheet.md    Printable race-day one-pager.
 
 prompts/
   derby-day.md                The seed prompt that started everything.
@@ -130,7 +130,7 @@ A reminder, etched in: the model is an abstraction of the race, never the race i
 
 ## Data attribution
 
-Past performance source data is from Equibase Company LLC, copyright 2026, all rights reserved. Raw PP files (`data/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. Beyer Speed Figures are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
+Past performance source data is from Equibase Company LLC, copyright 2026, all rights reserved. Raw PP files (`data/races/*/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. Beyer Speed Figures are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
 
 ## License
 
