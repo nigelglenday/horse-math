@@ -1,4 +1,4 @@
-# 2026 Preakness Stakes — Race Configuration (SCAFFOLD)
+# 2026 Preakness Stakes, Race Configuration (SCAFFOLD)
 #
 # Status: scaffold only. Populate when entries draw (typically Tuesday before
 # the race) and when the equipment-change list / barn-pick rules become known.
@@ -25,7 +25,7 @@ exotic_takeout = 0.22
 [live_odds_source]
 url = "https://www.preaknessstakes.com/wager/odds/"
 format = "js_rendered_html"
-notes = "Same pattern as Kentucky Derby — JS-rendered. Use WebFetch in Claude conversation, paste into live_odds.csv."
+notes = "Same pattern as Kentucky Derby, JS-rendered. Use WebFetch in Claude conversation, paste into live_odds.csv."
 
 [exacta_probables_source]
 url = ""  # set to your preferred tote-probables source
@@ -57,14 +57,14 @@ preferred_prep = 0.08    # up from 0.05 (Derby cachet is very strong here)
 barn_pick      = 0.06
 
 [pace]
-# Default to false for Preakness — smaller fields rarely melt down
+# Default to false for Preakness, smaller fields rarely melt down
 meltdown_likely = false
 
 [equipment]
 ft_blinkers = []  # Populate at draw
 
 # Pimlico post-position multipliers
-# Pimlico has different bias than Churchill — the rail at Pimlico is less
+# Pimlico has different bias than Churchill, the rail at Pimlico is less
 # catastrophic but post 7 has a poor historical Preakness record
 [post_multiplier]
 default = 1.00
@@ -76,7 +76,7 @@ ae_default = 0.50
 "13" = 0.85
 "14" = 0.85
 
-# Class-of-prep scoring for Preakness — Kentucky Derby is the giant signal
+# Class-of-prep scoring for Preakness, Kentucky Derby is the giant signal
 [prep_class_score]
 default = 35
 
@@ -107,11 +107,11 @@ race_class = "Stk-KyDerby"
 winner_score = 100
 default_score = 50
 
-# Public-overbet factors — populate at the entries based on names/stables
+# Public-overbet factors, populate at the entries based on names/stables
 [public_overbet]
 # (empty until entries known)
 
-# Barn-pick rules — populate at entries
+# Barn-pick rules, populate at entries
 [barn_pick]
 default_score = 60
 # rules = []  # add when entries known
@@ -148,7 +148,7 @@ default = 55
 "Junior Alvarado"       = 70
 "Jose L Ortiz"          = 82   # bumps up after KD win 2026
 
-# Sire pedigree bias — Preakness 9.5F is a touch shorter than Derby 10F,
+# Sire pedigree bias, Preakness 9.5F is a touch shorter than Derby 10F,
 # so pure stamina sires marginally less critical
 [sire_bias]
 [sire_bias.stamina]

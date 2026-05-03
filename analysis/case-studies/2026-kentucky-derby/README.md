@@ -2,7 +2,7 @@
 
 > **Result: $85 → $520. Net +$435. MOIC 6.12×. Model picked the winner (Golden Tempo, 25-1).**
 
-The first instance of `horse-math`. Built live with Claude Code in five hours on Derby Day 2026. This document is the frozen artifact — what we did, what the model said, what we bet, what happened, what we learned. Every artifact (code, data, charts, prose) is reproducible from the commit history at `main` as of May 2, 2026.
+The first instance of `horse-math`. Built live with Claude Code in five hours on Derby Day 2026. This document is the frozen artifact, what we did, what the model said, what we bet, what happened, what we learned. Every artifact (code, data, charts, prose) is reproducible from the commit history at `main` as of May 2, 2026.
 
 For the *generalized* model that powers future races (Preakness, Belmont, etc.), see the top-level [`README.md`](../../../README.md) and the `src/` directory in its current state.
 
@@ -14,14 +14,14 @@ For the *generalized* model that powers future races (Preakness, Belmont, etc.),
 |---|---|
 | Race | Kentucky Derby 152, Churchill Downs, May 2, 2026, 1¼ mi |
 | Field | 24 entered → 18 ran (6 scratches) |
-| Winner | **#19 Golden Tempo** (Cherie DeVaux, Jose Ortiz) — first female trainer to win the Derby |
-| Runner-up | #1 Renegade (Pletcher, Irad Ortiz Jr) — from post 1, the rail |
+| Winner | **#19 Golden Tempo** (Cherie DeVaux, Jose Ortiz), first female trainer to win the Derby |
+| Runner-up | #1 Renegade (Pletcher, Irad Ortiz Jr), from post 1, the rail |
 | Show | #22 Ocelli (AE that activated) at 70-1 |
-| Our top model pick | #19 Golden Tempo — sensitivity scan tagged "ROCK SOLID" |
+| Our top model pick | #19 Golden Tempo, sensitivity scan tagged "ROCK SOLID" |
 | Our bet | $85 across win, exactas, trifectas |
 | Our hits | $10 win + $2 exacta = **$520.06 gross** |
 | Net P&L | **+$435.06 (6.12×)** |
-| Biggest miss | Trifecta — failed to key #19 on top, missed $5,625 ticket |
+| Biggest miss | Trifecta, failed to key #19 on top, missed $5,625 ticket |
 
 ---
 
@@ -33,7 +33,7 @@ The seed prompt is preserved in [`prompts/derby-day.md`](../../../prompts/derby-
 
 ## 2 · The Field
 
-24 horses entered — 5 scratched before the race, 1 more at the gate. Final field of 18.
+24 horses entered, 5 scratched before the race, 1 more at the gate. Final field of 18.
 
 **Top of the form (entries):**
 
@@ -53,9 +53,9 @@ Full field captured in [`data/races/2026-kentucky-derby/field.csv`](../../../dat
 **Stories in the field that mattered:**
 - Bob Baffert returning from a 4-year suspension (Litmus Test #4 + Potente #14)
 - Mike Smith at age 60+ on So Happy
-- William Mott (Hall of Famer) trains #12, his son Riley Mott trains #2 and #11 — three Mott horses
+- William Mott (Hall of Famer) trains #12, his son Riley Mott trains #2 and #11, three Mott horses
 - Litmus Test sired by Nyquist (2016 Derby winner)
-- **Cherie DeVaux training #19 Golden Tempo — first woman to win the Derby in 152 years.** This was the story we missed in the pre-race writeup.
+- **Cherie DeVaux training #19 Golden Tempo, first woman to win the Derby in 152 years.** This was the story we missed in the pre-race writeup.
 
 ---
 
@@ -74,7 +74,7 @@ Pulled from kentuckyderby.com's live-odds page via headless browser fetch. Two s
 
 ## 4 · The Model
 
-Pure-Python (no ML libraries — stdlib only). 11 features → softmax → win probability → market comparison → overlay.
+Pure-Python (no ML libraries, stdlib only). 11 features → softmax → win probability → market comparison → overlay.
 
 **Features and weights:**
 
@@ -89,7 +89,7 @@ Pure-Python (no ML libraries — stdlib only). 11 features → softmax → win p
 | `connections` | 0.06 | Trainer Derby record + jockey big-race record |
 | `equipment` | 0.04 | First-time blinkers indicator |
 | `post` | 0.05 | Post position bucket score |
-| `florida_derby` | 0.05 | Nigel's stated bias — bonus for FlaDerby winners |
+| `florida_derby` | 0.05 | Nigel's stated bias, bonus for FlaDerby winners |
 | `barn_pick` | 0.06 | Hand-coded Cox/Velazquez signal |
 
 **Pipeline (per race):**
@@ -107,11 +107,11 @@ Source: [`src/handicap.py`](../../../src/handicap.py).
 
 ## 5 · Nigel's Intuition (the human in the loop)
 
-The model wasn't built in isolation — it was built collaboratively, with Nigel pushing back and adding constraints throughout. The key contributions:
+The model wasn't built in isolation, it was built collaboratively, with Nigel pushing back and adding constraints throughout. The key contributions:
 
 - **Florida Derby bias:** baked in upfront as a 5% feature weight. Defensible historically (FlaDerby has produced ~25% of Derby winners) but explicitly his preference, not the model's.
-- **Tax vs. Overbet distinction:** "Is it a Baffert tax or a Baffert overbet?" — clarified that taxes (rational price corrections) and overbets (irrational price overshoots) are different things, and that distinguishing them requires comparing live-implied probability to *our* fair probability.
-- **Bayesian framing question:** pushed on whether the model used Bayesian inference (it doesn't, formally — but uses Bayesian-flavored reasoning in weights-as-priors and post-1 multipliers).
+- **Tax vs. Overbet distinction:** "Is it a Baffert tax or a Baffert overbet?", clarified that taxes (rational price corrections) and overbets (irrational price overshoots) are different things, and that distinguishing them requires comparing live-implied probability to *our* fair probability.
+- **Bayesian framing question:** pushed on whether the model used Bayesian inference (it doesn't, formally, but uses Bayesian-flavored reasoning in weights-as-priors and post-1 multipliers).
 - **Post-1 risk push:** "Are we taking into account the 1 post risk?" prompted the post-softmax multiplier (post 1 = 0.60) that fixed an under-penalization the original feature scoring missed.
 - **Sensitivity scan request:** drove the 200-trial weight perturbation analysis that classified Further Ado and Golden Tempo as ROCK SOLID overlays.
 - **Edge-first portfolio observation (post-race):** the methodological diagnosis that we missed the $5,625 trifecta because we optimized constraint-first instead of edge-first.
@@ -122,9 +122,9 @@ The model would have been worse without these. Several of them landed during exe
 
 ## 6 · The Analysis
 
-### Pace shape projection — meltdown thesis
+### Pace shape projection, meltdown thesis
 
-With four confirmed early-speed horses (Pavlovian, Litmus Test with first-time blinkers, Six Speed, Robusta) plus pressers, the pace projected to be hot. Closers and stalkers favored. After the scratches removed two deep closers (Right to Party, Fulleffort), the meltdown thesis weakened slightly but held — it was still a closer's race.
+With four confirmed early-speed horses (Pavlovian, Litmus Test with first-time blinkers, Six Speed, Robusta) plus pressers, the pace projected to be hot. Closers and stalkers favored. After the scratches removed two deep closers (Right to Party, Fulleffort), the meltdown thesis weakened slightly but held, it was still a closer's race.
 
 ### Cardinal vs. Rank-based scoring (sensitivity)
 
@@ -150,7 +150,7 @@ Source: [`src/sensitivity.py`](../../../src/sensitivity.py).
 
 ### Exacta overlay analysis (Harville)
 
-For each (winner, placer) combo: `fair P = p_i × p_j / (1 - p_i)` vs. `market P = (1 - takeout) / probable_payout`. Top overlays involved Litmus Test underneath any of our overlay horses — but with the caveat that Harville assumes proportional placement probabilities and Litmus Test (front-runner profile in a meltdown field) probably had lower true place prob than the model assumed.
+For each (winner, placer) combo: `fair P = p_i × p_j / (1 - p_i)` vs. `market P = (1 - takeout) / probable_payout`. Top overlays involved Litmus Test underneath any of our overlay horses, but with the caveat that Harville assumes proportional placement probabilities and Litmus Test (front-runner profile in a meltdown field) probably had lower true place prob than the model assumed.
 
 Source: [`src/exacta.py`](../../../src/exacta.py).
 
@@ -184,16 +184,16 @@ Source: [`src/charts.py`](../../../src/charts.py).
 - $10 #19 Golden Tempo (25-1)
 
 **EXACTA ($39):**
-- 18 KEY 4, 19, 1 — $3 each = $9
-- 4 KEY 1, 6, 8 — $2 each = $6
-- 19 KEY 1, 18 — $2 each = $4
-- 1 KEY 3, 4, 8, 14, 18, 19 — $1 each = $6
-- BOX 18-19 — $2 each direction = $4
-- BOX 4-18 — $5 each direction = $10 (the boost)
+- 18 KEY 4, 19, 1, $3 each = $9
+- 4 KEY 1, 6, 8, $2 each = $6
+- 19 KEY 1, 18, $2 each = $4
+- 1 KEY 3, 4, 8, 14, 18, 19, $1 each = $6
+- BOX 18-19, $2 each direction = $4
+- BOX 4-18, $5 each direction = $10 (the boost)
 
 **TRIFECTA ($6):**
-- $0.50 — 1 / 4-18-19 / 4-18-19 = $3
-- $0.50 — 4 / 1-18-19 / 1-18-19 = $3
+- $0.50, 1 / 4-18-19 / 4-18-19 = $3
+- $0.50, 4 / 1-18-19 / 1-18-19 = $3
 
 Full pre-race wagering rationale: [`wagering.md`](wagering.md).
 
@@ -222,9 +222,9 @@ Order of finish:
 | WIN #18 Further Ado | $20 | OOM | -$20 |
 | WIN #1 Renegade | $10 | 2nd | -$10 |
 | EXACTA 19-1 (in 19/1,18 key) | $2 | $278.86 paid | **+$276.86** |
-| EXACTA 19-18 (in same key) | $2 | — | -$2 |
-| All other exactas | $33 | — | -$33 |
-| Trifectas | $6 | — | -$6 |
+| EXACTA 19-18 (in same key) | $2 |, | -$2 |
+| All other exactas | $33 |, | -$33 |
+| Trifectas | $6 |, | -$6 |
 | **Total** | **$85** | **$520.06** | **+$435.06** |
 
 **MOIC: 6.12× · ROI: +512% · Hit rate: 2 of 11 tickets**
@@ -241,7 +241,7 @@ The post-mortem ([`postmortem.md`](postmortem.md)) has the full version. The big
 
 3. **"Sensitivity scan robust" ≠ "model right."** Further Ado was tagged ROCK SOLID by the same scan that correctly tagged Golden Tempo. Sensitivity tells you the answer is stable under weight perturbation; it doesn't tell you the weights themselves are correct. Need historical-Derby validation in v2.
 
-4. **Story features matter.** Cherie DeVaux's first-female-trainer-to-win was already in `field.csv` — the model just didn't surface it. Add biographical features (owner gender, trainer firsts, jockey records) as first-class signals; they correlate with public-money flow and they're what people remember.
+4. **Story features matter.** Cherie DeVaux's first-female-trainer-to-win was already in `field.csv`, the model just didn't surface it. Add biographical features (owner gender, trainer firsts, jockey records) as first-class signals; they correlate with public-money flow and they're what people remember.
 
 5. **The model picked the winner.** 100% bet rate across 200 weight perturbations on Golden Tempo. The math worked. Even with the structural mistakes above, the methodology cleared 6× return.
 
@@ -249,12 +249,12 @@ The post-mortem ([`postmortem.md`](postmortem.md)) has the full version. The big
 
 ## 11 · Path Forward
 
-- **v2 — Generalize the model.** Refactor `handicap.py` to accept any race via a config file. Race-specific data (PPs, live odds, probables) gets isolated under `data/races/<slug>/`. Hardcoded values (FT_BLINKERS, Cox barn-pick, Florida Derby bonus) move to per-race config. Goal: drop in the Preakness PP and run the same pipeline.
-- **v2 — `src/portfolio.py`.** Implement the Kelly portfolio construction described in Lesson 1. Every positive-EV bet gets sized by fractional Kelly, sums computed, scaled to bankroll. Eliminates constraint-first asymmetries.
-- **v2 — Fix the AE penalty bug.** AE-activated horses should be treated as regular starters once confirmed.
-- **v2 — Add story features to the data schema.** Owner gender, trainer firsts, jockey age/longevity, pedigree narratives. Surface alongside the numbers.
-- **Apply to Preakness 2026 (May 16) and Belmont 2026 (June 6).** Two more Triple Crown legs to test the generalized model on. Different field sizes, different track configs, different prep races — exactly the right pressure-test.
-- **v3 — Backtest on historical Derbies.** Collect 20+ years of past Derby PPs in the same schema, fit the weights via conditional logistic regression, replace the hand-set weights with MLE-fitted ones. The "real Bayesian" project.
+- **v2, Generalize the model.** Refactor `handicap.py` to accept any race via a config file. Race-specific data (PPs, live odds, probables) gets isolated under `data/races/<slug>/`. Hardcoded values (FT_BLINKERS, Cox barn-pick, Florida Derby bonus) move to per-race config. Goal: drop in the Preakness PP and run the same pipeline.
+- **v2, `src/portfolio.py`.** Implement the Kelly portfolio construction described in Lesson 1. Every positive-EV bet gets sized by fractional Kelly, sums computed, scaled to bankroll. Eliminates constraint-first asymmetries.
+- **v2, Fix the AE penalty bug.** AE-activated horses should be treated as regular starters once confirmed.
+- **v2, Add story features to the data schema.** Owner gender, trainer firsts, jockey age/longevity, pedigree narratives. Surface alongside the numbers.
+- **Apply to Preakness 2026 (May 16) and Belmont 2026 (June 6).** Two more Triple Crown legs to test the generalized model on. Different field sizes, different track configs, different prep races, exactly the right pressure-test.
+- **v3, Backtest on historical Derbies.** Collect 20+ years of past Derby PPs in the same schema, fit the weights via conditional logistic regression, replace the hand-set weights with MLE-fitted ones. The "real Bayesian" project.
 
 ---
 
@@ -272,7 +272,7 @@ python3 src/exacta.py          # exacta overlays from Harville model
 python3 src/charts.py          # regenerates the four PNGs
 ```
 
-The `data/races/2026-kentucky-derby/raw/CD Race 12 PP.pdf` file is intentionally gitignored — it's Equibase copyrighted content. The parsed CSVs (`field.csv`, `past_performances.csv`, `live_odds.csv`, `exacta_probables.txt`) are derivative analytical artifacts and are committed.
+The `data/races/2026-kentucky-derby/raw/CD Race 12 PP.pdf` file is intentionally gitignored, it's Equibase copyrighted content. The parsed CSVs (`field.csv`, `past_performances.csv`, `live_odds.csv`, `exacta_probables.txt`) are derivative analytical artifacts and are committed.
 
 ---
 

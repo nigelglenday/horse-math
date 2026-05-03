@@ -1,4 +1,4 @@
-# 2026 Kentucky Derby — Race Configuration
+# 2026 Kentucky Derby, Race Configuration
 #
 # Everything race-specific lives here. The handicap engine in src/handicap.py
 # is race-agnostic; it reads this config + the per-race CSVs in this directory.
@@ -13,13 +13,13 @@ purse_k = 5000
 field_cap = 20
 exotic_takeout = 0.22
 
-# Live odds source — the model is source-agnostic; this just documents where
+# Live odds source, the model is source-agnostic; this just documents where
 # to pull from. Most major tote boards are JS-rendered, so use WebFetch
 # (through Claude) or manual paste before betting. Output to live_odds.csv.
 [live_odds_source]
 url = "https://www.kentuckyderby.com/wager/live-odds/"
 format = "js_rendered_html"
-notes = "Static HTML scrape returns nothing — odds rendered client-side. Pull via WebFetch in Claude conversation, paste into live_odds.csv."
+notes = "Static HTML scrape returns nothing, odds rendered client-side. Pull via WebFetch in Claude conversation, paste into live_odds.csv."
 
 [exacta_probables_source]
 url = ""  # set to your preferred tote-probables source
@@ -27,13 +27,13 @@ format = "manual_paste"
 notes = "Most major tote sites publish a 24x24 probable grid for the Triple Crown races and update near real-time. Copy the table, paste into exacta_probables.txt in the comma-separated layout (header row = column post numbers, each row = winning post + payouts to placers; SC for scratched)."
 
 [scoring]
-# Softmax temperature — higher = more peaked distribution
+# Softmax temperature, higher = more peaked distribution
 temperature = 0.075
 # Bet flag thresholds
 overlay_threshold = 1.25
 fair_prob_threshold = 0.04
 
-# Feature weights — must sum to 1.0
+# Feature weights, must sum to 1.0
 [weights]
 last_beyer    = 0.18
 top3_beyer    = 0.12
@@ -51,7 +51,7 @@ barn_pick     = 0.06
 # Whether today's race projects as a pace meltdown (favors closers)
 meltdown_likely = true
 
-# Equipment changes — first-time blinkers (per equipment notes on race card)
+# Equipment changes, first-time blinkers (per equipment notes on race card)
 [equipment]
 ft_blinkers = ["Litmus Test", "Chief Wallabee"]
 
@@ -62,7 +62,7 @@ default = 1.00
 ae_default = 0.50    # AE horses if NOT confirmed running
 
 [post_multiplier.overrides]
-"1" = 0.60     # rail death — 1 winner since 1975 (Ferdinand 1986)
+"1" = 0.60     # rail death, 1 winner since 1975 (Ferdinand 1986)
 "2" = 0.90
 "3" = 0.90
 "4" = 0.90
@@ -124,7 +124,7 @@ race_class = "Stk-FlaDerby"
 winner_score = 100
 default_score = 50
 
-# Public-overbet factors — fallback when live odds not available.
+# Public-overbet factors, fallback when live odds not available.
 # Live odds (when present) reveal these directly, so this is rarely used.
 [public_overbet]
 "Renegade"        = 1.20
@@ -151,7 +151,7 @@ jockey_contains = "Velazquez"
 match_score = 90
 trainer_other_score = 60   # other Cox runners that don't match
 
-# Trainer Derby record scores — race-specific because Derby record ≠ Preakness record
+# Trainer Derby record scores, race-specific because Derby record ≠ Preakness record
 [trainer_score]
 default = 50
 

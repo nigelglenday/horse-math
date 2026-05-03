@@ -62,7 +62,7 @@ flowchart TD
 
 ## Three layers of wagering
 
-The portfolio module composes three layers in parallel. Each has a different epistemological status — none collapses into another.
+The portfolio module composes three layers in parallel. Each has a different epistemological status, none collapses into another.
 
 ```mermaid
 flowchart LR
@@ -84,9 +84,9 @@ flowchart LR
 
 ### Why three layers, not one
 
-- **Kelly alone** is variance-optimal but under-deploys capital. With our edge sizes on a Derby, quarter-Kelly suggests $3 of $85 — leaving 96% of the bankroll idle. Wrong question for a one-day-per-year race.
+- **Kelly alone** is variance-optimal but under-deploys capital. With our edge sizes on a Derby, quarter-Kelly suggests $3 of $85, leaving 96% of the bankroll idle. Wrong question for a one-day-per-year race.
 - **Satellite alone** spreads thin across high-EV-low-prob combos. Lots of $0.50 bets on synthesized-EV combos that are mostly false positives.
-- **Heuristics alone** are unprincipled — they capture lottery upside but ignore variance. Cargo-culting if not anchored in math.
+- **Heuristics alone** are unprincipled, they capture lottery upside but ignore variance. Cargo-culting if not anchored in math.
 - **All three together**: Kelly variance-manages the core, satellite captures positive-EV combos individually too small for Kelly, heuristics enforce specific structural rules (top-pick wheel, longshot scan) that operationalize human pattern recognition.
 
 Validated on Derby 2026: the 3-layer ticket would have captured **96% of the actual hand-tuned upside** ($418 of $435), entirely systematically.

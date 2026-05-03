@@ -1,6 +1,6 @@
-# Learnings — cross-race wisdom
+# Learnings, cross-race wisdom
 
-> "We must beware of what Whitehead called the Fallacy of Misplaced Concreteness — surreptitiously substituting an abstraction for the concrete reality it abstracts. The model is a map. The race is the territory. The map is useful exactly to the extent that we remain alert to where it diverges from the territory."
+> "We must beware of what Whitehead called the Fallacy of Misplaced Concreteness, surreptitiously substituting an abstraction for the concrete reality it abstracts. The model is a map. The race is the territory. The map is useful exactly to the extent that we remain alert to where it diverges from the territory."
 
 This directory holds wisdom that doesn't fit in code or config. Each race adds an entry; this index distills cross-race patterns. The model in `src/` is updated only when a learning generalizes cleanly into a parameter, weight, or feature. Most learnings live here, as priors a human must carry forward.
 
@@ -8,9 +8,9 @@ This directory holds wisdom that doesn't fit in code or config. Each race adds a
 
 We bet using **three layers operating in parallel**, never one collapsing into another:
 
-1. **Kelly-derived (variance-optimal)** — `src/portfolio.py` core. Mathematically rigorous, conservative, optimal for long-run growth. Under-deploys capital because it correctly recognizes most positive-EV bets are too small to risk meaningfully.
-2. **Rule-of-thumb heuristics** — `--top-pick-wheel`, `--longshot-scan`, satellite layer. Captures lottery upside (rare, high-payout combos) that Kelly's variance-aversion correctly says shouldn't be sized large but pragmatically should be in the ticket at minimum stake.
-3. **Human judgment** — what the operator brings. Story features (first female trainer, comeback narratives), live-day context (track bias, weather, paddock observation), risk tolerance unique to the day. The model can surface the data; only a human integrates it with the texture of the moment.
+1. **Kelly-derived (variance-optimal)**, `src/portfolio.py` core. Mathematically rigorous, conservative, optimal for long-run growth. Under-deploys capital because it correctly recognizes most positive-EV bets are too small to risk meaningfully.
+2. **Rule-of-thumb heuristics**, `--top-pick-wheel`, `--longshot-scan`, satellite layer. Captures lottery upside (rare, high-payout combos) that Kelly's variance-aversion correctly says shouldn't be sized large but pragmatically should be in the ticket at minimum stake.
+3. **Human judgment**, what the operator brings. Story features (first female trainer, comeback narratives), live-day context (track bias, weather, paddock observation), risk tolerance unique to the day. The model can surface the data; only a human integrates it with the texture of the moment.
 
 The Derby validated this: a 3-layer ticket would have captured 96% of the hand-tuned result systematically. Pure Kelly would have captured 3%.
 
@@ -37,13 +37,13 @@ Asymmetry rule: if a horse is one of your top cardinal/rank overlays (model says
 The right portfolio shape is determined by edge analysis. Bankroll determines stake size, not which bets are in. Optimize first; scale second.
 
 ### 7. Story matters; surface it
-Biographical features (first-female-trainer, returning suspended trainer, Hall-of-Fame jockey at age 60) predict public-money flow AND make the bet a memorable story. Cherie DeVaux's first was already in `field.csv` — we just didn't surface it in the writeup. Future races: lead with the story, not just the math.
+Biographical features (first-female-trainer, returning suspended trainer, Hall-of-Fame jockey at age 60) predict public-money flow AND make the bet a memorable story. Cherie DeVaux's first was already in `field.csv`, we just didn't surface it in the writeup. Future races: lead with the story, not just the math.
 
 ### 8. Beware Whitehead's Misplaced Concreteness
 The Beyer figure is an *abstraction* of speed, not speed itself. Plackett-Luce is an *abstraction* of the ordering process, not the actual race. Sensitivity scan is an *abstraction* of robustness, not truth. Each abstraction is useful exactly to the extent we remember it's an abstraction. **Always ask: what is the model not seeing?**
 
 ## Per-race entries
 
-- [`2026-kentucky-derby.md`](2026-kentucky-derby.md) — the founding instance. Picked the winner. 6.12× return.
-- `2026-preakness.md` — TBD post-race May 16
-- `2026-belmont.md` — TBD post-race June 6
+- [`2026-kentucky-derby.md`](2026-kentucky-derby.md), the founding instance. Picked the winner. 6.12× return.
+- `2026-preakness.md`, TBD post-race May 16
+- `2026-belmont.md`, TBD post-race June 6

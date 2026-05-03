@@ -1,6 +1,6 @@
-# 2026 Derby — Wagering Strategy ($100 Budget)
+# 2026 Derby, Wagering Strategy ($100 Budget)
 
-> **Result: $85 ticket cashed for $520.06. WIN #19 Golden Tempo ($241.20) + Exacta 19-1 ($278.86). Net +$435 (6.1×).** We missed a $5,625 trifecta because we never keyed #19 on top of a tri wheel — full lessons in [`postmortem.md`](postmortem.md).
+> **Result: $85 ticket cashed for $520.06. WIN #19 Golden Tempo ($241.20) + Exacta 19-1 ($278.86). Net +$435 (6.1×).** We missed a $5,625 trifecta because we never keyed #19 on top of a tri wheel, full lessons in [`postmortem.md`](postmortem.md).
 
 
 This is the companion to [`readout.md`](readout.md). The first page does the handicap. This page does the betting math: market structure, exacta overlays, and the actual $100 ticket.
@@ -16,7 +16,7 @@ overlay   = fair_P / market_P
 EV per $1 = fair_P × payout - 1
 ```
 
-The Harville model assumes placement probabilities scale proportionally after the winner is removed. **It's a strong assumption** — it doesn't account for running-style × pace-fit interactions on placement. We'll come back to this.
+The Harville model assumes placement probabilities scale proportionally after the winner is removed. **It's a strong assumption**, it doesn't account for running-style × pace-fit interactions on placement. We'll come back to this.
 
 Source code: [`src/exacta.py`](../src/exacta.py). Probable grid: [`data/races/2026-kentucky-derby/exacta_probables.txt`](../data/races/2026-kentucky-derby/exacta_probables.txt). Output: [`data/races/2026-kentucky-derby/exacta_overlays.csv`](../data/races/2026-kentucky-derby/exacta_overlays.csv).
 
@@ -35,10 +35,10 @@ Pool: $10.7M as of ~2.5h to post. Top exacta overlays by EV per $1 bet:
 | 7 | #18 Further Ado → #19 Golden Tempo | $192 | 0.41% | 0.77% | 1.90x | +$0.48 |
 
 What the public is hammering (avoid):
-- #6 Commandment → #1 Renegade ($23.05) — chalk-chalk, fair
-- #1 Renegade → #6 Commandment ($23.03) — chalk-chalk, fair-ish
-- **#18 Further Ado → #6 Commandment ($26.95)** — *negative* EV (-$0.42/$1)
-- **#18 Further Ado → #12 Chief Wallabee ($39.09)** — also negative (-$0.62/$1)
+- #6 Commandment → #1 Renegade ($23.05), chalk-chalk, fair
+- #1 Renegade → #6 Commandment ($23.03), chalk-chalk, fair-ish
+- **#18 Further Ado → #6 Commandment ($26.95)**, *negative* EV (-$0.42/$1)
+- **#18 Further Ado → #12 Chief Wallabee ($39.09)**, also negative (-$0.62/$1)
 
 The pattern: **the public is loaded on the favorites finishing 1-2 with each other.** Combos involving Litmus Test underneath, or Intrepido or Albus or Potente in the place spot, are dramatically underbet.
 
@@ -46,17 +46,17 @@ The pattern: **the public is loaded on the favorites finishing 1-2 with each oth
 
 ### 1. Post 1 is a rail death historically
 
-Renegade drew the rail. Since the field expanded to 20 in 1975, **post 1 has produced exactly one Derby winner: Ferdinand in 1986.** That's 1 in 50 modern Derbies — a strike rate of 2% vs. the 5% random expectation. Post 1 underperforms by ~50-60%.
+Renegade drew the rail. Since the field expanded to 20 in 1975, **post 1 has produced exactly one Derby winner: Ferdinand in 1986.** That's 1 in 50 modern Derbies, a strike rate of 2% vs. the 5% random expectation. Post 1 underperforms by ~50-60%.
 
 Why: at Churchill the first turn comes ~3/16 mile out, the rail can be dead by Derby Day from a meet's worth of training, and 18 horses fanning right while you're trapped inside is a lose-lose decision tree.
 
-The ML→live drift on Renegade (4-1 → 6-1) is partially this fear, and the fear is justified. Our model penalizes post 1 by ~50% (40 vs 90 elsewhere). That may be light. **If we doubled the penalty, Renegade's overlay shrinks from 1.58x to ~1.20x** — still a bet, but thinner. This argues for *diversifying* off Renegade rather than going all-in.
+The ML→live drift on Renegade (4-1 → 6-1) is partially this fear, and the fear is justified. Our model penalizes post 1 by ~50% (40 vs 90 elsewhere). That may be light. **If we doubled the penalty, Renegade's overlay shrinks from 1.58x to ~1.20x**, still a bet, but thinner. This argues for *diversifying* off Renegade rather than going all-in.
 
 ### 2. Harville inflates Litmus-Test-underneath overlays
 
-Litmus Test is a confirmed front-runner. With 4 confirmed E's in a 19-horse Derby, he likely doesn't get the lead. Without the lead, his form line says he flattens. **His true place probability is probably lower than Harville's proportional assumption** — maybe 30% lower.
+Litmus Test is a confirmed front-runner. With 4 confirmed E's in a 19-horse Derby, he likely doesn't get the lead. Without the lead, his form line says he flattens. **His true place probability is probably lower than Harville's proportional assumption**, maybe 30% lower.
 
-Even at the discount, the Litmus-Test-underneath combos remain positive EV. But a $588 payout we estimate at $400 is still good — just smaller than the headline overlay number suggests.
+Even at the discount, the Litmus-Test-underneath combos remain positive EV. But a $588 payout we estimate at $400 is still good, just smaller than the headline overlay number suggests.
 
 ## The $100 ticket
 
@@ -83,7 +83,7 @@ The honest read: **only Further Ado and Golden Tempo are robust cardinal overlay
 | $10 | #1 Renegade | 6-1 | $70 |
 | $10 | #19 Golden Tempo | 25-1 | $260 |
 
-Further Ado is now the top win bet (rock-solid cardinal, Cox barn-pick signal). Renegade gets a smaller stake — rank says yes, cardinal-with-post-1-penalty says no, sensitivity says fragile. Golden Tempo is the rock-solid mid-priced overlay. **Litmus Test dropped from the win pool** (fair prob too low to clear 4% threshold reliably across perturbations) but kept in exotics where his Harville place upside is asymmetric.
+Further Ado is now the top win bet (rock-solid cardinal, Cox barn-pick signal). Renegade gets a smaller stake, rank says yes, cardinal-with-post-1-penalty says no, sensitivity says fragile. Golden Tempo is the rock-solid mid-priced overlay. **Litmus Test dropped from the win pool** (fair prob too low to clear 4% threshold reliably across perturbations) but kept in exotics where his Harville place upside is asymmetric.
 
 ### EXACTAS ($54)
 
@@ -107,8 +107,8 @@ Boosts on top three single-combo overlays (×$5 each = $15):
 ### TRIFECTAS ($6)
 
 Two part-wheels keying our overlay box (1, 4, 18, 19):
-- `1 / 4-18-19 / 4-18-19` — 6 combos × $0.50 = $3
-- `4 / 1-18-19 / 1-18-19` — 6 combos × $0.50 = $3
+- `1 / 4-18-19 / 4-18-19`, 6 combos × $0.50 = $3
+- `4 / 1-18-19 / 1-18-19`, 6 combos × $0.50 = $3
 
 ### Summary
 
@@ -127,7 +127,7 @@ Two part-wheels keying our overlay box (1, 4, 18, 19):
 | 1 wins, 18 places | $175 | $280 (1-18) | $32 |
 | 4 wins, 18 places | $270 | $4118 (boosted 4-18) | possible |
 | 18 wins, 4 places | $35 | $3864 (boosted 18-4) | possible |
-| 1 wins, 3 places | $175 | $1039 (1-3) | — |
+| 1 wins, 3 places | $175 | $1039 (1-3) |, |
 | 4 wins, 1 places | $270 | $1521 (4-1) | possible |
 | 18 wins, 19 places | $35 | $576 (18-19) | possible |
 | 1 wins, anyone else covered | $175 | $0–$300 | $0–$32 |
@@ -138,7 +138,7 @@ Two part-wheels keying our overlay box (1, 4, 18, 19):
 
 ### Pre-bet checklist
 
-- [ ] Re-pull live odds within 30 min of post — they'll move
+- [ ] Re-pull live odds within 30 min of post, they'll move
 - [ ] Re-pull exacta probables (the ones above are from ~16:00, will shift)
 - [ ] Track-bias check: has the rail been working today, or has speed been cooked?
 - [ ] Confirm no late scratches

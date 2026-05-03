@@ -16,7 +16,7 @@
 
 </div>
 
-> Started Derby Day 2026 as a five-hour public build. Picked the winner (Golden Tempo, 25-1). Net +$435 on an $85 ticket. Now generalized for any race — drop in a config + parsed PPs and the same pipeline runs.
+> Started Derby Day 2026 as a five-hour public build. Picked the winner (Golden Tempo, 25-1). Net +$435 on an $85 ticket. Now generalized for any race, drop in a config + parsed PPs and the same pipeline runs.
 
 ---
 
@@ -71,11 +71,11 @@ You'll get the same overlays and ticket structure that picked the 2026 Derby win
 | **1.** | Create `data/races/<your-race-slug>/` |
 | **2.** | Copy `data/races/2026-kentucky-derby/config.toml` as a template; tune for your race (post bias, weights, preferred-prep race class) |
 | **3.** | Parse the Equibase PP into `field.csv` + `past_performances.csv` (see schema in either file) |
-| **4.** | `python3 src/fetch_odds.py --race <slug>` — prints instructions for pulling live odds |
+| **4.** | `python3 src/fetch_odds.py --race <slug>`, prints instructions for pulling live odds |
 | **5.** | Pull live odds (most tote sites are JS-rendered → use Claude Code's WebFetch or paste manually) into `live_odds.csv` |
 | **6.** | Pull exacta probables from a tote source into `exacta_probables.txt` (24×24 grid) |
 | **7.** | Run the pipeline (handicap → sensitivity → exacta → trifecta → portfolio → charts) |
-| **8.** | Review against [`learnings/index.md`](learnings/index.md) — accumulated cross-race wisdom |
+| **8.** | Review against [`learnings/index.md`](learnings/index.md), accumulated cross-race wisdom |
 | **9.** | Place bets, then write your own `learnings/<slug>.md` post-race |
 
 A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/config.toml`](https://github.com/nigelglenday/horse-math/blob/main/data/races/2026-preakness/config.toml).
@@ -84,16 +84,16 @@ A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/confi
 
 ## 📐 Architecture
 
-Three layers of wagering, by design — none collapsing into another:
+Three layers of wagering, by design, none collapsing into another:
 
 <div align="center" markdown="1">
 
 | Layer | What | Why |
 |:---:|---|---|
-| 1️⃣ | **Kelly core** — variance-optimal stakes via fractional Kelly | Mathematically rigorous, conservative, optimal long-run growth |
-| 2️⃣ | **Satellite spread** — minimum-stake bets on high-EV combos Kelly says skip | Captures positive-EV combos individually too small to size meaningfully |
-| 3️⃣ | **Heuristics** — top-pick wheel + longshot scan | Operationalizes structural rules: top overlay → top of trifecta; under-bet placers → exacta wheel |
-| ➕ | **Human judgment** — story features, live-day context, risk tolerance | Always overrides. The model is an abstraction; the race is the territory. |
+| 1️⃣ | **Kelly core**, variance-optimal stakes via fractional Kelly | Mathematically rigorous, conservative, optimal long-run growth |
+| 2️⃣ | **Satellite spread**, minimum-stake bets on high-EV combos Kelly says skip | Captures positive-EV combos individually too small to size meaningfully |
+| 3️⃣ | **Heuristics**, top-pick wheel + longshot scan | Operationalizes structural rules: top overlay → top of trifecta; under-bet placers → exacta wheel |
+| ➕ | **Human judgment**, story features, live-day context, risk tolerance | Always overrides. The model is an abstraction; the race is the territory. |
 
 </div>
 
@@ -162,7 +162,7 @@ Full version: [`learnings/index.md`](learnings/index.md)
 
 ## 🤖 For new AI sessions
 
-[`CLAUDE.md`](CLAUDE.md) is the orientation file — auto-loaded by Claude Code, intended as the entry point for any new AI assistant session. Carries project context, common workflows, accumulated wisdom, and a replaceable user-context section.
+[`CLAUDE.md`](CLAUDE.md) is the orientation file, auto-loaded by Claude Code, intended as the entry point for any new AI assistant session. Carries project context, common workflows, accumulated wisdom, and a replaceable user-context section.
 
 The Derby-Day seed prompt stays frozen at [`prompts/derby-day.md`](prompts/derby-day.md) as the historical artifact.
 
@@ -170,7 +170,7 @@ The Derby-Day seed prompt stays frozen at [`prompts/derby-day.md`](prompts/derby
 
 ## 📋 Data attribution
 
-Past performance source data is from **Equibase Company LLC**, copyright 2026, all rights reserved. Raw PP files (`data/races/*/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. **Beyer Speed Figures** are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
+Past performance source data is from **Equibase Company LLC**, copyright 2026, all rights reserved. Raw PP files (`data/races/*/raw/*.pdf` and intermediate text dumps) are gitignored, get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. **Beyer Speed Figures** are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
 
 ---
 

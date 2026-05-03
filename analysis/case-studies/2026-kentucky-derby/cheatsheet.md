@@ -1,4 +1,4 @@
-# 2026 Kentucky Derby — Race Day Cheat Sheet
+# 2026 Kentucky Derby, Race Day Cheat Sheet
 
 **Race 12 · Churchill Downs · 1¼ mi dirt · Post: 6:57 PM ET · Field: 19 (5 scratched) · Track: TBD**
 
@@ -10,16 +10,16 @@
 - $10 #19 Golden Tempo (Moonstone) · 25-1 · J.Ortiz/DeVaux · ROCK SOLID overlay
 
 **EXACTAS ($39):**
-- $3 ea — 18 KEY 4, 19, 1
-- $2 ea — 19 KEY 1, 18
-- $2 ea — 4 KEY 1, 6, 8
-- $1 ea — 1 KEY 3, 4, 8, 14, 18, 19
+- $3 ea, 18 KEY 4, 19, 1
+- $2 ea, 19 KEY 1, 18
+- $2 ea, 4 KEY 1, 6, 8
+- $1 ea, 1 KEY 3, 4, 8, 14, 18, 19
 - $2 BOX 18-19
 - **$5 BOX 4-18 (the boost)**
 
 **TRIFECTAS ($6):**
-- $0.50 — 1 / 4-18-19 / 4-18-19
-- $0.50 — 4 / 1-18-19 / 1-18-19
+- $0.50, 1 / 4-18-19 / 4-18-19
+- $0.50, 4 / 1-18-19 / 1-18-19
 
 **Home runs to root for:** 4-18 pays **$2,941** · 18-4 pays **$3,864** · 1-4 pays **$219**
 
@@ -53,7 +53,7 @@
 
 ---
 
-## Pace Shape Projection — meltdown likely
+## Pace Shape Projection, meltdown likely
 
 **E (early speed, want lead):** 4 Litmus Test, 16 Pavlovian, 17 Six Speed, 23 Robusta
 **P (presser):** 1 Renegade, 14 Potente, 10 Wonder Dean
@@ -69,7 +69,7 @@
 
 1. **Renegade's first turn.** Post 1 = rail death historically (1 winner in 50 modern Derbies, Ferdinand 1986). If Irad Ortiz Jr. gets pinched or has to gun him to clear, the post-1 thesis is confirmed and our hedge into Further Ado pays.
 2. **Pace at the half.** If they go in :46 flat or faster, the meltdown is on and closers wake up. Slow half = front-runners hold.
-3. **Velazquez positioning Further Ado.** Cox barn-pick — Johnny V usually finds the right spot. Stalk-and-pounce pattern past the half-mile pole.
+3. **Velazquez positioning Further Ado.** Cox barn-pick, Johnny V usually finds the right spot. Stalk-and-pounce pattern past the half-mile pole.
 4. **Litmus Test break.** First-time blinkers should sharpen him. If he gets out clean and to the lead, he's dangerous in the exacta spot at $25-1 live.
 
 ---
@@ -77,9 +77,9 @@
 ## Big-Race Trivia (for non-handicappers)
 
 - **Bob Baffert is back from his 4-year suspension.** Litmus Test (#4 yellow) is his comeback Derby horse with first-time blinkers.
-- **Mike Smith on So Happy (#8 pink) is 60+ years old** — Hall of Famer, won 2018 Triple Crown on Justify.
-- **William Mott (Hall of Famer) trains #12.** His SON Riley Mott trains #2 and #11 — three Mott horses in the field.
-- **Litmus Test's father is Nyquist** — the 2016 Derby winner. Father-son shot at the same race.
+- **Mike Smith on So Happy (#8 pink) is 60+ years old**, Hall of Famer, won 2018 Triple Crown on Justify.
+- **William Mott (Hall of Famer) trains #12.** His SON Riley Mott trains #2 and #11, three Mott horses in the field.
+- **Litmus Test's father is Nyquist**, the 2016 Derby winner. Father-son shot at the same race.
 - **Renegade is on the rail.** Last horse to win from post 1: Ferdinand, 1986.
 - **No filly, no female jockey** in this year's field. All colts, all male riders.
 
