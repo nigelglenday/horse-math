@@ -48,7 +48,7 @@ The seed prompt is preserved in [`prompts/derby-day.md`](../../../prompts/derby-
 
 **Scratches:** #5 Right to Party, #9 The Puma, #13 Silent Tactic, #20 Fulleffort, #21 Great White, #24 Corona de Oro.
 
-Full field captured in [`data/parsed/field.csv`](../../../data/parsed/field.csv).
+Full field captured in [`data/races/2026-kentucky-derby/field.csv`](../../../data/races/2026-kentucky-derby/field.csv).
 
 **Stories in the field that mattered:**
 - Bob Baffert returning from a 4-year suspension (Litmus Test #4 + Potente #14)
@@ -62,13 +62,13 @@ Full field captured in [`data/parsed/field.csv`](../../../data/parsed/field.csv)
 ## 3 · The Data
 
 ### Past performances
-Hand-parsed from the Equibase Race Card PDF (6 pages). 94 prior race lines for all 24 horses, capturing date, track, distance, surface, race class, Beyer figure, finish, position calls, jockey, comment, field size. Stored in [`data/parsed/past_performances.csv`](../../../data/parsed/past_performances.csv).
+Hand-parsed from the Equibase Race Card PDF (6 pages). 94 prior race lines for all 24 horses, capturing date, track, distance, surface, race class, Beyer figure, finish, position calls, jockey, comment, field size. Stored in [`data/races/2026-kentucky-derby/past_performances.csv`](../../../data/races/2026-kentucky-derby/past_performances.csv).
 
 ### Live odds
-Pulled from kentuckyderby.com's live-odds page via headless browser fetch. Two snapshots (16:00 ET and 17:30 ET) captured to track public-money flow vs morning line. Stored in [`data/parsed/live_odds.csv`](../../../data/parsed/live_odds.csv).
+Pulled from kentuckyderby.com's live-odds page via headless browser fetch. Two snapshots (16:00 ET and 17:30 ET) captured to track public-money flow vs morning line. Stored in [`data/races/2026-kentucky-derby/live_odds.csv`](../../../data/races/2026-kentucky-derby/live_odds.csv).
 
 ### Exacta probables
-24×24 grid scraped from the live exacta probables page, $10.7M pool. Stored in [`data/parsed/exacta_probables.txt`](../../../data/parsed/exacta_probables.txt).
+24×24 grid scraped from the live exacta probables page, $10.7M pool. Stored in [`data/races/2026-kentucky-derby/exacta_probables.txt`](../../../data/races/2026-kentucky-derby/exacta_probables.txt).
 
 ---
 

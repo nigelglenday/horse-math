@@ -38,3 +38,6 @@ data/parsed/*.txt
 *.log
 scratch/
 tmp/
+
+# Personal copy-paste source for LinkedIn — stays local
+linkedin-post.md

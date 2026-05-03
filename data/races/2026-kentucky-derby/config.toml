@@ -1,0 +1,203 @@
+# 2026 Kentucky Derby — Race Configuration
+#
+# Everything race-specific lives here. The handicap engine in src/handicap.py
+# is race-agnostic; it reads this config + the per-race CSVs in this directory.
+
+[race]
+name = "2026 Kentucky Derby"
+track = "Churchill Downs"
+date = "2026-05-02"
+distance_furlongs = 10.0
+surface = "dirt"
+purse_k = 5000
+field_cap = 20
+exotic_takeout = 0.22
+
+[scoring]
+# Softmax temperature — higher = more peaked distribution
+temperature = 0.075
+# Bet flag thresholds
+overlay_threshold = 1.25
+fair_prob_threshold = 0.04
+
+# Feature weights — must sum to 1.0
+[weights]
+last_beyer    = 0.18
+top3_beyer    = 0.12
+pace_fit      = 0.15
+class_preps   = 0.12
+how_won       = 0.07
+distance_fit  = 0.10
+connections   = 0.06
+equipment     = 0.04
+post          = 0.05
+preferred_prep = 0.05
+barn_pick     = 0.06
+
+[pace]
+# Whether today's race projects as a pace meltdown (favors closers)
+meltdown_likely = true
+
+# Equipment changes — first-time blinkers (per equipment notes on race card)
+[equipment]
+ft_blinkers = ["Litmus Test", "Chief Wallabee"]
+
+# Post-position multiplier (applied post-softmax, then renormalized)
+# Default = 1.00 means no penalty/bonus
+[post_multiplier]
+default = 1.00
+ae_default = 0.50    # AE horses if NOT confirmed running
+
+[post_multiplier.overrides]
+"1" = 0.60     # rail death — 1 winner since 1975 (Ferdinand 1986)
+"2" = 0.90
+"3" = 0.90
+"4" = 0.90
+"16" = 0.90
+"17" = 0.85
+"18" = 0.85
+"19" = 0.85
+"20" = 0.85
+
+# Class-of-prep scoring (used by class_preps feature)
+[prep_class_score]
+default = 35
+
+[prep_class_score.scores]
+"Stk-FlaDerby"      = 100
+"Stk-SADerby"       = 95
+"Stk-ArkDerby"      = 95
+"Stk-BlueGrass"     = 92
+"Stk-WoodMem"       = 85
+"Stk-LaDerby"       = 85
+"Stk-FntnOYth"      = 78
+"Stk-Rebel"         = 80
+"Stk-SnFelipe"      = 78
+"Stk-RisenStr"      = 72
+"Stk-TamDby"        = 75
+"Stk-VADerby"       = 65
+"Stk-UAEDerby"      = 65
+"Stk-Lex"           = 70
+"Stk-SmrtyJns"      = 60
+"Stk-Southwst"      = 72
+"Stk-LosAlFut"      = 72
+"Stk-BrdrsFut"      = 85
+"Stk-Remsen"        = 75
+"Stk-AmPharoh"      = 72
+"Stk-MuchoMM"       = 55
+"Stk-SnVicnte"      = 65
+"Stk-RBLewis"       = 72
+"Stk-CalCupDby"     = 60
+"Stk-SunDrby"       = 55
+"Stk-FukuryuS"      = 55
+"Stk-PoinsettiaS"   = 50
+"Stk-MochinokiSho"  = 50
+"Stk-UAE2000G"      = 60
+"Stk-JRSteaks"      = 68
+"Stk-JBttgla"       = 55
+"Stk-Leonatus"      = 50
+"Stk-StretSns"      = 55
+"Stk-Gotham"        = 72
+"Stk-KyJC"          = 72
+"Stk-Lecomte"       = 65
+"Stk-SFDavis"       = 70
+
+# Preferred-prep bonus (race-specific narrative bias)
+# For the Derby: Florida Derby winners get the bump.
+# For the Preakness: this would shift to "Stk-KyDerby" (recent Derby winner/runner).
+# For the Belmont: this would shift to "Stk-Preakness".
+[preferred_prep]
+race_class = "Stk-FlaDerby"
+winner_score = 100
+default_score = 50
+
+# Public-overbet factors — fallback when live odds not available.
+# Live odds (when present) reveal these directly, so this is rarely used.
+[public_overbet]
+"Renegade"        = 1.20
+"Litmus Test"     = 1.25
+"Further Ado"     = 1.15
+"Chief Wallabee"  = 1.12
+"Commandment"     = 1.10
+"So Happy"        = 1.08
+"Emerging Market" = 1.05
+"Danon Bourbon"   = 1.05
+"Wonder Dean"     = 1.05
+"Corona de Oro"   = 1.03
+"Robusta"         = 1.03
+
+# Hand-coded barn-pick rules (race-specific entries)
+# Captures stable signals like "Cox runs 3, his top jockey is on Further Ado"
+[barn_pick]
+default_score = 60
+
+[[barn_pick.rules]]
+trainer = "Brad Cox"
+horse = "Further Ado"
+jockey_contains = "Velazquez"
+match_score = 90
+trainer_other_score = 60   # other Cox runners that don't match
+
+# Trainer Derby record scores — race-specific because Derby record ≠ Preakness record
+[trainer_score]
+default = 50
+
+[trainer_score.scores]
+"Bob Baffert"          = 95
+"Todd Pletcher"        = 80
+"Brad Cox"             = 80
+"Doug O Neill"         = 82
+"Kenneth G McPeek"     = 78
+"William I Mott"       = 72
+"Chad Brown"           = 70
+"Mark Casse"           = 65
+"Cherie DeVaux"        = 55
+"Dallas Stewart"       = 65
+"Jeff Mullins"         = 40
+"Mark Glatt"           = 45
+"Gustavo Delgado"      = 55
+"Riley Mott"           = 55
+"John Ennis"           = 40
+"D Whitworth Beckman"  = 35
+"Manabu Ikezoe"        = 55
+"Daisuke Takayanagi"   = 55
+"Bhupat Seemar"        = 55
+
+# Jockey big-race scores
+[jockey_score]
+default = 55
+
+[jockey_score.scores]
+"John R Velazquez"      = 100
+"Mike E Smith"          = 95
+"Irad Ortiz Jr"         = 88
+"Flavien Prat"          = 92
+"Luis Saez"             = 85
+"Javier Castellano"     = 82
+"Tyler Gaffalione"      = 85
+"Junior Alvarado"       = 72
+"Jose L Ortiz"          = 78
+"Brian J Hernandez Jr"  = 75
+"Juan J Hernandez"      = 72
+"Edwin A Maldonado"     = 55
+"Martin Garcia"         = 62
+"Cristian A Torres"     = 60
+"Jaime A Torres"        = 60
+"Manuel Franco"         = 62
+"Hector I Berrios"      = 55
+"Christopher Elliott"   = 50
+"Atsuya Nishimura"      = 60
+"Ryusei Sakai"          = 55
+"Alex Achard"           = 35
+"Emisael Jaramillo"     = 50
+"Joseph D Ramos"        = 40
+
+# Sire pedigree bias for distance fit
+[sire_bias]
+[sire_bias.stamina]
+sires = ["Curlin", "Tapit", "Liam s Map", "Constitution", "Into Mischief", "Sky Mesa", "Maxfield", "Blame", "Practical Joke"]
+bonus = 10
+
+[sire_bias.speed]
+sires = ["Pavel", "Volatile", "Yaupon", "Connect", "Accelerate"]
+penalty = 10

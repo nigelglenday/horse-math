@@ -18,7 +18,7 @@ EV per $1 = fair_P × payout - 1
 
 The Harville model assumes placement probabilities scale proportionally after the winner is removed. **It's a strong assumption** — it doesn't account for running-style × pace-fit interactions on placement. We'll come back to this.
 
-Source code: [`src/exacta.py`](../src/exacta.py). Probable grid: [`data/parsed/exacta_probables.txt`](../data/parsed/exacta_probables.txt). Output: [`data/parsed/exacta_overlays.csv`](../data/parsed/exacta_overlays.csv).
+Source code: [`src/exacta.py`](../src/exacta.py). Probable grid: [`data/races/2026-kentucky-derby/exacta_probables.txt`](../data/races/2026-kentucky-derby/exacta_probables.txt). Output: [`data/races/2026-kentucky-derby/exacta_overlays.csv`](../data/races/2026-kentucky-derby/exacta_overlays.csv).
 
 ## Where the public is wrong
 
