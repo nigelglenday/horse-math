@@ -6,7 +6,7 @@
 # Run-day workflow:
 #   1. Parse PP from Equibase / DRF -> field.csv + past_performances.csv
 #   2. python3 src/fetch_odds.py --race 2026-preakness  (instructions)
-#   3. Pull live odds + exacta probables from Xpressbet, paste into CSVs
+#   3. Pull live odds + exacta probables from your preferred tote source, paste into CSVs
 #   4. python3 src/handicap.py    --race 2026-preakness
 #   5. python3 src/sensitivity.py --race 2026-preakness
 #   6. python3 src/exacta.py      --race 2026-preakness
@@ -28,9 +28,9 @@ format = "js_rendered_html"
 notes = "Same pattern as Kentucky Derby — JS-rendered. Use WebFetch in Claude conversation, paste into live_odds.csv."
 
 [exacta_probables_source]
-url = "https://www.xpressbet.com/wagering/probables"
+url = ""  # set to your preferred tote-probables source
 format = "manual_paste"
-notes = "Same Xpressbet workflow as the Derby. 14x14 grid (smaller field)."
+notes = "14x14 probable grid (smaller field than the Derby)."
 
 [scoring]
 temperature = 0.075

@@ -73,7 +73,7 @@ You'll get the same overlays and ticket structure that picked the 2026 Derby win
 | **3.** | Parse the Equibase PP into `field.csv` + `past_performances.csv` (see schema in either file) |
 | **4.** | `python3 src/fetch_odds.py --race <slug>` — prints instructions for pulling live odds |
 | **5.** | Pull live odds (most tote sites are JS-rendered → use Claude Code's WebFetch or paste manually) into `live_odds.csv` |
-| **6.** | Pull exacta probables from Xpressbet (or equivalent) into `exacta_probables.txt` (24×24 grid) |
+| **6.** | Pull exacta probables from a tote source into `exacta_probables.txt` (24×24 grid) |
 | **7.** | Run the pipeline (handicap → sensitivity → exacta → trifecta → portfolio → charts) |
 | **8.** | Review against [`learnings/index.md`](learnings/index.md) — accumulated cross-race wisdom |
 | **9.** | Place bets, then write your own `learnings/<slug>.md` post-race |

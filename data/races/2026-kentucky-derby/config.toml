@@ -22,9 +22,9 @@ format = "js_rendered_html"
 notes = "Static HTML scrape returns nothing — odds rendered client-side. Pull via WebFetch in Claude conversation, paste into live_odds.csv."
 
 [exacta_probables_source]
-url = "https://www.xpressbet.com/wagering/probables"
+url = ""  # set to your preferred tote-probables source
 format = "manual_paste"
-notes = "Xpressbet shows the full exacta probable grid for Triple Crown races and updates near real-time. Copy the table, paste into exacta_probables.txt in the comma-separated layout (header row = column post numbers, each row = winning post + payouts to placers; SC for scratched)."
+notes = "Most major tote sites publish a 24x24 probable grid for the Triple Crown races and update near real-time. Copy the table, paste into exacta_probables.txt in the comma-separated layout (header row = column post numbers, each row = winning post + payouts to placers; SC for scratched)."
 
 [scoring]
 # Softmax temperature — higher = more peaked distribution

@@ -11,7 +11,7 @@ flowchart TD
         FIELD[field.csv<br/>one row per starter]
         PP[past_performances.csv<br/>prior race lines]
         LIVE[live_odds.csv<br/>tote snapshot + scratches]
-        EXAP[exacta_probables.txt<br/>24x24 grid from Xpressbet]
+        EXAP[exacta_probables.txt<br/>24x24 probable grid]
         TRIP[trifecta_probables.txt<br/>optional, format: i-j-k payout]
     end
 
@@ -137,7 +137,7 @@ sequenceDiagram
 
     Note over Human,Tote: Race day, T-30min
     Human->>Tote: Pull live odds (2nd snapshot, capture late drift)
-    Human->>Tote: Pull exacta probables from Xpressbet
+    Human->>Tote: Pull exacta probables from tote
     Human->>Repo: update live_odds.csv + exacta_probables.txt
     Human->>Engine: portfolio --target-spend $X --top-pick-wheel $Y --longshot-scan $Z
     Engine->>Human: sized ticket
