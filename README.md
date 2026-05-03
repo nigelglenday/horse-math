@@ -16,7 +16,7 @@
 
 </div>
 
-> Started Derby Day 2026 as a five-hour public build. Picked the winner (Golden Tempo, 25-1). Net +$435 on an $85 ticket. Now generalized for any race, drop in a config + parsed PPs and the same pipeline runs.
+> Started Derby Day 2026. Picked the winner (Golden Tempo, 25-1). Net +$435 on an $85 ticket. Now generalized for any race, drop in a config + parsed PPs and the same pipeline runs.
 
 ---
 
@@ -157,6 +157,12 @@ These are wisdom carried forward from races we've actually bet. Don't relearn th
 - **Beware Whitehead's Misplaced Concreteness.** The Beyer figure is an *abstraction* of speed, not speed itself. Always ask: what is the model not seeing?
 
 Full version: [`learnings/index.md`](learnings/index.md)
+
+---
+
+## ⚠️ Limitations
+
+For honest disclaimers about what this project does and does not establish, see [`LIMITATIONS.md`](LIMITATIONS.md). Short version: the headline result is N=1, weights are hand-set priors not MLE-fit, the sensitivity scan is self-consistency rather than statistical validation, and the philosophical framing is design pragmatism dressed up. The methodology is shaped correctly; the empirical grounding is the v3 project.
 
 ---
 
