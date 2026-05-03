@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Pydantic](https://img.shields.io/badge/Pydantic-2.x-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://pydantic.dev)
 [![Matplotlib](https://img.shields.io/badge/matplotlib-3.10-11557c?style=for-the-badge)](https://matplotlib.org)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](https://github.com/nigelglenday/horse-math/blob/main/LICENSE)
 
 [![Derby 2026 Result](https://img.shields.io/badge/Derby_2026-Picked_the_winner-D4AF37?style=for-the-badge&logo=trophy&logoColor=white)](analysis/case-studies/2026-kentucky-derby/README.md)
 [![Net Return](https://img.shields.io/badge/Net_Return-%2B%24435_on_%2485-success?style=for-the-badge)](analysis/case-studies/2026-kentucky-derby/postmortem.md)

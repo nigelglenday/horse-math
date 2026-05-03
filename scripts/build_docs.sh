@@ -16,6 +16,7 @@ mkdir -p "$SRC"
 # Top-level docs
 cp README.md "$SRC/"
 cp CLAUDE.md "$SRC/"
+cp LICENSE "$SRC/LICENSE.md"   # mkdocs renders .md but link in README is "LICENSE"
 
 # Architecture
 mkdir -p "$SRC/docs"
