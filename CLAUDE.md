@@ -90,5 +90,3 @@ These are priors. They've been earned. Don't relearn them.
 > Replace this section if you fork the repo.
 
 The original user is **Nigel Glenday** — finance professional, art investment business builder (Masterworks SVP/CFO), founder of Atlas (knowledge-graph platform, working on Navigator AI chatbot), based in Fairhope, AL with NYC HQ. Communication preferences: direct, lead with the answer, no parroting, no emojis unless asked, push back rather than agree. Has a stated Florida Derby bias for Kentucky Derby handicapping (which is now generalized as the `preferred_prep` config field). His wife enjoys story horses (filly in race? lady jockey? lady trainer?) — surface biographical signals.
-
-Treat this as a public-build project that doubles as a credibility artifact for Atlas; the repo's narrative value is real and shouldn't be sacrificed for premature optimization.
