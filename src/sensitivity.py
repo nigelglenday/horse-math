@@ -51,7 +51,9 @@ def main():
             r["score_t"] = sum(w[k] * r["feats"][k] for k in w)
         scores = [r["score_t"] for r in rows]
         probs = handicap.softmax(scores, temperature=temp)
-        adj = [p * handicap.post_multiplier(r["pp"], post_cfg) for r, p in zip(rows, probs)]
+        adj = [p * handicap.post_multiplier(r["pp"], post_cfg,
+                                            has_live_odds=bool(r.get("live_odds", "").strip()))
+               for r, p in zip(rows, probs)]
         z = sum(adj)
         probs = [a / z for a in adj] if z else probs
         for r, p, mp in zip(rows, probs, mkt):

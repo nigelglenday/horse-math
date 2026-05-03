@@ -13,6 +13,19 @@ purse_k = 5000
 field_cap = 20
 exotic_takeout = 0.22
 
+# Live odds source — the model is source-agnostic; this just documents where
+# to pull from. Most major tote boards are JS-rendered, so use WebFetch
+# (through Claude) or manual paste before betting. Output to live_odds.csv.
+[live_odds_source]
+url = "https://www.kentuckyderby.com/wager/live-odds/"
+format = "js_rendered_html"
+notes = "Static HTML scrape returns nothing — odds rendered client-side. Pull via WebFetch in Claude conversation, paste into live_odds.csv."
+
+[exacta_probables_source]
+url = "https://www.xpressbet.com/wagering/probables"
+format = "manual_paste"
+notes = "Xpressbet shows the full exacta probable grid for Triple Crown races and updates near real-time. Copy the table, paste into exacta_probables.txt in the comma-separated layout (header row = column post numbers, each row = winning post + payouts to placers; SC for scratched)."
+
 [scoring]
 # Softmax temperature — higher = more peaked distribution
 temperature = 0.075

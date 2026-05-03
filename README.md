@@ -4,7 +4,7 @@
 
 A generalized handicapping engine for thoroughbred racing. Started Derby Day 2026 as a five-hour public build with Claude Code. v2 is a config-driven model that runs on any race — drop in a race config + parsed PPs and run the same pipeline.
 
-The premise: parse the past performance files, build a feature-scored model, strip the takeout out of the morning line, find horses where our number says the public is wrong. Bet the overlays. Document the whole thing live.
+The premise: parse the past performance files, build a feature-scored model, strip the takeout out of the morning line, find horses where our number says the public is wrong. Bet the overlays, sized via fractional Kelly. Document the whole thing live.
 
 ## Run on a race
 
@@ -12,7 +12,10 @@ The premise: parse the past performance files, build a feature-scored model, str
 python3 src/handicap.py    --race 2026-kentucky-derby
 python3 src/sensitivity.py --race 2026-kentucky-derby
 python3 src/exacta.py      --race 2026-kentucky-derby
+python3 src/trifecta.py    --race 2026-kentucky-derby
+python3 src/portfolio.py   --race 2026-kentucky-derby --bankroll 100
 python3 src/charts.py      --race 2026-kentucky-derby
+python3 src/fetch_odds.py  --race 2026-kentucky-derby   # tells you where to pull from
 ```
 
 `--race` defaults to `2026-kentucky-derby`. Stdlib + matplotlib only.
@@ -24,29 +27,63 @@ src/
   handicap.py         Scoring engine. 11 weighted features → softmax → win prob → overlay.
   sensitivity.py      Weight-perturbation scan to find robust overlays.
   exacta.py           Harville-model exacta overlays from probables.
+  trifecta.py         Plackett-Luce trifecta overlays. Uses actual probables if
+                      available, else synthesizes from the win pool.
+  portfolio.py        Edge-first Kelly portfolio construction. Sizes every
+                      positive-EV bet, scales to bankroll.
   charts.py           Visual readouts (4 PNGs per race).
+  fetch_odds.py       Live-odds source helper. Reads race config, tells you
+                      where to fetch from and how (most major sites are
+                      JS-rendered → use WebFetch via Claude or paste manually).
 
 data/
   races/
     2026-kentucky-derby/
-      config.toml             Race-specific weights, post multipliers, prep scoring.
+      config.toml             Race-specific weights, post multipliers,
+                              prep-race scoring, source URLs, etc.
       field.csv               One row per starter.
       past_performances.csv   Prior race lines.
       live_odds.csv           Live tote snapshot + scratches.
       exacta_probables.txt    24×24 probable payoff grid.
+      trifecta_probables.txt  Optional. Format: "i-j-k payout" per line.
       overlays.csv            Model output (cardinal + rank).
-    2026-preakness/           (next: May 16, 2026)
+      portfolio.csv           Kelly-sized bet recommendations.
+    2026-preakness/           SCAFFOLD — Pimlico config, awaiting May 14 entries
     2026-belmont/             (next: June 6, 2026)
 
 analysis/
   figures/<race-slug>/        Per-race PNGs.
   case-studies/<race-slug>/   Frozen artifacts of races we've analyzed and bet.
+  derby-2026-readout.md       Pre-race handicap writeup.
+  derby-2026-wagering.md      Pre-race wagering math + ticket structure.
+  derby-2026-postmortem.md    Post-race analysis + lessons for v2/v3.
+  derby-2026-cheatsheet.md    Printable race-day one-pager.
 
 prompts/
   derby-day.md                The seed prompt that started everything.
 ```
 
-Each race lives in its own directory under `data/races/`. The engine in `src/` is race-agnostic — race-specific things (weights, post biases, prep-race weighting, equipment changes) live in the race's `config.toml`.
+Each race lives in its own directory under `data/races/`. The engine in `src/` is race-agnostic — race-specific things (weights, post biases, prep-race weighting, equipment changes, source URLs) live in the race's `config.toml`.
+
+## Live-odds workflow
+
+Live odds change everything (post-1 fade, public-overbet detection, exotic pricing). The model is *source-agnostic* — it just needs `live_odds.csv` to exist with the right columns. The race config declares where to pull from:
+
+```toml
+[live_odds_source]
+url = "https://www.kentuckyderby.com/wager/live-odds/"
+format = "js_rendered_html"
+notes = "Use WebFetch via Claude (static scrape can't see JS-rendered odds)"
+```
+
+```toml
+[exacta_probables_source]
+url = "https://www.xpressbet.com/wagering/probables"
+format = "manual_paste"
+notes = "Xpressbet shows full grid for Triple Crown races. Paste into exacta_probables.txt."
+```
+
+`python3 src/fetch_odds.py --race <slug>` reads these and tells you the workflow. We don't hardwire scrapers because every site is different and tote pages break frequently.
 
 ## Method
 
@@ -56,19 +93,30 @@ Each race lives in its own directory under `data/races/`. The engine in `src/` i
 
 **Class.** Which preps the horse won, and how cleanly. Per-race configurable: Florida Derby weighted highest for Kentucky Derby; Kentucky Derby itself most-important for Preakness; etc.
 
-**Connections.** Trainer's record at this race + jockey big-race record + equipment changes (first-time blinkers) + barn-pick rules (e.g., "Cox runs three, his top jockey is on Further Ado").
+**Connections.** Trainer's record at this race + jockey big-race record + equipment changes (first-time blinkers) + barn-pick rules.
 
 **Value.** Live tote → strip takeout → market's true probability. Compare to ours. Bet only the overlays at >1.25×.
 
-**Post-position multiplier.** Applied post-softmax. Configurable per race — e.g., post 1 at Churchill is the rail death (1 winner in 50 modern Derbies); Pimlico has different patterns.
+**Post-position multiplier.** Applied post-softmax. Configurable per race — e.g., post 1 at Churchill is the rail death (1 winner in 50 modern Derbies); Pimlico has different patterns. AE-flagged horses lose the AE penalty when live odds confirm they activated.
 
 **Sensitivity scan.** 200 trials, weights perturbed ±20%, see which overlays survive perturbation. Tags bets ROCK SOLID / Robust / Marginal / Fragile.
 
+**Edge-first portfolio (Kelly).** Every positive-EV bet (win + exacta + tri) gets a fractional-Kelly stake. Sums computed first, scaled to bankroll second. Bankroll is a scalar, not a structural constraint. This was the biggest methodological lesson from Derby Day — see [`analysis/derby-2026-postmortem.md`](analysis/derby-2026-postmortem.md), Lesson 1.
+
 ## Status
 
-v1 (Derby Day, May 2 2026): single-race hardcoded. Picked the winner.
-v2 (now): generalized, config-driven, same engine runs any race.
-v3 (planned): edge-first portfolio construction (`src/portfolio.py`), historical-Derby weight fitting, story-feature surfacing, AE-penalty bug fix.
+| Phase | What | Status |
+|---|---|---|
+| v1 | Single-race hardcoded build | ✅ Derby Day 2026 — picked the winner |
+| v2 | Generalized config-driven engine | ✅ Done |
+| v2 | Edge-first Kelly portfolio (`src/portfolio.py`) | ✅ Done |
+| v2 | Trifecta module with synth + actual payouts | ✅ Done |
+| v2 | AE-penalty bug fix (live odds = activation signal) | ✅ Done |
+| v2 | Live-odds source helper (`src/fetch_odds.py`) | ✅ Done |
+| v2 | Preakness 2026 scaffold | ✅ Config stub written |
+| v3 | Story features (owner gender, trainer firsts) | TODO |
+| v3 | Historical-Derbies weight fitting (real Bayesian) | TODO |
+| v3 | Live-odds reactive bet sizing | TODO |
 
 ## License
 

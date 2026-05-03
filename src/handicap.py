@@ -231,15 +231,23 @@ def f_barn_pick(horse, trainer, jockey, rules, default_score):
 
 # ----------------------------- POST MULTIPLIER -----------------------------
 
-def post_multiplier(pp, post_cfg):
+def post_multiplier(pp, post_cfg, has_live_odds=False):
+    """
+    Post-position multiplier. AE-flagged horses default to a penalty BUT if they
+    have live odds (meaning they activated to fill the field after a scratch),
+    treat them as regular starters. This was a bug exposed by the 2026 Derby —
+    Ocelli (#22A) ran 3rd at 70-1 after his AE activated, but the model
+    suppressed his probability. Live-odds presence is the activation signal.
+    """
     overrides = post_cfg.get("overrides", {})
     default = post_cfg.get("default", 1.0)
     ae_default = post_cfg.get("ae_default", 0.5)
     s = str(pp)
-    if "A" in s:
+    is_ae = "A" in s
+    if is_ae and not has_live_odds:
         return ae_default
     try:
-        n = int(s)
+        n = int(s.rstrip("A"))
     except ValueError:
         return default
     return overrides.get(str(n), default)
@@ -378,7 +386,11 @@ def attach_probs(rows, score_key, mkt_probs, post_cfg, scoring_cfg):
     fair_prob_threshold = scoring_cfg.get("fair_prob_threshold", 0.04)
     scores = [r[score_key] for r in rows]
     probs = softmax(scores, temperature=temp)
-    adj = [p * post_multiplier(r["pp"], post_cfg) for r, p in zip(rows, probs)]
+    # AE bug fix: live odds presence means horse activated to fill scratched slot —
+    # treat as regular starter, drop the AE penalty
+    adj = [p * post_multiplier(r["pp"], post_cfg,
+                               has_live_odds=bool(r.get("live_odds", "").strip()))
+           for r, p in zip(rows, probs)]
     z = sum(adj)
     probs = [a / z for a in adj] if z else probs
     for r, p, mp in zip(rows, probs, mkt_probs):

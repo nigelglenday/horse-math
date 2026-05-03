@@ -1,0 +1,161 @@
+# 2026 Preakness Stakes — Race Configuration (SCAFFOLD)
+#
+# Status: scaffold only. Populate when entries draw (typically Tuesday before
+# the race) and when the equipment-change list / barn-pick rules become known.
+#
+# Run-day workflow:
+#   1. Parse PP from Equibase / DRF -> field.csv + past_performances.csv
+#   2. python3 src/fetch_odds.py --race 2026-preakness  (instructions)
+#   3. Pull live odds + exacta probables from Xpressbet, paste into CSVs
+#   4. python3 src/handicap.py    --race 2026-preakness
+#   5. python3 src/sensitivity.py --race 2026-preakness
+#   6. python3 src/exacta.py      --race 2026-preakness
+#   7. python3 src/portfolio.py   --race 2026-preakness --bankroll 100
+
+[race]
+name = "2026 Preakness Stakes"
+track = "Pimlico"
+date = "2026-05-16"
+distance_furlongs = 9.5     # 1 3/16 mile
+surface = "dirt"
+purse_k = 2000
+field_cap = 14
+exotic_takeout = 0.22
+
+[live_odds_source]
+url = "https://www.preaknessstakes.com/wager/odds/"
+format = "js_rendered_html"
+notes = "Same pattern as Kentucky Derby — JS-rendered. Use WebFetch in Claude conversation, paste into live_odds.csv."
+
+[exacta_probables_source]
+url = "https://www.xpressbet.com/wagering/probables"
+format = "manual_paste"
+notes = "Same Xpressbet workflow as the Derby. 14x14 grid (smaller field)."
+
+[scoring]
+temperature = 0.075
+overlay_threshold = 1.25
+fair_prob_threshold = 0.04
+
+# Feature weights tuned for Preakness:
+#   - Smaller field (14 vs 20) -> less likely pace meltdown -> pace_fit weight DOWN
+#   - Recent Derby winner/runner gets huge class signal -> preferred_prep weight UP
+#   - Distance 9.5F is similar to Derby 10F so distance_fit similar
+#   - Two weeks between Derby and Preakness -> form cycle / freshness matters more
+#     (not yet a feature; consider for v3)
+[weights]
+last_beyer     = 0.18
+top3_beyer     = 0.12
+pace_fit       = 0.10    # down from 0.15 (smaller field, less melt)
+class_preps    = 0.13    # up from 0.12
+how_won        = 0.08    # up from 0.07
+distance_fit   = 0.10
+connections    = 0.06
+equipment      = 0.04
+post           = 0.05
+preferred_prep = 0.08    # up from 0.05 (Derby cachet is very strong here)
+barn_pick      = 0.06
+
+[pace]
+# Default to false for Preakness — smaller fields rarely melt down
+meltdown_likely = false
+
+[equipment]
+ft_blinkers = []  # Populate at draw
+
+# Pimlico post-position multipliers
+# Pimlico has different bias than Churchill — the rail at Pimlico is less
+# catastrophic but post 7 has a poor historical Preakness record
+[post_multiplier]
+default = 1.00
+ae_default = 0.50
+
+[post_multiplier.overrides]
+"1" = 0.85   # less catastrophic than CD post 1
+"7" = 0.80   # historically poor at Pimlico Preakness
+"13" = 0.85
+"14" = 0.85
+
+# Class-of-prep scoring for Preakness — Kentucky Derby is the giant signal
+[prep_class_score]
+default = 35
+
+[prep_class_score.scores]
+"Stk-KyDerby"       = 100   # Recent Derby start dominates
+"Stk-FlaDerby"      = 88    # If they ran in Derby preps but not Derby
+"Stk-SADerby"       = 88
+"Stk-ArkDerby"      = 88
+"Stk-BlueGrass"     = 85
+"Stk-WoodMem"       = 80
+"Stk-LaDerby"       = 78
+"Stk-FntnOYth"      = 75
+"Stk-Rebel"         = 75
+"Stk-SnFelipe"      = 75
+"Stk-RisenStr"      = 70
+"Stk-TamDby"        = 72
+"Stk-VADerby"       = 65
+"Stk-UAEDerby"      = 60
+"Stk-Lex"           = 70
+"Stk-Federico Tesio" = 75   # Pimlico-specific Preakness prep
+"Stk-Withers"       = 75
+"Stk-Sunland"       = 60
+"Stk-Holy Bull"     = 75
+
+# Preferred prep for Preakness: a top-3 Derby finish gets max bonus
+[preferred_prep]
+race_class = "Stk-KyDerby"
+winner_score = 100
+default_score = 50
+
+# Public-overbet factors — populate at the entries based on names/stables
+[public_overbet]
+# (empty until entries known)
+
+# Barn-pick rules — populate at entries
+[barn_pick]
+default_score = 60
+# rules = []  # add when entries known
+
+# Trainer Preakness records (NOT the same as Derby records)
+# Bob Baffert won 7 Preaknesses; Doug O'Neill won 1; etc.
+[trainer_score]
+default = 50
+
+[trainer_score.scores]
+"Bob Baffert"          = 98   # 7 Preakness wins
+"Todd Pletcher"        = 70
+"Brad Cox"             = 75
+"Doug O Neill"         = 78
+"Kenneth G McPeek"     = 75   # Mystik Dan ran in 2024 Preakness
+"William I Mott"       = 65
+"Chad Brown"           = 80   # Cloud Computing 2017
+"Mark Casse"           = 60
+"Cherie DeVaux"        = 60   # bumps up after KD win
+"Dallas Stewart"       = 60
+
+# Jockey Preakness records
+[jockey_score]
+default = 55
+
+[jockey_score.scores]
+"John R Velazquez"      = 95
+"Mike E Smith"          = 95
+"Irad Ortiz Jr"         = 88
+"Flavien Prat"          = 90   # won Preakness 2018 (Justify, second leg)
+"Luis Saez"             = 85
+"Javier Castellano"     = 85
+"Tyler Gaffalione"      = 80
+"Junior Alvarado"       = 70
+"Jose L Ortiz"          = 82   # bumps up after KD win 2026
+
+# Sire pedigree bias — Preakness 9.5F is a touch shorter than Derby 10F,
+# so pure stamina sires marginally less critical
+[sire_bias]
+[sire_bias.stamina]
+sires = ["Curlin", "Tapit", "Liam s Map", "Constitution", "Into Mischief",
+         "Sky Mesa", "Maxfield", "Blame", "Practical Joke"]
+bonus = 8
+
+[sire_bias.speed]
+sires = ["Pavel", "Volatile", "Yaupon", "Connect", "Accelerate"]
+penalty = 8
