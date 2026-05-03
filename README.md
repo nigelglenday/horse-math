@@ -78,7 +78,7 @@ You'll get the same overlays and ticket structure that picked the 2026 Derby win
 | **8.** | Review against [`learnings/index.md`](learnings/index.md) — accumulated cross-race wisdom |
 | **9.** | Place bets, then write your own `learnings/<slug>.md` post-race |
 
-A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/config.toml`](data/races/2026-preakness/config.toml).
+A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/config.toml`](https://github.com/nigelglenday/horse-math/blob/main/data/races/2026-preakness/config.toml).
 
 ---
 

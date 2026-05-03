@@ -161,16 +161,16 @@ Source: [`src/exacta.py`](../../../src/exacta.py).
 The visual readouts captured pre-race:
 
 ### Overlay scatter (cardinal vs rank)
-![](../../figures/01_overlays.png)
+![](../../figures/2026-kentucky-derby/01_overlays.png)
 
 ### Win-probability comparison (market vs both models)
-![](../../figures/02_probabilities.png)
+![](../../figures/2026-kentucky-derby/02_probabilities.png)
 
 ### Odds movement (ML → live)
-![](../../figures/03_odds_movement.png)
+![](../../figures/2026-kentucky-derby/03_odds_movement.png)
 
 ### Beyer trajectory for top contenders
-![](../../figures/04_beyer_trajectory.png)
+![](../../figures/2026-kentucky-derby/04_beyer_trajectory.png)
 
 Source: [`src/charts.py`](../../../src/charts.py).
 

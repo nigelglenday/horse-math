@@ -2,7 +2,7 @@
 
 The founding race. Built in five hours; picked the winner; net +$435 on $85.
 
-For the full case study see [`analysis/case-studies/2026-kentucky-derby/`](../analysis/case-studies/2026-kentucky-derby/). This file extracts the *wisdom* — the parts of the experience that don't fit cleanly into code or config and need to be carried forward as priors.
+For the full case study see [`analysis/case-studies/2026-kentucky-derby/`](../analysis/case-studies/2026-kentucky-derby/README.md). This file extracts the *wisdom* — the parts of the experience that don't fit cleanly into code or config and need to be carried forward as priors.
 
 ## What the model got right (and why we trust it)
 

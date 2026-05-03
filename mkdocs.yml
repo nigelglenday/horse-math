@@ -1,0 +1,115 @@
+site_name: math.horse
+site_url: https://math.horse
+site_description: A generalized handicapping engine for thoroughbred racing
+site_author: Nigel Glenday
+
+repo_url: https://github.com/nigelglenday/horse-math
+repo_name: nigelglenday/horse-math
+edit_uri: edit/main/
+
+docs_dir: _site_src
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.path
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - announce.dismiss
+  palette:
+    - scheme: default
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/file-edit-outline
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+nav:
+  - Overview: README.md
+  - Architecture: docs/ARCHITECTURE.md
+  - 2026 Kentucky Derby:
+      - Case study: analysis/case-studies/2026-kentucky-derby/README.md
+      - Pre-race readout: analysis/case-studies/2026-kentucky-derby/readout.md
+      - Wagering strategy: analysis/case-studies/2026-kentucky-derby/wagering.md
+      - Post-mortem: analysis/case-studies/2026-kentucky-derby/postmortem.md
+      - Race-day cheatsheet: analysis/case-studies/2026-kentucky-derby/cheatsheet.md
+  - Learnings:
+      - Cross-race wisdom: learnings/index.md
+      - 2026 Kentucky Derby: learnings/2026-kentucky-derby.md
+  - For AI assistants: CLAUDE.md
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/nigelglenday/horse-math
+      name: horse-math on GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/nigelglenday/
+      name: Nigel Glenday on LinkedIn
+  generator: false
+
+copyright: >
+  Copyright &copy; 2026 Nigel Glenday. MIT licensed.
+  Past performance data attribution: <a href="https://www.equibase.com">Equibase Company LLC</a>.

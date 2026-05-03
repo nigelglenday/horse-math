@@ -15,7 +15,7 @@ Two of those scratches (Silent Tactic and Fulleffort) were our top overlays unde
 
 ## Where the public money went
 
-![odds movement](figures/03_odds_movement.png)
+![odds movement](../../figures/2026-kentucky-derby/03_odds_movement.png)
 
 Reading this chart:
 - **Green arrows = took money** (price shortened, more public confidence)
@@ -32,7 +32,7 @@ The Renegade drift is the single most actionable piece of information on the day
 
 ## The model's read on win probability
 
-![probabilities](figures/02_probabilities.png)
+![probabilities](../../figures/2026-kentucky-derby/02_probabilities.png)
 
 Three bars per horse: live tote (after takeout strip), our cardinal model, our rank-based model. **Where our bars stick out to the right of the market bar = overlay.**
 
@@ -42,7 +42,7 @@ The flip side: **Chief Wallabee, So Happy, and Commandment all show the market b
 
 ## Where to bet
 
-![overlays](figures/01_overlays.png)
+![overlays](../../figures/2026-kentucky-derby/01_overlays.png)
 
 The bet zone is overlay ≥ 1.25x. Both methods agree on:
 
@@ -80,7 +80,7 @@ These probabilities are based on a tote snapshot taken ~2.5 hours before post. T
 
 ## Form
 
-![beyer trajectory](figures/04_beyer_trajectory.png)
+![beyer trajectory](../../figures/2026-kentucky-derby/04_beyer_trajectory.png)
 
 The trajectory chart shows last-five-Beyers per top contender. The story: Renegade and Further Ado have ascended together to a 107 ceiling — the two clear top figs in the field. Chief Wallabee's 99 ceiling is below them. Commandment is steady but capped near 99. So Happy bounces between 90 and 100.
 

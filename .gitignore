@@ -41,3 +41,5 @@ tmp/
 
 # Personal copy-paste source for LinkedIn — stays local
 linkedin-post.md
+_site_src/
+site/
