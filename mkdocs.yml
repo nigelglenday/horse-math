@@ -70,8 +70,6 @@ markdown_extensions:
   - toc:
       permalink: true
       title: On this page
-  - pymdownx.arithmatex:
-      generic: true
   - pymdownx.betterem
   - pymdownx.caret
   - pymdownx.details
