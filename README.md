@@ -1,141 +1,176 @@
-# horse-model
+<div align="center">
 
-> **Derby Day 2026 result: the model picked #19 Golden Tempo. We hit. $85 → $520, net +$435 (6.1×).** Full case study at [`analysis/case-studies/2026-kentucky-derby/`](analysis/case-studies/2026-kentucky-derby/).
+# 🏇 horse-model
 
-A generalized handicapping engine for thoroughbred racing. Started Derby Day 2026 as a five-hour public build with Claude Code. v2 is a config-driven model that runs on any race — drop in a race config + parsed PPs and run the same pipeline.
+### A generalized handicapping engine for thoroughbred racing.
 
-The premise: parse the past performance files, build a feature-scored model, strip the takeout out of the morning line, find horses where our number says the public is wrong. Bet the overlays, sized via fractional Kelly.
+[![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Stdlib](https://img.shields.io/badge/Dependencies-stdlib_+_matplotlib-green?style=for-the-badge)](https://docs.python.org/3/library/)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-## Run on a race
+[![Derby 2026 Result](https://img.shields.io/badge/Derby_2026-Picked_the_winner-D4AF37?style=for-the-badge&logo=trophy&logoColor=white)](analysis/case-studies/2026-kentucky-derby/)
+[![Net Return](https://img.shields.io/badge/Net_Return-%2B%24435_on_%2485-success?style=for-the-badge)](analysis/case-studies/2026-kentucky-derby/postmortem.md)
+[![MOIC](https://img.shields.io/badge/MOIC-6.12×-orange?style=for-the-badge)](analysis/case-studies/2026-kentucky-derby/postmortem.md)
+[![Built With](https://img.shields.io/badge/Built_With-Claude_Code-D97757?style=for-the-badge)](https://claude.com/code)
+
+</div>
+
+> Started Derby Day 2026 as a five-hour public build. Picked the winner (Golden Tempo, 25-1). Net +$435 on an $85 ticket. Now generalized for any race — drop in a config + parsed PPs and the same pipeline runs.
+
+---
+
+## 🎯 What this is
+
+A feature-scored softmax handicap model + edge-first portfolio constructor. Parse the PPs, score the field, strip takeout from live odds, find horses where our number says the public is wrong, bet the overlays. Built in pure Python (stdlib + matplotlib), runs on any race via a TOML config.
+
+```mermaid
+flowchart LR
+    A[📄 PP files] --> B[🧮 Handicap engine]
+    C[💰 Live odds] --> B
+    B --> D[📊 Overlays]
+    D --> E[🎫 Three-layer ticket]
+    E --> F[🐎 Bet]
+```
+
+The premise: **strip the takeout, find the overlays, size with discipline, document everything.**
+
+---
+
+## ⚡ Quick start
 
 ```bash
+git clone https://github.com/nigelglenday/horse-model
+cd horse-model
+
+# Run the full pipeline against frozen Derby data
 python3 src/handicap.py    --race 2026-kentucky-derby
 python3 src/sensitivity.py --race 2026-kentucky-derby
 python3 src/exacta.py      --race 2026-kentucky-derby
 python3 src/trifecta.py    --race 2026-kentucky-derby
-python3 src/portfolio.py   --race 2026-kentucky-derby --bankroll 100
+python3 src/portfolio.py   --race 2026-kentucky-derby --bankroll 85 \
+                           --target-spend 85 --include-tri \
+                           --top-pick-wheel 8 --longshot-scan 7
 python3 src/charts.py      --race 2026-kentucky-derby
-python3 src/fetch_odds.py  --race 2026-kentucky-derby   # tells you where to pull from
 ```
 
-`--race` defaults to `2026-kentucky-derby`. Stdlib + matplotlib only.
+You'll get the same overlays and ticket structure that picked the 2026 Derby winner. No external dependencies beyond `matplotlib`.
 
-## Layout
+---
+
+## 🛠️ Run on a new race
+
+> **Status:** the engine is ready. PP parsing is currently hand-transcribed (a real PDF parser is a v3 project). Workflow:
+
+| | |
+|---|---|
+| **1.** | Create `data/races/<your-race-slug>/` |
+| **2.** | Copy `data/races/2026-kentucky-derby/config.toml` as a template; tune for your race (post bias, weights, preferred-prep race class) |
+| **3.** | Parse the Equibase PP into `field.csv` + `past_performances.csv` (see schema in either file) |
+| **4.** | `python3 src/fetch_odds.py --race <slug>` — prints instructions for pulling live odds |
+| **5.** | Pull live odds (most tote sites are JS-rendered → use Claude Code's WebFetch or paste manually) into `live_odds.csv` |
+| **6.** | Pull exacta probables from Xpressbet (or equivalent) into `exacta_probables.txt` (24×24 grid) |
+| **7.** | Run the pipeline (handicap → sensitivity → exacta → trifecta → portfolio → charts) |
+| **8.** | Review against [`learnings/index.md`](learnings/index.md) — accumulated cross-race wisdom |
+| **9.** | Place bets, then write your own `learnings/<slug>.md` post-race |
+
+A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/config.toml`](data/races/2026-preakness/config.toml).
+
+---
+
+## 📐 Architecture
+
+Three layers of wagering, by design — none collapsing into another:
+
+<div align="center">
+
+| Layer | What | Why |
+|:---:|---|---|
+| 1️⃣ | **Kelly core** — variance-optimal stakes via fractional Kelly | Mathematically rigorous, conservative, optimal long-run growth |
+| 2️⃣ | **Satellite spread** — minimum-stake bets on high-EV combos Kelly says skip | Captures positive-EV combos individually too small to size meaningfully |
+| 3️⃣ | **Heuristics** — top-pick wheel + longshot scan | Operationalizes structural rules: top overlay → top of trifecta; under-bet placers → exacta wheel |
+| ➕ | **Human judgment** — story features, live-day context, risk tolerance | Always overrides. The model is an abstraction; the race is the territory. |
+
+</div>
+
+Validated on Derby 2026: 3-layer ticket would have captured **96% of the actual hand-tuned upside** ($418 of $435), entirely systematically. Pure quarter-Kelly captures 3%.
+
+> **For full architecture details, system diagrams, and module reference:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+
+---
+
+## 📚 Repository layout
 
 ```
-src/
-  handicap.py         Scoring engine. 11 weighted features → softmax → win prob → overlay.
-  sensitivity.py      Weight-perturbation scan to find robust overlays.
-  exacta.py           Harville-model exacta overlays from probables.
-  trifecta.py         Plackett-Luce trifecta overlays. Uses actual probables if
-                      available, else synthesizes from the win pool.
-  portfolio.py        Edge-first Kelly portfolio construction. Sizes every
-                      positive-EV bet, scales to bankroll.
-  charts.py           Visual readouts (4 PNGs per race).
-  fetch_odds.py       Live-odds source helper. Reads race config, tells you
-                      where to fetch from and how (most major sites are
-                      JS-rendered → use WebFetch via Claude or paste manually).
-
-data/
-  races/
-    2026-kentucky-derby/
-      config.toml             Race-specific weights, post multipliers,
-                              prep-race scoring, source URLs, etc.
-      field.csv               One row per starter.
-      past_performances.csv   Prior race lines.
-      live_odds.csv           Live tote snapshot + scratches.
-      exacta_probables.txt    24×24 probable payoff grid.
-      trifecta_probables.txt  Optional. Format: "i-j-k payout" per line.
-      overlays.csv            Model output (cardinal + rank).
-      portfolio.csv           Kelly-sized bet recommendations.
-    2026-preakness/           SCAFFOLD — Pimlico config, awaiting May 14 entries
-    2026-belmont/             (next: June 6, 2026)
-
-analysis/
-  figures/<race-slug>/        Per-race PNGs.
-  case-studies/<race-slug>/   Frozen artifacts of races we've analyzed and bet.
-  case-studies/2026-kentucky-derby/readout.md          Pre-race handicap writeup.
-  case-studies/2026-kentucky-derby/wagering.md        Pre-race wagering math + ticket structure.
-  case-studies/2026-kentucky-derby/postmortem.md    Post-race analysis + lessons for v2/v3.
-  case-studies/2026-kentucky-derby/cheatsheet.md    Printable race-day one-pager.
-
-prompts/
-  derby-day.md                The seed prompt that started everything.
+horse-model/
+├── 📄 CLAUDE.md          # AI assistant orientation
+├── 📄 README.md          # this file
+├── 📁 src/               # race-agnostic engine (pure Python)
+├── 📁 data/races/<slug>/ # per-race config + data + outputs
+├── 📁 analysis/
+│   ├── case-studies/     # frozen race narratives
+│   └── figures/          # per-race visualizations
+├── 📁 learnings/         # cross-race priors, compounding wisdom
+├── 📁 docs/              # architecture + diagrams
+└── 📁 prompts/           # the Derby-Day seed prompt (frozen)
 ```
 
-Each race lives in its own directory under `data/races/`. The engine in `src/` is race-agnostic — race-specific things (weights, post biases, prep-race weighting, equipment changes, source URLs) live in the race's `config.toml`.
+---
 
-## Live-odds workflow
+## 🛣️ Status
 
-Live odds change everything (post-1 fade, public-overbet detection, exotic pricing). The model is *source-agnostic* — it just needs `live_odds.csv` to exist with the right columns. The race config declares where to pull from:
+<div align="center">
 
-```toml
-[live_odds_source]
-url = "https://www.kentuckyderby.com/wager/live-odds/"
-format = "js_rendered_html"
-notes = "Use WebFetch via Claude (static scrape can't see JS-rendered odds)"
-```
+| Phase | Description | Status |
+|:---:|---|:---:|
+| v1 | Single-race hardcoded build (Derby Day) | ✅ |
+| v2 | Generalized config-driven engine | ✅ |
+| v2.1 | Kelly portfolio + trifectas + 3-layer wagering | ✅ |
+| v2.1 | AE-penalty bug fix, fetch-odds helper | ✅ |
+| v2.1 | Preakness 2026 scaffold | ✅ |
+| v3 | PDF parser (replace hand-transcription) | 🔜 |
+| v3 | Story features (owner / trainer firsts) | 🔜 |
+| v3 | Historical-Derbies weight fitting (real Bayesian) | 🔜 |
+| v3 | Live-odds reactive bet sizing | 🔜 |
 
-```toml
-[exacta_probables_source]
-url = "https://www.xpressbet.com/wagering/probables"
-format = "manual_paste"
-notes = "Xpressbet shows full grid for Triple Crown races. Paste into exacta_probables.txt."
-```
+</div>
 
-`python3 src/fetch_odds.py --race <slug>` reads these and tells you the workflow. We don't hardwire scrapers because every site is different and tote pages break frequently.
+---
 
-## Method
+## 🧠 Earned priors (read these)
 
-**Speed.** Trip-adjusted Beyer figures (most recent + best of last three). Comments parsed for wide trips, trouble, "ridden out" wins.
+These are wisdom carried forward from races we've actually bet. Don't relearn them.
 
-**Pace.** Equibase free PPs don't include explicit pace ratings, so we approximate from running-line position calls and field size. Project today's pace shape, weight horses whose style matches.
+- **Sensitivity "ROCK SOLID" ≠ model is right.** Necessary, not sufficient.
+- **Live-tote drift on the favorite is signal, not noise.** Public sees what linemakers miss.
+- **Star-jockey/trainer overbet is bigger than the model alone captures.** Live odds reveal it directly.
+- **AE-activated horses are real starters.** Drop the AE penalty when live odds confirm.
+- **Top-overlay horses deserve to be top-of-trifecta.** Asymmetry rule.
+- **Bankroll is a scalar, not a structural constraint.** Optimize first, scale second.
+- **Story matters; surface it.** Biographical features predict public-money flow.
+- **Beware Whitehead's Misplaced Concreteness.** The Beyer figure is an *abstraction* of speed, not speed itself. Always ask: what is the model not seeing?
 
-**Class.** Which preps the horse won, and how cleanly. Per-race configurable: Florida Derby weighted highest for Kentucky Derby; Kentucky Derby itself most-important for Preakness; etc.
+Full version: [`learnings/index.md`](learnings/index.md)
 
-**Connections.** Trainer's record at this race + jockey big-race record + equipment changes (first-time blinkers) + barn-pick rules.
+---
 
-**Value.** Live tote → strip takeout → market's true probability. Compare to ours. Bet only the overlays at >1.25×.
+## 🤖 For new AI sessions
 
-**Post-position multiplier.** Applied post-softmax. Configurable per race — e.g., post 1 at Churchill is the rail death (1 winner in 50 modern Derbies); Pimlico has different patterns. AE-flagged horses lose the AE penalty when live odds confirm they activated.
+[`CLAUDE.md`](CLAUDE.md) is the orientation file — auto-loaded by Claude Code, intended as the entry point for any new AI assistant session. Carries project context, common workflows, accumulated wisdom, and a replaceable user-context section.
 
-**Sensitivity scan.** 200 trials, weights perturbed ±20%, see which overlays survive perturbation. Tags bets ROCK SOLID / Robust / Marginal / Fragile.
+The Derby-Day seed prompt stays frozen at [`prompts/derby-day.md`](prompts/derby-day.md) as the historical artifact.
 
-**Three layers of wagering, by design.** Bets are constructed via three coexisting layers, never collapsing one into another:
+---
 
-1. **Kelly-derived (variance-optimal)** — `src/portfolio.py` core. Mathematically rigorous, conservative.
-2. **Heuristic rules** — `--top-pick-wheel` (reserves stake for top-overlay-horse trifecta wheels), `--longshot-scan` (live-tote-undervalued exacta placers), satellite layer (minimum-stake spread on high-EV combos Kelly individually says are too small).
-3. **Human judgment** — what the operator brings: live-day context, story features, risk tolerance.
+## 📋 Data attribution
 
-Validation on Derby 2026: 3-layer ticket would have captured 96% of the actual hand-tuned upside ($418 of $435), systematically. Pure quarter-Kelly would have captured 3%.
+Past performance source data is from **Equibase Company LLC**, copyright 2026, all rights reserved. Raw PP files (`data/races/*/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. **Beyer Speed Figures** are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
 
-**Compounding learnings.** [`learnings/`](learnings/) holds wisdom that doesn't fit cleanly in code or config — cross-race patterns ([`learnings/index.md`](learnings/index.md)) and per-race extracts ([`learnings/2026-kentucky-derby.md`](learnings/2026-kentucky-derby.md)). The principle: every race teaches something. The model in `src/` only changes when a learning generalizes cleanly into a parameter or feature; most wisdom lives in the learnings files as priors a human carries forward.
+---
 
-A reminder, etched in: the model is an abstraction of the race, never the race itself. Beware Whitehead's Misplaced Concreteness — the surreptitious substitution of a model for the reality it abstracts. Always ask: what is the model not seeing?
+<div align="center">
 
-## Status
+**MIT licensed.** Made on Derby Day 2026, generalized for the Preakness and beyond.
 
-| Phase | What | Status |
-|---|---|---|
-| v1 | Single-race hardcoded build | ✅ Derby Day 2026 — picked the winner |
-| v2 | Generalized config-driven engine | ✅ Done |
-| v2 | Edge-first Kelly portfolio (`src/portfolio.py`) | ✅ Done |
-| v2 | Trifecta module with synth + actual payouts | ✅ Done |
-| v2 | AE-penalty bug fix (live odds = activation signal) | ✅ Done |
-| v2 | Live-odds source helper (`src/fetch_odds.py`) | ✅ Done |
-| v2 | Preakness 2026 scaffold | ✅ Config stub written |
-| v3 | Story features (owner gender, trainer firsts) | TODO |
-| v3 | Historical-Derbies weight fitting (real Bayesian) | TODO |
-| v3 | Live-odds reactive bet sizing | TODO |
+🐎🐎🐎
 
-## For new Claude Code sessions on this repo
-
-[`CLAUDE.md`](CLAUDE.md) is the orientation file — auto-loaded by Claude Code, intended as the entry point for any new AI assistant session. It carries the project context, common workflows, accumulated wisdom, and a replaceable user-context section. The Derby-Day seed prompt stays frozen at [`prompts/derby-day.md`](prompts/derby-day.md) as the historical artifact.
-
-## Data attribution
-
-Past performance source data is from Equibase Company LLC, copyright 2026, all rights reserved. Raw PP files (`data/races/*/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. Beyer Speed Figures are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
-
-## License
-
-MIT for the code.
+</div>
