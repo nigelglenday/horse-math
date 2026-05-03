@@ -16,29 +16,30 @@ import csv
 import math
 import re
 import sys
-import tomllib
 from collections import defaultdict
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from race_config import RaceConfig
 
 ROOT = Path(__file__).resolve().parent.parent
 
 # ----------------------------- CONFIG LOADING -----------------------------
 
 def load_config(race_slug):
-    """Load the race-specific TOML config and return paths + config dict."""
-    base = ROOT / "data" / "races" / race_slug
-    config_path = base / "config.toml"
-    if not config_path.exists():
-        sys.exit(f"No config at {config_path}")
-    with open(config_path, "rb") as f:
-        cfg = tomllib.load(f)
-    paths = {
-        "field":            base / "field.csv",
-        "pp":               base / "past_performances.csv",
-        "live_odds":        base / "live_odds.csv",
-        "exacta_probables": base / "exacta_probables.txt",
-        "overlays_out":     base / "overlays.csv",
-    }
+    """
+    Load and validate the race config via Pydantic. Returns (cfg_dict, paths)
+    where cfg_dict is dict-shaped for backward compat with existing code.
+    Raises ValidationError if config has structural issues.
+    """
+    try:
+        config = RaceConfig.load(race_slug)
+    except FileNotFoundError as e:
+        sys.exit(str(e))
+    except Exception as e:
+        sys.exit(f"Config validation error for {race_slug}: {e}")
+    cfg = config.model_dump()
+    paths = config.race_paths(race_slug)
     return cfg, paths
 
 # ----------------------------- FEATURE SCORERS -----------------------------

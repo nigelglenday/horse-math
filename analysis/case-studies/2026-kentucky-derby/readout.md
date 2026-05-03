@@ -5,7 +5,7 @@
 
 **Race 12, Churchill Downs · Saturday May 2, 2026 · post 6:57 PM ET · 1¼ miles · $5M Grade I**
 
-This is the readout the model produced ~2 hours before post. Built live with Claude Code as part of the [horse-model](../README.md) public build. Bets and reasoning recorded *before* the race, so the post-mortem can be honest.
+This is the readout the model produced ~2 hours before post. Built live with Claude Code as part of the [horse-math](../../../README.md) public build. Bets and reasoning recorded *before* the race, so the post-mortem can be honest.
 
 ## What changed during the day
 

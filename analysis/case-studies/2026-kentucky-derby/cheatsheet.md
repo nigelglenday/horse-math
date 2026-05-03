@@ -85,5 +85,5 @@
 
 ---
 
-*Repo: github.com/nigelglenday/horse-model*
+*Repo: github.com/nigelglenday/horse-math*
 *Open question: whether the token spend clears the net winnings.*

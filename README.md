@@ -1,11 +1,12 @@
 <div align="center">
 
-# 🏇 horse-model
+# 🏇 horse-math
 
 ### A generalized handicapping engine for thoroughbred racing.
 
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Stdlib](https://img.shields.io/badge/Dependencies-stdlib_+_matplotlib-green?style=for-the-badge)](https://docs.python.org/3/library/)
+[![Pydantic](https://img.shields.io/badge/Pydantic-2.x-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://pydantic.dev)
+[![Matplotlib](https://img.shields.io/badge/matplotlib-3.10-11557c?style=for-the-badge)](https://matplotlib.org)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 [![Derby 2026 Result](https://img.shields.io/badge/Derby_2026-Picked_the_winner-D4AF37?style=for-the-badge&logo=trophy&logoColor=white)](analysis/case-studies/2026-kentucky-derby/)
@@ -39,8 +40,9 @@ The premise: **strip the takeout, find the overlays, size with discipline, docum
 ## ⚡ Quick start
 
 ```bash
-git clone https://github.com/nigelglenday/horse-model
-cd horse-model
+git clone https://github.com/nigelglenday/horse-math
+cd horse-math
+pip install -e .                       # installs pydantic + matplotlib
 
 # Run the full pipeline against frozen Derby data
 python3 src/handicap.py    --race 2026-kentucky-derby
@@ -48,12 +50,15 @@ python3 src/sensitivity.py --race 2026-kentucky-derby
 python3 src/exacta.py      --race 2026-kentucky-derby
 python3 src/trifecta.py    --race 2026-kentucky-derby
 python3 src/portfolio.py   --race 2026-kentucky-derby --bankroll 85 \
-                           --target-spend 85 --include-tri \
+                           --target-spend 70 --include-tri \
                            --top-pick-wheel 8 --longshot-scan 7
 python3 src/charts.py      --race 2026-kentucky-derby
+
+# Verify the Derby behavior is preserved
+python3 tests/test_derby_regression.py
 ```
 
-You'll get the same overlays and ticket structure that picked the 2026 Derby winner. No external dependencies beyond `matplotlib`.
+You'll get the same overlays and ticket structure that picked the 2026 Derby winner. Optional: `pip install -e ".[fit]"` to get scikit-learn for the historical-weight-fitting module.
 
 ---
 
@@ -101,7 +106,7 @@ Validated on Derby 2026: 3-layer ticket would have captured **96% of the actual 
 ## 📚 Repository layout
 
 ```
-horse-model/
+horse-math/
 ├── 📄 CLAUDE.md          # AI assistant orientation
 ├── 📄 README.md          # this file
 ├── 📁 src/               # race-agnostic engine (pure Python)
@@ -127,9 +132,11 @@ horse-model/
 | v2.1 | Kelly portfolio + trifectas + 3-layer wagering | ✅ |
 | v2.1 | AE-penalty bug fix, fetch-odds helper | ✅ |
 | v2.1 | Preakness 2026 scaffold | ✅ |
+| v2.2 | Pydantic config schema validation | ✅ |
+| v2.2 | Regression test suite (8 tests, locks Derby behavior) | ✅ |
+| v3 | Historical-Derbies weight fitting (sklearn scaffolded) | 🚧 |
 | v3 | PDF parser (replace hand-transcription) | 🔜 |
 | v3 | Story features (owner / trainer firsts) | 🔜 |
-| v3 | Historical-Derbies weight fitting (real Bayesian) | 🔜 |
 | v3 | Live-odds reactive bet sizing | 🔜 |
 
 </div>

@@ -2,7 +2,7 @@
 
 > **Result: $85 → $520. Net +$435. MOIC 6.12×. Model picked the winner (Golden Tempo, 25-1).**
 
-The first instance of `horse-model`. Built live with Claude Code in five hours on Derby Day 2026. This document is the frozen artifact — what we did, what the model said, what we bet, what happened, what we learned. Every artifact (code, data, charts, prose) is reproducible from the commit history at `main` as of May 2, 2026.
+The first instance of `horse-math`. Built live with Claude Code in five hours on Derby Day 2026. This document is the frozen artifact — what we did, what the model said, what we bet, what happened, what we learned. Every artifact (code, data, charts, prose) is reproducible from the commit history at `main` as of May 2, 2026.
 
 For the *generalized* model that powers future races (Preakness, Belmont, etc.), see the top-level [`README.md`](../../../README.md) and the `src/` directory in its current state.
 
@@ -263,8 +263,8 @@ The post-mortem ([`postmortem.md`](postmortem.md)) has the full version. The big
 The repo at the post-race commit (`e4bc1c2`) contains the full state. To reproduce:
 
 ```bash
-git clone https://github.com/nigelglenday/horse-model
-cd horse-model
+git clone https://github.com/nigelglenday/horse-math
+cd horse-math
 git checkout e4bc1c2
 python3 src/handicap.py        # produces overlays.csv
 python3 src/sensitivity.py     # 200-trial weight perturbation scan

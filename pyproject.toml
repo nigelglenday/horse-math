@@ -1,0 +1,31 @@
+[project]
+name = "horse-math"
+version = "2.1.0"
+description = "Generalized handicapping engine for thoroughbred racing"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "Nigel Glenday" }]
+keywords = ["horse-racing", "handicapping", "wagering", "kelly-criterion", "harville"]
+
+dependencies = [
+    "matplotlib>=3.10",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+fit = [
+    # Historical-Derby weight fitting (v3 project)
+    "scikit-learn>=1.4",
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.urls]
+Homepage = "https://math.horse"
+Repository = "https://github.com/nigelglenday/horse-math"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
