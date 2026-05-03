@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" markdown="1">
 
 # 🏇 horse-math
 
@@ -9,7 +9,7 @@
 [![Matplotlib](https://img.shields.io/badge/matplotlib-3.10-11557c?style=for-the-badge)](https://matplotlib.org)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-[![Derby 2026 Result](https://img.shields.io/badge/Derby_2026-Picked_the_winner-D4AF37?style=for-the-badge&logo=trophy&logoColor=white)](analysis/case-studies/2026-kentucky-derby/)
+[![Derby 2026 Result](https://img.shields.io/badge/Derby_2026-Picked_the_winner-D4AF37?style=for-the-badge&logo=trophy&logoColor=white)](analysis/case-studies/2026-kentucky-derby/README.md)
 [![Net Return](https://img.shields.io/badge/Net_Return-%2B%24435_on_%2485-success?style=for-the-badge)](analysis/case-studies/2026-kentucky-derby/postmortem.md)
 [![MOIC](https://img.shields.io/badge/MOIC-6.12×-orange?style=for-the-badge)](analysis/case-studies/2026-kentucky-derby/postmortem.md)
 [![Built With](https://img.shields.io/badge/Built_With-Claude_Code-D97757?style=for-the-badge)](https://claude.com/code)
@@ -86,7 +86,7 @@ A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/confi
 
 Three layers of wagering, by design — none collapsing into another:
 
-<div align="center">
+<div align="center" markdown="1">
 
 | Layer | What | Why |
 |:---:|---|---|
@@ -123,7 +123,7 @@ horse-math/
 
 ## 🛣️ Status
 
-<div align="center">
+<div align="center" markdown="1">
 
 | Phase | Description | Status |
 |:---:|---|:---:|
@@ -174,7 +174,7 @@ Past performance source data is from **Equibase Company LLC**, copyright 2026, a
 
 ---
 
-<div align="center">
+<div align="center" markdown="1">
 
 **MIT licensed.** Made on Derby Day 2026, generalized for the Preakness and beyond.
 
