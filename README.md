@@ -128,6 +128,10 @@ A reminder, etched in: the model is an abstraction of the race, never the race i
 | v3 | Historical-Derbies weight fitting (real Bayesian) | TODO |
 | v3 | Live-odds reactive bet sizing | TODO |
 
+## Data attribution
+
+Past performance source data is from Equibase Company LLC, copyright 2026, all rights reserved. Raw PP files (`data/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. Beyer Speed Figures are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
+
 ## License
 
-MIT for the code. Equibase PP files are copyrighted — they're gitignored, get your own.
+MIT for the code.
