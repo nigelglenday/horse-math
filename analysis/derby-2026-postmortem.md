@@ -83,15 +83,28 @@ When Nigel's wife asked this morning about "a filly or a lady jockey," I gave he
 
 ## Lessons for v2
 
-1. **If a horse is a top cardinal overlay, key it on top of trifectas — not just exactas.** We protected #1 and #4 with tri wheels; we didn't protect #19 the same way despite it being our second-strongest overlay. Asymmetric upside left on the table.
+1. **Optimize the portfolio first, scale to bankroll second.** This is the biggest methodological mistake of the day, and it explains the asymmetry in #2 below. We started with `$85` and packed bets inside it. We should have:
+   1. Listed every positive-EV bet the model identified (every win, exacta, trifecta combo where `our_P × payout > 1`).
+   2. Sized each at fractional Kelly (~0.25× full Kelly to dampen variance and absorb estimation error).
+   3. Summed the stakes — call it the *ideal portfolio cost*.
+   4. If ideal cost ≤ bankroll, place at Kelly stakes and hold the rest in cash.
+   5. **If ideal cost > bankroll, scale every bet proportionally by `bankroll / ideal_cost`.**
 
-2. **AE-activated horses should lose the AE penalty.** Treat them as regular starters once they're confirmed to run. Live odds are the signal.
+   This preserves the *shape* of the optimal portfolio (relative weights between bets) while letting bankroll act as a pure scalar. Bankroll is a multiplier, not a structural constraint.
 
-3. **"Sensitivity scan robust" ≠ "model right."** Sensitivity tells you the answer is stable under weight perturbation. It doesn't tell you the weights are correct. Need separate validation against historical Derbies (next build).
+   Applied to today: a `19 / X / X` trifecta wheel would have been included by construction because Golden Tempo had a robust positive Kelly fraction in the win pool, and the corresponding tri combos had positive Kelly given Harville place probabilities × the wide tri payouts. Even at $0.50 per combo, the bet would have had its rightful seat. Instead, constraint-first thinking treated "small positive Kelly bet" as "skip if budget tight" and we missed $5,625.
 
-4. **Story features matter.** Add owner gender, trainer firsts, jockey age/longevity, pedigree narratives to the data layer. The model's job is to score, but the *bet's* job is to be one we'd be proud to talk about either way. Missing the DeVaux first was an analytical miss as much as a wife-asking miss — those biographical features predict things like late tote action ("the casual money chases stories").
+   v2 needs `src/portfolio.py` that computes Kelly for every candidate bet and scales to bankroll.
 
-5. **Bigger picks deserve bigger asymmetric coverage.** The exacta boost on 4-18 ($5) was sized like a bet on belief in Litmus Test. The win bet on #19 ($10) was sized lower than a "rock solid" sensitivity result deserved. Recalibrate stake-sizing relative to overlay strength + sensitivity confidence.
+2. **If a horse is a top cardinal overlay, key it on top of trifectas — not just exactas.** We protected #1 and #4 with tri wheels; we didn't protect #19 the same way despite it being our second-strongest overlay. This was the constraint-first thinking from #1 manifesting as structural inconsistency in our bet shape.
+
+3. **AE-activated horses should lose the AE penalty.** Treat them as regular starters once they're confirmed to run. Live odds are the signal. Clean bug to fix in `f_post()`.
+
+4. **"Sensitivity scan robust" ≠ "model right."** Sensitivity tells you the answer is stable under weight perturbation. It doesn't tell you the weights are correct. Need separate validation against historical Derbies. Further Ado was tagged ROCK SOLID and finished out of the money.
+
+5. **Story features matter.** Add owner gender, trainer firsts, jockey age/longevity, pedigree narratives to the data layer. The model's job is to score, but the *bet's* job is to be one we'd be proud to talk about either way. Missing the DeVaux first was an analytical miss as much as a wife-asking miss — those biographical features also predict things like late tote action ("the casual money chases stories").
+
+6. **Bigger picks deserve bigger asymmetric coverage.** The exacta boost on 4-18 ($5) was sized like a bet on belief in Litmus Test. The win bet on #19 ($10) was sized lower than a "rock solid" sensitivity result deserved. Symptom of constraint-first sizing — fixed by Lesson 1.
 
 ## Bottom line
 
