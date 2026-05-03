@@ -128,6 +128,10 @@ A reminder, etched in: the model is an abstraction of the race, never the race i
 | v3 | Historical-Derbies weight fitting (real Bayesian) | TODO |
 | v3 | Live-odds reactive bet sizing | TODO |
 
+## For new Claude Code sessions on this repo
+
+[`CLAUDE.md`](CLAUDE.md) is the orientation file — auto-loaded by Claude Code, intended as the entry point for any new AI assistant session. It carries the project context, common workflows, accumulated wisdom, and a replaceable user-context section. The Derby-Day seed prompt stays frozen at [`prompts/derby-day.md`](prompts/derby-day.md) as the historical artifact.
+
 ## Data attribution
 
 Past performance source data is from Equibase Company LLC, copyright 2026, all rights reserved. Raw PP files (`data/races/*/raw/*.pdf` and intermediate text dumps) are gitignored — get your own. The structured CSVs in `data/races/<slug>/` are derivative analytical extracts: factual fields (dates, distances, Beyer figures, finish positions) reorganized into our schema for non-commercial analytical and educational purposes. Beyer Speed Figures are a registered analytical product of Daily Racing Form / Equibase. This repository is fair-use academic-style analysis; not a substitute for a paid PP subscription, not a republication of Equibase's compiled data, not commercial.
