@@ -39,6 +39,7 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   icon:
+    logo: material/horse-variant
     repo: fontawesome/brands/github
     edit: material/file-edit-outline
   font:
