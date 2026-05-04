@@ -55,13 +55,13 @@ Read [`README.md`](README.md) for overview and [`docs/ARCHITECTURE.md`](docs/ARC
 
 ## Three-layer wagering
 
-Bets are constructed via three coexisting layers, never one collapsing into another. Read `docs/ARCHITECTURE.md` for the full diagram, but the principle:
+Three layers, none collapses into another. See `docs/ARCHITECTURE.md` for the diagram.
 
-1. **Kelly-derived**, variance-optimal, mathematically rigorous, conservative. Under-deploys capital with our edge sizes.
-2. **Heuristic rules**, `--top-pick-wheel`, `--longshot-scan`, satellite layer. Captures lottery upside Kelly correctly says is too small to stake.
-3. **Human judgment**, story features, live-day context, risk tolerance, errors the model is making *right now*. Always overrides.
+1. **Kelly core**. Variance-managed. Under-deploys with our edge sizes.
+2. **Heuristics**. `--top-pick-wheel`, `--longshot-scan`, satellite layer. Catches lottery upside Kelly says is too small to stake.
+3. **Human judgment**. Story features, live-day context, errors the model is making right now. Always overrides.
 
-The Derby validated this: a 3-layer ticket would have captured 96% of the hand-tuned upside ($418 of $435), systematically. Pure Kelly would have captured 3%.
+Derby check: a 3-layer ticket caught 96% of the hand-tuned upside. Pure Kelly caught 3%.
 
 ## Things to remember
 
@@ -74,7 +74,7 @@ These are priors. They've been earned. Don't relearn them.
 - **Top-overlay horses deserve to be top-of-trifecta.** Asymmetry rule: if a horse is one of your top cardinal/rank overlays to win, key it on top of trifectas too. Constraint-first thinking left $5,625 on the Derby table.
 - **Bankroll is a scalar, not a structural constraint.** Compute the right portfolio shape first; scale to bankroll second.
 - **Story matters; surface it.** Biographical features (first-female-trainer, comeback narratives, Hall-of-Fame jockeys) predict public-money flow AND make bets memorable. The Derby's first-female-trainer-in-152-years winner was already in the data, we just didn't surface it.
-- **Beware Whitehead's Misplaced Concreteness.** The Beyer figure is an *abstraction* of speed, not speed itself. Plackett-Luce is an *abstraction* of the ordering process, not the actual race. Sensitivity scan is an *abstraction* of robustness, not truth. Always ask: what is the model not seeing?
+- **The model is not the race.** The Beyer is an estimate of speed. Plackett-Luce is an approximation of ordering. The sensitivity scan is a robustness check. Always ask what the model isn't seeing.
 
 ## Conventions
 

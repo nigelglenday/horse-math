@@ -59,13 +59,13 @@ The token cost question from the morning post: net winnings clear it by orders o
 
 2. **Renegade in the place spot, post-1 risk priced correctly.** The post-1 multiplier (Renegade 0.60×) we added mid-build dropped his cardinal overlay below the bet threshold for win. We kept him in the exacta picture as a placer. He ran a courageous 2nd from the rail, exactly what the math said: not the winner, but in the money. The 19-1 exacta only existed because we keyed Golden Tempo over Renegade.
 
-3. **Faded the chalk and they died.** All three of our "confirmed fades", #6 Commandment (7th), #8 So Happy (out of money entirely), #12 Chief Wallabee (4th), failed to win, and So Happy was the heaviest single overbet on the board at 5-1 live. The public-overbet methodology was vindicated cleanly.
+3. **The chalk we faded all missed.** Commandment 7th, So Happy off the board, Chief Wallabee 4th. So Happy was the heaviest single overbet (5-1 live, was 15-1 ML). Public-overbet thesis held up.
 
 4. **Ortiz vs Ortiz exacta.** Jose Ortiz on Golden Tempo, big brother Irad Ortiz Jr on Renegade. The model didn't predict this *as a story* but the math caught the right brothers in the right slots.
 
 ## What the model got wrong
 
-1. **#18 Further Ado as our $20 top win bet, out of the money entirely.** This was the largest single mistake of the day. The cardinal model loved him for the 109 trip-adjusted Beyer and the Cox barn-pick rule (Velazquez ride). The sensitivity scan tagged him ROCK SOLID. He didn't show up. Possible explanations: he never broke clean, he didn't get a closer's trip, or the pace meltdown didn't fully materialize for the closing kick. Either way, "rock solid in sensitivity" doesn't mean "rock solid in reality", sensitivity scans tell you about robustness to weight choice, not about whether the weights themselves are right.
+1. **#18 Further Ado was our $20 top win bet. Off the board.** Biggest miss of the day. Cardinal liked him for the 109 trip-adjusted Beyer and the Cox barn-pick rule. Sensitivity tagged him ROCK SOLID. He didn't run a race. Maybe a poor break, maybe no closer's trip, maybe the pace didn't melt enough. We won't know. The lesson: sensitivity tells you the answer is stable across weight choices. It doesn't tell you the weights are right.
 
 2. **The trifecta structure missed by one key.** Tri came in **19-1-22** paying **$5,625 on $0.50.** We had two trifecta wheels: `1 / 4-18-19 / 4-18-19` and `4 / 1-18-19 / 1-18-19`. Neither had #19 *on top.* If we'd added a single `$0.50 tri 19 / 1 / ALL` wheel for $7, we'd have caught $5,625. The asymmetric upside of keying our biggest overlay on top of trifectas was right there and we missed it.
 
@@ -92,7 +92,7 @@ When Nigel's wife asked this morning about "a filly or a lady jockey," I gave he
 
    This preserves the *shape* of the optimal portfolio (relative weights between bets) while letting bankroll act as a pure scalar. Bankroll is a multiplier, not a structural constraint.
 
-   Applied to today: a `19 / X / X` trifecta wheel would have been included by construction because Golden Tempo had a robust positive Kelly fraction in the win pool, and the corresponding tri combos had positive Kelly given Harville place probabilities × the wide tri payouts. Even at $0.50 per combo, the bet would have had its rightful seat. Instead, constraint-first thinking treated "small positive Kelly bet" as "skip if budget tight" and we missed $5,625.
+   Applied here: a `19 / X / X` trifecta wheel would have been in the ticket. Golden Tempo had positive Kelly to win, the corresponding tri combos had positive Kelly given Harville and the wide payouts, and at $0.50 per combo the bet was small but real. Packing bets inside an $85 budget instead made it fall off. Cost: the $5,625 we left on the table.
 
    v2 needs `src/portfolio.py` that computes Kelly for every candidate bet and scales to bankroll.
 

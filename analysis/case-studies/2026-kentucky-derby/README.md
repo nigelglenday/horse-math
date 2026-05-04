@@ -114,7 +114,7 @@ The model wasn't built in isolation, it was built collaboratively, with Nigel pu
 - **Bayesian framing question:** pushed on whether the model used Bayesian inference (it doesn't, formally, but uses Bayesian-flavored reasoning in weights-as-priors and post-1 multipliers).
 - **Post-1 risk push:** "Are we taking into account the 1 post risk?" prompted the post-softmax multiplier (post 1 = 0.60) that fixed an under-penalization the original feature scoring missed.
 - **Sensitivity scan request:** drove the 200-trial weight perturbation analysis that classified Further Ado and Golden Tempo as ROCK SOLID overlays.
-- **Edge-first portfolio observation (post-race):** the methodological diagnosis that we missed the $5,625 trifecta because we optimized constraint-first instead of edge-first.
+- **Portfolio sizing observation (post-race):** missed the $5,625 trifecta because we packed bets inside the bankroll instead of deciding the bet shape first and scaling to the bankroll.
 
 The model would have been worse without these. Several of them landed during execution and changed the bet structure.
 

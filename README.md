@@ -28,7 +28,7 @@
 
 ## 🎯 What this is
 
-A feature-scored softmax handicap model + edge-first portfolio constructor. Parse the PPs, score the field, strip takeout from live odds, find horses where our number says the public is wrong, bet the overlays. Built in pure Python (stdlib + matplotlib), runs on any race via a TOML config.
+A weighted softmax handicap and a Kelly-style portfolio builder. Parse the PPs, score the field, strip takeout from live odds, find horses where our number says the public is wrong, bet the overlays. Pure Python, one TOML config per race.
 
 ```mermaid
 flowchart LR
@@ -90,20 +90,20 @@ A scaffolded Preakness 2026 config is ready at [`data/races/2026-preakness/confi
 
 ## 📐 Architecture
 
-Three layers of wagering, by design, none collapsing into another:
+Three layers, none collapsing into another:
 
 <div align="center" markdown="1">
 
 | Layer | What | Why |
 |:---:|---|---|
-| 1️⃣ | **Kelly core**, variance-optimal stakes via fractional Kelly | Mathematically rigorous, conservative, optimal long-run growth |
-| 2️⃣ | **Satellite spread**, minimum-stake bets on high-EV combos Kelly says skip | Captures positive-EV combos individually too small to size meaningfully |
-| 3️⃣ | **Heuristics**, top-pick wheel + longshot scan | Operationalizes structural rules: top overlay → top of trifecta; under-bet placers → exacta wheel |
-| ➕ | **Human judgment**, story features, live-day context, risk tolerance | Always overrides. The model is an abstraction; the race is the territory. |
+| 1️⃣ | **Kelly core**, fractional Kelly per positive-EV bet | Variance-managed, under-deploys with our edge sizes |
+| 2️⃣ | **Satellite spread**, minimum-stake bets on high-EV combos Kelly says skip | Catches combos too small for Kelly to size |
+| 3️⃣ | **Heuristics**, top-pick wheel + longshot scan | Top overlay keys top of trifecta; under-bet placers go in the exacta wheel |
+| ➕ | **Human judgment**, story features, live-day context, risk tolerance | Always overrides. |
 
 </div>
 
-Validated on Derby 2026: 3-layer ticket would have captured **96% of the actual hand-tuned upside** ($418 of $435), entirely systematically. Pure quarter-Kelly captures 3%.
+Derby check: a 3-layer ticket caught **96% of the hand-tuned upside** ($418 of $435). Quarter-Kelly alone caught 3%.
 
 > **For full architecture details, system diagrams, and module reference:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 
@@ -159,7 +159,7 @@ These are wisdom carried forward from races we've actually bet. Don't relearn th
 - **Top-overlay horses deserve to be top-of-trifecta.** Asymmetry rule.
 - **Bankroll is a scalar, not a structural constraint.** Optimize first, scale second.
 - **Story matters; surface it.** Biographical features predict public-money flow.
-- **Beware Whitehead's Misplaced Concreteness.** The Beyer figure is an *abstraction* of speed, not speed itself. Always ask: what is the model not seeing?
+- **The model is not the race.** The Beyer is an estimate of speed. Plackett-Luce is an approximation of ordering. Always ask what the model isn't seeing.
 
 Full version: [`learnings/index.md`](learnings/index.md)
 

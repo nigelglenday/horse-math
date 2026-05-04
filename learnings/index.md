@@ -1,49 +1,53 @@
-# Learnings, cross-race wisdom
+# Learnings, cross-race
 
-> "We must beware of what Whitehead called the Fallacy of Misplaced Concreteness, surreptitiously substituting an abstraction for the concrete reality it abstracts. The model is a map. The race is the territory. The map is useful exactly to the extent that we remain alert to where it diverges from the territory."
+What we know after each race that doesn't fit cleanly in code. Per-race entries below; this index pulls out cross-race patterns.
 
-This directory holds wisdom that doesn't fit in code or config. Each race adds an entry; this index distills cross-race patterns. The model in `src/` is updated only when a learning generalizes cleanly into a parameter, weight, or feature. Most learnings live here, as priors a human must carry forward.
+The `src/` engine changes when a finding generalizes into a parameter or feature. Most findings stay here as priors a human carries into the next race.
 
-## Three layers of wagering, by design
+## Three layers of wagering
 
-We bet using **three layers operating in parallel**, never one collapsing into another:
+1. **Kelly core** (`src/portfolio.py`). Variance-optimal, conservative, under-deploys capital with our edge sizes.
+2. **Heuristics** (`--top-pick-wheel`, `--longshot-scan`, satellite). Catches lottery upside Kelly says is too small to bet.
+3. **Human judgment**. Story features, live-day context, risk tolerance. Always overrides.
 
-1. **Kelly-derived (variance-optimal)**, `src/portfolio.py` core. Mathematically rigorous, conservative, optimal for long-run growth. Under-deploys capital because it correctly recognizes most positive-EV bets are too small to risk meaningfully.
-2. **Rule-of-thumb heuristics**, `--top-pick-wheel`, `--longshot-scan`, satellite layer. Captures lottery upside (rare, high-payout combos) that Kelly's variance-aversion correctly says shouldn't be sized large but pragmatically should be in the ticket at minimum stake.
-3. **Human judgment**, what the operator brings. Story features (first female trainer, comeback narratives), live-day context (track bias, weather, paddock observation), risk tolerance unique to the day. The model can surface the data; only a human integrates it with the texture of the moment.
+Derby check: a 3-layer ticket caught 96% of the hand-tuned result. Pure Kelly caught 3%.
 
-The Derby validated this: a 3-layer ticket would have captured 96% of the hand-tuned result systematically. Pure Kelly would have captured 3%.
+## Patterns
 
-## Cross-race patterns (compounding wisdom)
+### 1. Live-tote drift on the favorite is signal
 
-These are patterns observed across our races, abstracted into priors that should be brought into every future race:
+ML 4-1 to live 6-1 isn't noise. The public sees something the linemaker missed (often a post draw or a soft prep). Weight live-odds movement as a third signal alongside our model and ML.
 
-### 1. Live-tote drift on the favorite is signal, not noise
-When ML chalk drifts (e.g., 4-1 → 6-1), the public has identified something the linemaker missed. Often it's a structural concern (post-1 in a 20-horse field, soft prep, equipment doubt). **Priors should weight live-odds movement as a 3rd signal, alongside our model and ML.**
+### 2. Named connections inflate prices more than the model captures
 
-### 2. Star-jockey/star-trainer overbet exists and is bigger than the model alone captures
-Mike Smith on a 15-1 took it to 5-1 (Derby 2026). Bob Baffert tax took a 50-1 to 26-1. **For known-name pairings (Velazquez, Smith, Castellano, Baffert, Pletcher), expect public-money inflation of 1.15–1.5×.** The live-odds layer reveals this directly; don't try to estimate it ex ante from static factors.
+Mike Smith took So Happy from 15-1 to 5-1. Baffert took Litmus Test from 50-1 to 26-1. For known names (Velazquez, Smith, Baffert, Pletcher, Castellano), expect 1.15-1.5x public-money inflation. Read it off live odds; don't estimate it from static factors.
 
-### 3. AE-activated horses are real starters
-When scratches activate an AE, drop the AE penalty multiplier. Live odds presence is the activation signal. Failing to do this cost us the show position in the Derby trifecta (Ocelli, 70-1, AE-activated, ran 3rd). Bug fixed, principle preserved.
+### 3. AE-activated horses are starters
 
-### 4. "Sensitivity scan ROCK SOLID" ≠ "model is right"
-Sensitivity tells you the answer is *stable under weight perturbation*. It doesn't tell you the weights are *correct*. Further Ado was tagged 100% bet rate across 200 perturbations and finished out of the money. **Treat sensitivity as a NECESSARY but not SUFFICIENT condition for a high-confidence pick.**
+When scratches activate an AE, drop the AE penalty. Live odds presence is the activation signal. Cost us third position in the Derby trifecta (Ocelli, 70-1, AE, ran 3rd) before we fixed the bug.
 
-### 5. Top-overlay horses deserve to be top-of-trifecta
-Asymmetry rule: if a horse is one of your top cardinal/rank overlays (model says bet to win), key it on top of trifectas too. Not just exactas. The constraint-first thinking that says "tri budget is small, skip" leaves $5,625 on the table.
+### 4. Sensitivity ROCK SOLID is not the same as right
 
-### 6. Bankroll is a scalar, not a structural constraint
-The right portfolio shape is determined by edge analysis. Bankroll determines stake size, not which bets are in. Optimize first; scale second.
+Sensitivity tells you the answer holds under weight perturbation. It does not tell you the weights are right. Further Ado was 100% bet-rate across 200 trials and finished off the board.
 
-### 7. Story matters; surface it
-Biographical features (first-female-trainer, returning suspended trainer, Hall-of-Fame jockey at age 60) predict public-money flow AND make the bet a memorable story. Cherie DeVaux's first was already in `field.csv`, we just didn't surface it in the writeup. Future races: lead with the story, not just the math.
+### 5. Top overlay belongs on top of trifectas
 
-### 8. Beware Whitehead's Misplaced Concreteness
-The Beyer figure is an *abstraction* of speed, not speed itself. Plackett-Luce is an *abstraction* of the ordering process, not the actual race. Sensitivity scan is an *abstraction* of robustness, not truth. Each abstraction is useful exactly to the extent we remember it's an abstraction. **Always ask: what is the model not seeing?**
+If a horse is a top overlay to win, key it on top of trifectas. Not just exactas. Skipping the trifecta wheel "to save budget" left $5,625 on the table at the Derby.
+
+### 6. Bankroll is a scalar
+
+The portfolio shape is set by edge analysis. Bankroll sets stake size, not which bets to include. Build the shape first; scale to bankroll second.
+
+### 7. Story matters. Surface it.
+
+First-female-trainer, returning-from-suspension, 60-year-old Hall-of-Famer. These signals predict where public money goes and make the bet memorable. Cherie DeVaux was already in `field.csv` for the Derby. We didn't surface her until the result.
+
+### 8. The model is not the race
+
+The Beyer is an estimate of speed. Plackett-Luce is an approximation of ordering. The sensitivity scan is a robustness check, not truth. The map keeps being useful exactly as long as you remember it isn't the territory.
 
 ## Per-race entries
 
-- [`2026-kentucky-derby.md`](2026-kentucky-derby.md), the founding instance. Picked the winner. 6.12× return.
-- `2026-preakness.md`, TBD post-race May 16
-- `2026-belmont.md`, TBD post-race June 6
+- [`2026-kentucky-derby.md`](2026-kentucky-derby.md), founding instance, 6.12x return
+- `2026-preakness.md`, post-race May 16
+- `2026-belmont.md`, post-race June 6

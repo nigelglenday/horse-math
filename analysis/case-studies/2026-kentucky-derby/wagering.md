@@ -40,7 +40,7 @@ What the public is hammering (avoid):
 - **#18 Further Ado → #6 Commandment ($26.95)**, *negative* EV (-$0.42/$1)
 - **#18 Further Ado → #12 Chief Wallabee ($39.09)**, also negative (-$0.62/$1)
 
-The pattern: **the public is loaded on the favorites finishing 1-2 with each other.** Combos involving Litmus Test underneath, or Intrepido or Albus or Potente in the place spot, are dramatically underbet.
+The pattern: **the public is loaded on the favorites finishing 1-2 with each other.** Combos involving Litmus Test underneath, or Intrepido or Albus or Potente in the place spot, are underbet.
 
 ## Two big caveats before sizing the ticket
 

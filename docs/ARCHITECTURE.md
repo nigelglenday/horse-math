@@ -62,7 +62,7 @@ flowchart TD
 
 ## Three layers of wagering
 
-The portfolio module composes three layers in parallel. Each has a different epistemological status, none collapses into another.
+The portfolio module runs three layers in parallel. Different roles, none collapses into another.
 
 ```mermaid
 flowchart LR
@@ -84,22 +84,22 @@ flowchart LR
 
 ### Why three layers, not one
 
-- **Kelly alone** is variance-optimal but under-deploys capital. With our edge sizes on a Derby, quarter-Kelly suggests $3 of $85, leaving 96% of the bankroll idle. Wrong question for a one-day-per-year race.
-- **Satellite alone** spreads thin across high-EV-low-prob combos. Lots of $0.50 bets on synthesized-EV combos that are mostly false positives.
-- **Heuristics alone** are unprincipled, they capture lottery upside but ignore variance. Cargo-culting if not anchored in math.
-- **All three together**: Kelly variance-manages the core, satellite captures positive-EV combos individually too small for Kelly, heuristics enforce specific structural rules (top-pick wheel, longshot scan) that operationalize human pattern recognition.
+- **Kelly alone** under-deploys with our edge sizes. Quarter-Kelly suggests $3 of $85 for a Derby ticket, leaving 96% of the bankroll idle. Wrong tool for a one-day-per-year race.
+- **Satellite alone** spreads thin across many high-EV low-prob combos, most of which are false positives from synthesized payouts.
+- **Heuristics alone** ignore variance. Useful only when anchored to a model.
+- **All three**: Kelly handles variance on the core; satellite catches the small positive-EV combos; heuristics encode the rules a human would apply (top overlay keys top of trifectas, etc.).
 
-Validated on Derby 2026: the 3-layer ticket would have captured **96% of the actual hand-tuned upside** ($418 of $435), entirely systematically.
+Derby check: the 3-layer ticket caught **96% of the hand-tuned upside** ($418 of $435).
 
-### Why human judgment as a fourth implicit layer
+### Human judgment is the fourth layer
 
-The human reads the texture of the day:
-- Story features (first-female-trainer, comeback narrative) the model surfaces but doesn't weight
-- Track bias on the day (rail dead, closers cooked) that becomes obvious in earlier races
-- Risk tolerance specific to the day ("I want exposure to a lottery hit on this one")
-- Errors the model is making *right now* that haven't been generalized into config yet
+What the human brings:
+- Story features the model has but doesn't weight (first-female-trainer, comeback, etc.)
+- Track bias from earlier races on the card (rail dead, closers cooked)
+- Risk tolerance for that specific day
+- Errors the model is making right now that aren't yet in config
 
-The model produces a high-quality default ticket. The human owns the final decision. **Always.**
+The model produces a default ticket. The human places the bet.
 
 ## Module reference
 

@@ -7,7 +7,7 @@ For the full case study see [`analysis/case-studies/2026-kentucky-derby/`](../an
 ## What the model got right (and why we trust it)
 
 - **Picked Golden Tempo at 25-1.** Sensitivity scan tagged him "ROCK SOLID" across 200 weight perturbations. The math worked.
-- **Faded all three named overbets.** Mike Smith on So Happy (5-1), Cox-stable on Commandment (5-1), Mott on Chief Wallabee (7-1), none hit the board. Public-overbet thesis vindicated.
+- **All three named-trainer overbets missed.** Mike Smith on So Happy (5-1 live, off the board), Cox on Commandment (5-1, 7th), Mott on Chief Wallabee (7-1, 4th). Public-overbet thesis held up.
 - **Post-1 multiplier was right.** Renegade ran 2nd from the rail, exactly the model's fair-prob outcome (legitimate horse, can't win from there, places).
 
 ## What the model got wrong (and what to remember)
@@ -31,7 +31,7 @@ The single biggest mistake of the day was **constraint-first ticket construction
 2. Filled remainder with high-EV/low-prob satellites
 3. Reserved budget for top-pick wheel + longshot scan heuristics
 
-Simulation (now possible because v2.1 supports all three layers): a 3-layer $85 ticket would have captured **96% of the actual hand-tuned upside** ($418 vs $435 actual). Pure quarter-Kelly would have captured 3% ($11). The 3-layer approach is dramatically more reliable than either pure Kelly or pure judgment.
+Retrospective sim with the new modules: a 3-layer $85 ticket would have caught **96% of the hand-tuned upside** ($418 vs $435). Quarter-Kelly alone would have caught 3% ($11). The 3-layer ticket is the right default; pure Kelly under-deploys and pure judgment is hard to repeat.
 
 **The trifecta we missed (19-1-22, $5,625):** even with full Kelly + actual probable payout, this combo had EV of only +$0.15 per $1. Kelly would have staked $0.001, below any reasonable minimum. **Capturing this required the heuristic layer specifically**, `--top-pick-wheel 8` reserves $8 for `top-overlay-horse / top-3-other-fair-probs / ALL` wheels. With the new heuristic, $0.04 lands on 19-1-22 → $450 payout.
 
