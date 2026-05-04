@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {# Open Graph + Twitter Card metadata for unfurls in Slack, LinkedIn, Twitter, etc. #}
+  {% set page_title = page.meta.title or page.title or "math.horse" %}
+  {% set page_desc = page.meta.description or "Generalized handicapping engine for thoroughbred racing. Picked the 2026 Kentucky Derby winner. $85 → $520, net +$435 (6.12× MOIC)." %}
+  {% set canonical = page.canonical_url or "https://math.horse" %}
+  {% set og_image = "https://math.horse/og-image.png" %}
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ page_title }} · math.horse" />
+  <meta property="og:description" content="{{ page_desc }}" />
+  <meta property="og:url" content="{{ canonical }}" />
+  <meta property="og:image" content="{{ og_image }}" />
+  <meta property="og:site_name" content="math.horse" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ page_title }} · math.horse" />
+  <meta name="twitter:description" content="{{ page_desc }}" />
+  <meta name="twitter:image" content="{{ og_image }}" />
+{% endblock %}

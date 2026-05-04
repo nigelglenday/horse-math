@@ -62,7 +62,7 @@ Full field captured in [`data/races/2026-kentucky-derby/field.csv`](../../../dat
 ## 3 · The Data
 
 ### Past performances
-Hand-parsed from the Equibase Race Card PDF (6 pages). 94 prior race lines for all 24 horses, capturing date, track, distance, surface, race class, Beyer figure, finish, position calls, jockey, comment, field size. Stored in [`data/races/2026-kentucky-derby/past_performances.csv`](../../../data/races/2026-kentucky-derby/past_performances.csv).
+LLM-parsed from the Equibase Race Card PDF (6 pages, Claude Code reading the rendered pages and extracting structured rows). 94 prior race lines for all 24 horses, capturing date, track, distance, surface, race class, Beyer figure, finish, position calls, jockey, comment, field size. Stored in [`data/races/2026-kentucky-derby/past_performances.csv`](../../../data/races/2026-kentucky-derby/past_performances.csv).
 
 ### Live odds
 Pulled from kentuckyderby.com's live-odds page via headless browser fetch. Two snapshots (16:00 ET and 17:30 ET) captured to track public-money flow vs morning line. Stored in [`data/races/2026-kentucky-derby/live_odds.csv`](../../../data/races/2026-kentucky-derby/live_odds.csv).

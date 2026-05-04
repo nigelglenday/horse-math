@@ -19,6 +19,11 @@ cp CLAUDE.md "$SRC/"
 cp LIMITATIONS.md "$SRC/"
 cp LICENSE "$SRC/LICENSE.md"   # mkdocs renders .md but link in README is "LICENSE"
 
+# Static assets (favicon, OG card image)
+mkdir -p "$SRC/assets"
+cp assets/favicon.svg "$SRC/assets/"
+cp assets/og-image.png "$SRC/og-image.png"   # at site root so absolute URL is /og-image.png
+
 # Architecture
 mkdir -p "$SRC/docs"
 cp docs/ARCHITECTURE.md "$SRC/docs/"

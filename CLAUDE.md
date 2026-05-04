@@ -31,7 +31,7 @@ Read [`README.md`](README.md) for overview and [`docs/ARCHITECTURE.md`](docs/ARC
 
 1. Create `data/races/<slug>/` (e.g., `2026-preakness`)
 2. Populate `config.toml`, start by copying from a similar race and tuning post bias / weights / preferred_prep / trainer-jockey scores. The Preakness scaffold is already there.
-3. Parse the PP into `field.csv` + `past_performances.csv` (currently hand-transcribed from the Equibase PDF; a real parser is a v3 project)
+3. Parse the PP into `field.csv` + `past_performances.csv` via LLM (Claude Code reads the rendered PDF and extracts structured rows)
 4. `python3 src/fetch_odds.py --race <slug>`, tells you where to pull live odds + exacta probables (most are JS-rendered → use WebFetch tool, paste into CSVs)
 5. `python3 src/handicap.py --race <slug>`, produces overlays
 6. `python3 src/sensitivity.py --race <slug>`, flags which overlays are robust

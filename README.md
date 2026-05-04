@@ -70,7 +70,7 @@ You'll get the same overlays and ticket structure that picked the 2026 Derby win
 
 ## 🛠️ Run on a new race
 
-> **Status:** the engine is ready. PP parsing is currently hand-transcribed (a real PDF parser is a v3 project). Workflow:
+> **Status:** the engine is ready. Field and PP CSVs are LLM-parsed from the source data via Claude Code reading the rendered PDF and extracting structured rows. Workflow:
 
 | | |
 |---|---|
@@ -141,7 +141,6 @@ horse-math/
 | v2.2 | Pydantic config schema validation | ✅ |
 | v2.2 | Regression test suite (8 tests, locks Derby behavior) | ✅ |
 | v3 | Historical-Derbies weight fitting (sklearn scaffolded) | 🚧 |
-| v3 | PDF parser (replace hand-transcription) | 🔜 |
 | v3 | Story features (owner / trainer firsts) | 🔜 |
 | v3 | Live-odds reactive bet sizing | 🔜 |
 
