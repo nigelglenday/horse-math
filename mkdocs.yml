@@ -48,7 +48,6 @@ theme:
 
 nav:
   - Overview: README.md
-  - Limitations: LIMITATIONS.md
   - Architecture: docs/ARCHITECTURE.md
   - 2026 Kentucky Derby:
       - Case study: analysis/case-studies/2026-kentucky-derby/README.md
@@ -59,6 +58,7 @@ nav:
   - Learnings:
       - Cross-race wisdom: learnings/index.md
       - 2026 Kentucky Derby: learnings/2026-kentucky-derby.md
+  - Limitations: LIMITATIONS.md
   - For AI assistants: CLAUDE.md
 
 markdown_extensions:
