@@ -18,6 +18,12 @@
 
 > Started Derby Day 2026. Picked the winner (Golden Tempo, 25-1). Net +$435 on an $85 ticket. Now generalized for any race, drop in a config + parsed PPs and the same pipeline runs.
 
+<div align="center" markdown="1">
+
+📦 **[View the code on GitHub →](https://github.com/nigelglenday/horse-math)**
+
+</div>
+
 ---
 
 ## 🎯 What this is
