@@ -2,9 +2,10 @@
 
 {% block extrahead %}
   {# Open Graph + Twitter Card metadata for unfurls in Slack, LinkedIn, Twitter, etc. #}
-  {% set page_title = page.meta.title or page.title or "math.horse" %}
-  {% set page_desc = page.meta.description or "Generalized handicapping engine for thoroughbred racing. Picked the 2026 Kentucky Derby winner. $85 → $520, net +$435 (6.12× MOIC)." %}
-  {% set canonical = page.canonical_url or "https://math.horse" %}
+  {% set page_title = (page.meta.title if page and page.meta else None) or (page.title if page else None) or "math.horse" %}
+  {% set default_desc = "Generalized handicapping engine for thoroughbred racing. Picked the 2026 Kentucky Derby winner. $85 to $520, net +$435 (6.12x MOIC)." %}
+  {% set page_desc = (page.meta.description if page and page.meta else None) or default_desc %}
+  {% set canonical = (page.canonical_url if page else None) or "https://math.horse" %}
   {% set og_image = "https://math.horse/og-image.png" %}
 
   <meta property="og:type" content="website" />
