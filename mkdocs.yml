@@ -54,6 +54,7 @@ nav:
   - Architecture: docs/ARCHITECTURE.md
   - 2026 Kentucky Derby:
       - Case study: analysis/case-studies/2026-kentucky-derby/README.md
+      - Why the model picked Golden Tempo: analysis/case-studies/2026-kentucky-derby/why-golden-tempo.md
       - Pre-race readout: analysis/case-studies/2026-kentucky-derby/readout.md
       - Wagering strategy: analysis/case-studies/2026-kentucky-derby/wagering.md
       - Post-mortem: analysis/case-studies/2026-kentucky-derby/postmortem.md
